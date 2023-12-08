@@ -1,29 +1,62 @@
 
-<div class="content">
-  <mat-toolbar>
-    <img class="logo-home" src="../assets/icons/gamepad-icon.svg">
-    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item>
-        <mat-icon>dialpad</mat-icon>
-        <span>Redial</span>
+<div class="body">
+  <div class="toolbar-container">
+    <mat-toolbar>
+      <img class="logo-home" src="../assets/icons/gamepad-icon.svg" (click)="goHome()">
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>menu</mat-icon>
       </button>
-      <button mat-menu-item disabled>
-        <mat-icon>voicemail</mat-icon>
-        <span>Check voice mail</span>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/games">
+          <mat-icon>dialpad</mat-icon>
+          <span>Games</span>
+        </button>
+        <button mat-menu-item routerLink="/franchises">
+          <mat-icon>voicemail</mat-icon>
+          <span>Franchises</span>
+        </button>
+        <button mat-menu-item routerLink="/characters">
+          <mat-icon>notifications_off</mat-icon>
+          <span>Characters</span>
+        </button>
+        <button mat-menu-item routerLink="/companies">
+          <mat-icon>notifications_off</mat-icon>
+          <span>Companies</span>
+        </button>
+        <button mat-menu-item routerLink="/platforms">
+          <mat-icon>voicemail</mat-icon>
+          <span>Platforms</span>
+        </button>
+        <button mat-menu-item routerLink="/persons">
+          <mat-icon>dialpad</mat-icon>
+          <span>Persons</span>
+        </button>
+      </mat-menu>
+      <span class="spacer"></span>
+      <button mat-icon-button [matMenuTriggerFor]="menuAdd" aria-label="Example icon-button with a menu">
+        <mat-icon>add</mat-icon>
       </button>
-      <button mat-menu-item>
-        <mat-icon>notifications_off</mat-icon>
-        <span>Disable alerts</span>
-      </button>
-    </mat-menu>
-    <span>My Application</span>
-  </mat-toolbar>
-  <img src="http://localhost:3000/images/characters/sonic/sonic.jpeg">
+      <mat-menu #menuAdd="matMenu">
+        <button mat-menu-item routerLink="/games">
+          <mat-icon>dialpad</mat-icon>
+          <span>Games</span>
+        </button>
+        <button mat-menu-item disabled>
+          <mat-icon>voicemail</mat-icon>
+          <span>Check voice mail</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>notifications_off</mat-icon>
+          <span>Disable alerts</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+  </div>
 
-  <router-outlet></router-outlet>
+  <!--<img src="http://localhost:3000/images/characters/sonic/sonic.jpeg">-->
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
 </div>
 
 

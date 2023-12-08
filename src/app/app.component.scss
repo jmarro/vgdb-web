@@ -1,8 +1,25 @@
-mat-toolbar {
-    background-color: black;
-    color: white;
-    .logo-home {
-        height: 30px;
-        width: 30px;
+.body {
+    .toolbar-container {
+        background-color: black;
+    }
+    mat-toolbar {
+        max-width: 1080px;
+
+        /* Centers the class */
+        margin-left: auto; 
+        margin-right: auto;
+
+        padding-right: 20px;
+        padding-left: 20px;
+        background-color: black;
+        color: white;
+        .logo-home {
+            height: 30px;
+            width: 30px;
+        }
+        .spacer {
+            flex: 1 1 auto;
+          }
     }
 }
+

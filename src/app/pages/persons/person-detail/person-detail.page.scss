@@ -1,0 +1,73 @@
+.header-container {
+   background-color: rgb(68, 67, 67);
+}
+
+.header {
+    max-width: 1080px;
+
+    /* Centers the class */
+    margin-left: auto; 
+    margin-right: auto;
+
+    display: flex;
+    height: 180px;
+    color: white;
+    background-color: transparent;
+    padding-right: 20px;
+    padding-left: 20px;
+    justify-content: space-between;
+    .side {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: center;
+        &.left {
+            flex-grow: 1;
+        }
+        &.right {
+            flex-shrink: 0;
+        }
+    }
+    .titles-container {
+        margin-bottom: 14px;
+    }
+    .title {
+        font-size: 42px;
+        font-weight: 700;
+        line-height: 1.25;
+    }
+    .aka-title {
+        color: lightgrey;
+        font-size: 13px;
+        margin-top: -5px;
+    }
+    .related-game {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 14px;
+        a {
+            color: white;
+        }
+    }
+    .logo-container {
+        background-color: white;
+        margin-left: 10px;
+        padding: 5px;
+        border-radius: 15px;
+        .logo {
+            max-width: 230px;
+            max-height: 150px;
+            margin: auto;
+            display: block;
+        }
+    }
+
+}
+
+
+.content {
+    max-width: 1080px;
+    /* Centers the class */
+    margin-left: auto; 
+    margin-right: auto;
+}
