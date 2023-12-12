@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@use './variables'; 
 
 html, body { height: 100%; }
 body { 
@@ -7,6 +8,78 @@ body {
 
     .mdc-evolution-chip__action--presentational {
         cursor: pointer;
+    }
+
+    .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) {
+        background-color: variables.$light-grey;
+    }
+
+    .common-header {
+        max-width: variables.$max-screen-width;
+
+        /* Centers the class */
+        margin-left: auto; 
+        margin-right: auto;
+
+        display: flex;
+        height: 180px;
+        color: white;
+        background-color: transparent;
+        padding: 10px 20px;
+        justify-content: space-between;
+        .side {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            justify-content: center;
+            &.left {
+                flex-grow: 1;
+            }
+            &.right {
+                flex-shrink: 0;
+            }
+        }
+        .titles-container {
+            margin-bottom: 14px;
+        }
+        .title {
+            font-size: 42px;
+            font-weight: 700;
+            line-height: 1.25;
+        }
+        .aka-title {
+            color: lightgrey;
+            font-size: 13px;
+            margin-top: -5px;
+        }
+        .related-game {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            a {
+                color: white;
+            }
+        }
+        .logo-container {
+            background-color: white;
+            margin-left: 10px;
+            padding: 5px;
+            border-radius: 15px;
+            .logo {
+                max-width: 230px;
+                max-height: 150px;
+                margin: auto;
+                display: block;
+            }
+        }
+    }
+
+    .common-content {
+        max-width: variables.$max-screen-width;
+        /* Centers the class */
+        margin-left: auto; 
+        margin-right: auto;
+        padding: 10px 20px;
     }
 
 }

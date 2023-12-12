@@ -1,73 +1,149 @@
+@use '../../../../variables'; 
+
 .header-container {
    background-color: darkblue;
 }
 
-.header {
-    max-width: 1080px;
-
-    /* Centers the class */
-    margin-left: auto; 
-    margin-right: auto;
-
-    display: flex;
-    height: 180px;
-    color: white;
-    background-color: transparent;
-    padding-right: 20px;
-    padding-left: 20px;
-    justify-content: space-between;
-    .side {
+.platforms-container{
+    background-color: variables.$light-grey;
+    .platforms-area {
+        max-width: variables.$max-screen-width;
+        /* Centers the class */
+        margin-left: auto; 
+        margin-right: auto;
+        padding-right: 20px;
+        padding-left: 20px;
+        padding-top: 8px;
+        padding-bottom: 3px;
         display: flex;
         flex-wrap: wrap;
-        flex-direction: column;
-        justify-content: center;
-        &.left {
-            flex-grow: 1;
-        }
-        &.right {
-            flex-shrink: 0;
-        }
-    }
-    .titles-container {
-        margin-bottom: 14px;
-    }
-    .title {
-        font-size: 42px;
-        font-weight: 700;
-        line-height: 1.25;
-    }
-    .aka-title {
-        color: lightgrey;
-        font-size: 13px;
-        margin-top: -5px;
-    }
-    .related-game {
-        font-size: 16px;
-        font-weight: 700;
-        margin-bottom: 14px;
-        a {
-            color: white;
-        }
-    }
-    .logo-container {
-        background-color: white;
-        margin-left: 10px;
-        padding: 5px;
-        border-radius: 15px;
-        .logo {
-            max-width: 230px;
-            max-height: 150px;
-            margin: auto;
-            display: block;
-        }
-    }
+        
+        .platform-tag {
+            border: 1px solid variables.$grey-border;
+            cursor: pointer;
+            display: flex;
+            width: 80px;
+            height: 35px;
+            border-radius: 20px;
+            margin-right: 8px;
+            margin-bottom: 5px;
 
+            &:last-child {
+                margin-right: 0px;
+            }
+            .platform-mini-logo {
+                max-width: 60px;
+                max-height: 25px;
+                margin: auto;
+                display: block;
+            }
+
+
+            &.megadrive {
+                background-color: black;
+            }
+            &.nes {
+                background-color: white;
+            }
+        }
+    }
 }
 
+.main-game {
+    display: flex;
+    padding-top: 10px;
+    .game-data {
+        display: flex;
+    }
+    .cover-container {
+        background-color: variables.$light-grey;
+        border: 1px solid variables.$grey-border;
+        display: flex;
+        flex-direction: column;
+        margin-right: 30px;
+        .cover-img {
+            width: 215px;
+            max-height: 450px;
+            margin: auto;
+            display: block;
+            object-fit: cover;
+        }
+        .cover-selector {
+            margin: auto;
+        }
+    }
+    .game-info {
+        margin-right: 30px;
+        width: 215px;
+        .info-entry {
+            margin-bottom: 10px;
+            .label-info {
+                font-weight: bold;
+            }
+        }
+    }
 
-.content {
-    max-width: 1080px;
-    /* Centers the class */
-    margin-left: auto; 
-    margin-right: auto;
+    .game-additional {
+        flex-grow: 1;
+        .main-row {
+            display: flex;
+            justify-content: end;
+        }
+        .score {
+            background-color: #01ce7a;
+            height: 64px;
+            width: 64px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 40px;
+            line-height: 64px;
+        }
+        .award-color {
+            margin-left: 20px;
+            width: 64px;
+            height: 64px;
+            background-color: gold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 32px;
+            .award-background {
+                width: 58px;
+                height: 58px;
+                background-color: black;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 30px;
+                .award-logo {
+                    height: 50px;
+                }
+            }
+        }
+
+        .game-price-row {
+            display: flex;
+            justify-content: end;
+            margin-top: 20px;
+            .game-price-container {
+                border: 3px solid variables.$grey-border;
+                width: 150px;
+                text-align: center;
+                .game-price-value {
+                    font-weight: 700;
+                    font-size: 40px;
+                    line-height: 70px;
+                }
+                .game-price-format {
+                    font-weight: 700;
+                    font-size: 16px;
+                    line-height: 35px;
+                    color: white;
+                    background-color: black;
+                }
+            }
+        }
+
+    }
 }
