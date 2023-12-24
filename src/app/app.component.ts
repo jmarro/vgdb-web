@@ -15,9 +15,10 @@ export class AppComponent implements OnInit {
   }
   ngOnInit() {
     console.log('hi')
-    this.httpService.get('http://localhost:3000/games').subscribe((result) => {
-      console.log(result);
-    })
+
+    /*this.httpService.post('http://localhost:3000/companies', {name: 'mycomp', something: 'some'}).subscribe((result) => {
+      console.log('post', result);
+    })*/
   }
 
   public goHome() {

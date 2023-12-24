@@ -3,9 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatChipsModule } from '@angular/material/chips';
 
+import {MatGridListModule} from '@angular/material/grid-list';
+
 import { PlatformsPage } from './platforms.page';
 import { PLATFORMS_ROUTES } from './platforms-routes.page';
 import { PlatformDetailPage } from './platform-detail/platform-detail.page';
+import { PlatformsService } from '../../services/platforms.service';
 
 @NgModule({
   declarations: [
@@ -15,9 +18,10 @@ import { PlatformDetailPage } from './platform-detail/platform-detail.page';
   imports: [
     CommonModule,
     MatChipsModule,
+    MatGridListModule,
     RouterModule.forChild(PLATFORMS_ROUTES)
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  providers: []
+  providers: [PlatformsService]
 })
 export class PlatformsPageModule { }

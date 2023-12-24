@@ -1,23 +1,39 @@
-<div>
+<div *ngIf="company">
     <div class="header-container">
         <div class="common-header">
             <div class="side left-info">
                 <div class="titles-container">
-                    <div class="title">Sega Corporation</div>
+                    <div class="title">{{company.name}} <span [class]="'fi fi-' +company.country+' flag'"></span></div>
                     <div class="aka-title">Nombres previos: Segata</div>
                 </div>
-                <div class="related-game">Pertenece a <a [routerLink]="'/games'">Nintendo</a></div>
-                <span class="fi fi-gr"></span> <span class="fi fi-gr fis"></span>
+                <div *ngIf="company.parent_company" class="related-game">Pertenece a <a [routerLink]="['/companies', company.parent_company.id]">{{company.parent_company.name}}</a></div>
+                
+                
             </div>
             <div class="side right-info">
                 <div class="logo-container">
-                    <img class="logo" src="http://localhost:3000/images/companies/sega.png">
+                    <img class="logo" [src]="'http://localhost:3000/images/companies/'+company.logo">
                 </div>
             </div>
         </div>
     </div>
 
     <div class="common-content">
-        COMPA detail
+        <div class="main-company">
+            <div class="company-info">
+                <div class="info-entry">
+                    <div class="label-info">Fecha fundación:</div>
+                    <div class="value-info">{{company.founding_year}}</div>
+                </div>
+                <div class="info-entry" *ngIf="company.defunct_year">
+                    <div class="label-info">Fecha disolución:</div>
+                    <div class="value-info">{{company.defunct_year}}</div>
+                </div>
+                <div class="info-entry" *ngIf="company.defunct_reason">
+                    <div class="label-info">Razón de disolución:</div>
+                    <div class="value-info">{{company.defunct_reason}}</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,3 +1,27 @@
 .header-container {
-   background-color: blueviolet;
+   background-color: #17569b;
+}
+
+.flag {
+    border: 1px solid black;
+    background-size: cover;
+    height: 30px;
+    width: 50px;
+    line-height: 0.7;
+    margin-left: 4px;
+}
+
+.main-company {
+    display: flex;
+    padding-top: 10px;
+    .company-info {
+        margin-right: 30px;
+        width: 215px;
+        .info-entry {
+            margin-bottom: 10px;
+            .label-info {
+                font-weight: bold;
+            }
+        }
+    }
 }

@@ -1,4 +1,19 @@
-<div>
+
+<div class="common-content">
     companies!!!
-    <a [routerLink]="['/companies', 10]">click</a>
+    <div *ngIf="companies.length">
+        <mat-grid-list cols="3" rowHeight="2:1" gutterSize="12">
+            <mat-grid-tile *ngFor="let company of companies" [routerLink]="['/companies', company.id]">
+                <div class="logo-container">
+                    <img class="logo" [src]="'http://localhost:3000/images/companies/'+company.logo">
+                </div>
+                <mat-grid-tile-footer><a >{{company.name}}</a></mat-grid-tile-footer>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </div>
+
+    <div class="info-entry">
+        <button (click)="create()">creta</button>
+    </div>
+    
 </div>

@@ -1,18 +1,18 @@
-<div>
+<div *ngIf="platform">
     <div class="header-container">
         <div class="common-header">
             <div class="side left-info">
                 <div class="titles-container">
-                    <div class="title">Mega Drive</div>
-                    <div class="aka-title">Genesis (USA)</div>
+                    <div class="title">{{platform.name}}</div>
+                    <div class="aka-title">{{platform.alt_names}}</div>
                 </div>
-                <mat-chip-listbox aria-label="Fish selection">
-                    <mat-chip [routerLink]="'/companies/10'">Sega</mat-chip>
+                <mat-chip-listbox aria-label="Fish selection" *ngIf="platform.manufacturer">
+                    <mat-chip  [routerLink]="['/companies', platform.manufacturer.id]">{{platform.manufacturer.name}}</mat-chip>
                 </mat-chip-listbox>
             </div>
             <div class="side right-info">
                 <div class="logo-container">
-                    <img class="logo" src="http://localhost:3000/images/platforms/sega/megadrive/logo.png">
+                    <img class="logo" [src]="'http://localhost:3000/images/platforms/'+platform.logo">
                 </div>
             </div>
         </div>
