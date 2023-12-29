@@ -1,0 +1,11 @@
+<div>
+    people!!!
+    <div *ngIf="people.length">
+        <vgdb-items-list [itemsList]="people"
+                          navigateTo="people" imgPath="people">
+        </vgdb-items-list>
+    </div>
+    <div class="info-entry">
+        <button (click)="create()">creta</button>
+    </div>
+</div>

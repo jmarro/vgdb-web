@@ -6,7 +6,7 @@ import { Subscription, filter } from 'rxjs';
 
 
 @Component({
-  selector: 'app-company-detail',
+  selector: 'vgdb-company-detail',
   templateUrl: './company-detail.page.html',
   styleUrl: './company-detail.page.scss'
 })

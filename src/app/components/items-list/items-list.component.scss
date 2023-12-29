@@ -1,0 +1,9 @@
+@use '../../../variables'; 
+
+.mat-grid-tile {
+    border: 1px solid variables.$grey-border;
+    cursor: pointer;
+    .logo {
+        max-width: 100%;
+    }
+}

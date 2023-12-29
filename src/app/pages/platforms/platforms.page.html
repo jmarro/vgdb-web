@@ -1,14 +1,9 @@
-<div>
+<div class="common-content">
     platforms!!!
     <div *ngIf="platforms.length">
-        <mat-grid-list cols="3" rowHeight="2:1" gutterSize="12">
-            <mat-grid-tile *ngFor="let platform of platforms" [routerLink]="['/platforms', platform.id]">
-                <div class="logo-container">
-                    <img class="logo" [src]="'http://localhost:3000/images/platforms/'+platform.logo">
-                </div>
-                <mat-grid-tile-footer><a >{{platform.name}}</a></mat-grid-tile-footer>
-            </mat-grid-tile>
-        </mat-grid-list>
+        <vgdb-items-list [itemsList]="platforms"
+                          navigateTo="platforms" imgPath="platforms">
+        </vgdb-items-list>
     </div>
     <div class="info-entry">
         <button (click)="create()">creta</button>

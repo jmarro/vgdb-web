@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 
-import { PersonsPage } from './persons.page';
+import { PeoplePage } from './people.page';
 import { PersonDetailPage } from './person-detail/person-detail.page';
 
-export const PERSONS_ROUTES: Routes = [
-    { path: '', component: PersonsPage },
+export const PEOPLE_ROUTES: Routes = [
+    { path: '', component: PeoplePage },
     { path: ':id', component: PersonDetailPage }
 ];

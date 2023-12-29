@@ -12,7 +12,7 @@
             </div>
             <div class="side right-info">
                 <div class="logo-container">
-                    <img class="logo" [src]="'http://localhost:3000/images/companies/'+company.logo">
+                    <img class="logo" [src]="'http://localhost:3000/images/companies/'+company.main_img">
                 </div>
             </div>
         </div>
@@ -34,6 +34,11 @@
                     <div class="value-info">{{company.defunct_reason}}</div>
                 </div>
             </div>
+        </div>
+        <div *ngIf="company.platforms && company.platforms.length">
+            <vgdb-items-list [itemsList]="company.platforms"
+                        navigateTo="platforms" imgPath="platforms">
+            </vgdb-items-list>
         </div>
     </div>
 </div>

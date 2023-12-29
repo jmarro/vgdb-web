@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-home',
+  selector: 'vgdb-home',
   templateUrl: './home.page.html',
   styleUrl: './home.page.scss'
 })

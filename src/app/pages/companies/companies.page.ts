@@ -3,7 +3,7 @@ import { CompaniesService } from '../../services/companies.service';
 import { Company } from '../../models/company.model';
 
 @Component({
-  selector: 'app-companies',
+  selector: 'vgdb-companies',
   templateUrl: './companies.page.html',
   styleUrl: './companies.page.scss'
 })
@@ -33,7 +33,7 @@ export class CompaniesPage implements OnInit {
       founding_year: 1960,
       country: 'jp',
       color: '#17569b',
-      logo: 'sega.png'
+      main_img: 'sega.png'
     }
     /*const newcompany: Company = {
       
@@ -45,7 +45,7 @@ export class CompaniesPage implements OnInit {
       country: 'us',
       color: '#17569b',
       ownerId: 1,
-      logo: 'Sega_technical_institute.jpg'
+      main_img: 'Sega_technical_institute.jpg'
     }*/
     this.companiesService.createCompany(newcompany).subscribe(result => {
       console.log('ok??', result)

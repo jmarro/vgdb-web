@@ -3,7 +3,7 @@ import { Company } from "./company.model";
 export interface Platform {
     id?: number;
     name: string;
-    logo?: string;
+    main_img?: string;
     mini_logo?: string;
     img?: string;
     color?: string;

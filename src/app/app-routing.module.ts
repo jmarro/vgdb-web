@@ -27,8 +27,8 @@ const routes: Routes = [
     path: 'platforms'
   },
   {
-    loadChildren: () => import('./pages/persons/persons.module').then( m => m.PersonsPageModule),
-    path: 'persons'
+    loadChildren: () => import('./pages/people/people.module').then( m => m.PeoplePageModule),
+    path: 'people'
   },
   {path: '', redirectTo: 'home', pathMatch:'full'}
 ];

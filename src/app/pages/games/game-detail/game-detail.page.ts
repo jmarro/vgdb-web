@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-game-detail',
+  selector: 'vgdb-game-detail',
   templateUrl: './game-detail.page.html',
   styleUrl: './game-detail.page.scss'
 })

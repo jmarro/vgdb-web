@@ -1,0 +1,23 @@
+<div *ngIf="person">
+    <div class="header-container">
+        <div class="common-header">
+            <div class="side left-info">
+                <div class="titles-container">
+                    <div class="title">{{person.name}} <span *ngIf="person.nationality" [class]="'fi fi-' +person.nationality+' flag'"></span></div>
+                </div>
+            </div>
+            <div class="side right-info">
+                <div class="logo-container">
+                    <img class="logo" [src]="'http://localhost:3000/images/people/'+person.main_img">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="common-content">
+        <div class="info-entry">
+            <div class="label-info">Fecha nacimiento:</div>
+            <div class="value-info">{{person.birthday}}</div>
+        </div>
+    </div>
+</div>

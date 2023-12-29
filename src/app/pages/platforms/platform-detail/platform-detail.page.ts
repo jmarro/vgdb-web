@@ -5,7 +5,7 @@ import { Subscription, filter } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-platform-detail',
+  selector: 'vgdb-platform-detail',
   templateUrl: './platform-detail.page.html',
   styleUrl: './platform-detail.page.scss'
 })

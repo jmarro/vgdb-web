@@ -1,0 +1,10 @@
+<div *ngIf="itemsList.length">
+    <mat-grid-list cols="3" rowHeight="2:1" gutterSize="12">
+        <mat-grid-tile *ngFor="let item of itemsList" (click)="navigateToFn(item.id)">
+            <div class="logo-container">
+                <img class="logo" [src]="'http://localhost:3000/images/'+imgPath+'/'+item.main_img">
+            </div>
+            <mat-grid-tile-footer>{{item.name}}</mat-grid-tile-footer>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>

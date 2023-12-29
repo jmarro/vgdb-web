@@ -3,21 +3,24 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatChipsModule } from '@angular/material/chips';
 
-import { PersonsPage } from './persons.page';
-import { PERSONS_ROUTES } from './persons-routes.page';
+import { PeoplePage } from './people.page';
+import { PEOPLE_ROUTES } from './people-routes.page';
 import { PersonDetailPage } from './person-detail/person-detail.page';
+import { ItemsListComponentModule } from '../../components/items-list/items-list.module';
+import { PeopleService } from '../../services/people.service';
 
 @NgModule({
   declarations: [
-    PersonsPage,
+    PeoplePage,
     PersonDetailPage
   ],
   imports: [
     CommonModule,
     MatChipsModule,
-    RouterModule.forChild(PERSONS_ROUTES)
+    ItemsListComponentModule,
+    RouterModule.forChild(PEOPLE_ROUTES)
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  providers: []
+  providers: [PeopleService]
 })
-export class PersonsPageModule { }
+export class PeoplePageModule { }

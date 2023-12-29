@@ -3,7 +3,7 @@ import { Platform } from '../../models/platform.model';
 import { PlatformsService } from '../../services/platforms.service';
 
 @Component({
-  selector: 'app-platforms',
+  selector: 'vgdb-platforms',
   templateUrl: './platforms.page.html',
   styleUrl: './platforms.page.scss'
 })
@@ -30,12 +30,12 @@ export class PlatformsPage implements OnInit {
       name: 'Mega Drive',
       release_date: new Date('10/29/1988'),
       color: '#4d4d4d',
-      manufacturerId: 1,
-      logo: 'sega/megadrive/logo.png',
+      manufacturerId: 2,
+      main_img: 'sega/megadrive/logo.png',
       mini_logo: 'sega/megadrive/mini_logo.png',
       img: 'sega/megadrive/main_img.jpeg',
       gen: 4,
-      specs: '<ul><li>16 bits</li><li>Cartuchos</li></ul>',
+      specs: '16bits',
       type: 'Sobremesa',
       alt_names: 'Genesis (América)'
     }
