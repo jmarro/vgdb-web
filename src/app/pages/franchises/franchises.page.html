@@ -1,4 +1,11 @@
-<div>
-    FRANCHISES!!!
-    <a [routerLink]="['/franchises', 10]">click</a>
+<div class="common-content">
+    franchises!!!
+    <div *ngIf="franchises.length">
+        <vgdb-items-list [itemsList]="franchises"
+                          navigateTo="franchises" imgPath="franchises">
+        </vgdb-items-list>
+    </div>
+    <div class="info-entry">
+        <button (click)="create()">creta</button>
+    </div>
 </div>

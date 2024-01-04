@@ -1,4 +1,11 @@
-<div>
-    CHAR!!!
-    <a [routerLink]="['/characters', 10]">click</a>
+<div class="common-content">
+    characters!!!
+    <div *ngIf="characters.length">
+        <vgdb-items-list [itemsList]="characters"
+                          navigateTo="characters" imgPath="characters">
+        </vgdb-items-list>
+    </div>
+    <div class="info-entry">
+        <button (click)="create()">creta</button>
+    </div>
 </div>

@@ -19,5 +19,17 @@
             <div class="label-info">Fecha nacimiento:</div>
             <div class="value-info">{{person.birthday}}</div>
         </div>
+        <div *ngIf="person.franchises && person.franchises.length">
+            <div class="info-entry"><div class="label-info">Franquicias:</div></div>
+            <vgdb-items-list [itemsList]="person.franchises"
+                              navigateTo="franchises" imgPath="franchises">
+            </vgdb-items-list>
+        </div>
+        <div *ngIf="person.characters && person.characters.length">
+            <div class="info-entry"><div class="label-info">Personajes:</div></div>
+            <vgdb-items-list [itemsList]="person.characters"
+                              navigateTo="characters" imgPath="characters">
+            </vgdb-items-list>
+        </div>
     </div>
 </div>

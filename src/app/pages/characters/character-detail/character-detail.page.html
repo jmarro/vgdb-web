@@ -1,18 +1,18 @@
-<div>
+<div *ngIf="character">
     <div class="header-container">
         <div class="common-header">
             <div class="side left-info">
                 <div class="titles-container">
-                    <div class="title">Sonic</div>
-                    <div class="aka-title">AKA: Sonico Huchi (JAP)</div>
+                    <div class="title">{{character.name}}</div>
+                    <div class="aka-title">{{character.full_name}}</div>
                 </div>
-                <mat-chip-listbox aria-label="Fish selection">
-                    <mat-chip [routerLink]="'/franchises/10'">Sonic the Hedgehog</mat-chip>
+                <mat-chip-listbox aria-label="Fish selection" *ngIf="character.franchise">
+                    <mat-chip [routerLink]="['/franchises', character.franchise.id]">{{character.franchise.name}}</mat-chip>
                 </mat-chip-listbox>
             </div>
             <div class="side right-info">
                 <div class="logo-container">
-                    <img class="logo" src="http://localhost:3000/images/characters/sonic/sonic.jpeg">
+                    <img class="logo" [src]="'http://localhost:3000/images/characters/'+character.main_img">
                 </div>
             </div>
         </div>
@@ -20,5 +20,12 @@
 
     <div class="common-content">
         CHAR detail
+        <div class="info-entry" *ngIf="character.creators">
+            <div class="label-info">Creadores:</div>
+            <div class="value-info" *ngFor="let creator of character.creators"><a [routerLink]="['/people', creator.id]">{{creator.name}}</a></div>
+        </div>
+        <div class="info-entry">
+            <button (click)="create()">creators</button>
+        </div>
     </div>
 </div>

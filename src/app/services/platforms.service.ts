@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Platform } from '../models/platform.model';
+import { PlatformModel } from '../models/platformModel.model';
 
 export interface PlatformsResponse {
     count: number;
@@ -37,5 +38,9 @@ export class PlatformsService {
 
     public createPlatform(platform: Platform): Observable<any> {
         return this.httpService.post('http://localhost:3000/platforms', platform);
+    }
+
+    public createPlatformModel(platformModel: PlatformModel): Observable<any> {
+        return this.httpService.post('http://localhost:3000/platforms/model', platformModel);
     }
 }

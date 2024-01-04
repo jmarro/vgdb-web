@@ -25,12 +25,12 @@ export class PeoplePage implements OnInit {
   public create() {
     console.log('create')
     const newplatform: Person = {
-      name: 'Yūji Naka',
-      birthday: new Date('09/17/1965'),
-      main_img: 'Yuji_Naka.jpeg',
+      name: 'Hirokazu Yasuhara',
+      birthday: new Date('10/12/1965'),
+      main_img: 'Hirokazu_Yasuhara.jpeg',
       nationality: 'jp'
     }
-    this.peopleService.createPlatform(newplatform).subscribe(result => {
+    this.peopleService.createPerson(newplatform).subscribe(result => {
       console.log('ok??', result)
     })
   }

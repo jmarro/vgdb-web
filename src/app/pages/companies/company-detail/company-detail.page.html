@@ -6,9 +6,7 @@
                     <div class="title">{{company.name}} <span [class]="'fi fi-' +company.country+' flag'"></span></div>
                     <div class="aka-title">Nombres previos: Segata</div>
                 </div>
-                <div *ngIf="company.parent_company" class="related-game">Pertenece a <a [routerLink]="['/companies', company.parent_company.id]">{{company.parent_company.name}}</a></div>
-                
-                
+                <div *ngIf="company.parent_company" class="related-game">Pertenece a <a [routerLink]="['/companies', company.parent_company.id]">{{company.parent_company.name}}</a></div>  
             </div>
             <div class="side right-info">
                 <div class="logo-container">

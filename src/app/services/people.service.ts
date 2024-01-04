@@ -35,7 +35,7 @@ export class PeopleService {
         );
     }
 
-    public createPlatform(person: Person): Observable<any> {
+    public createPerson(person: Person): Observable<any> {
         return this.httpService.post('http://localhost:3000/people', person);
     }
 }

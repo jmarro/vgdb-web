@@ -1,4 +1,5 @@
 import { Company } from "./company.model";
+import { PlatformModel } from "./platformModel.model";
 
 export interface Platform {
     id?: number;
@@ -14,4 +15,5 @@ export interface Platform {
     manufacturerId?: number;
     manufacturer?: Company;
     alt_names?: string;
+    models?: PlatformModel[];
 };

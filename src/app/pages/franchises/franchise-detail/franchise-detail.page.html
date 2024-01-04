@@ -1,17 +1,15 @@
-<div>
+<div *ngIf="franchise">
     <div class="header-container">
         <div class="common-header">
             <div class="side left-info">
                 <div class="titles-container">
-                    <div class="title">Sonic the Hedgehog</div>
+                    <div class="title">{{franchise.name}}</div>
                 </div>
-                <mat-chip-listbox aria-label="Fish selection">
-                    <mat-chip [routerLink]="'/companies/10'">Sega Corporation</mat-chip>
-                </mat-chip-listbox>
+                <div *ngIf="franchise.company" class="related-game">Pertenece a <a [routerLink]="['/companies', franchise.company.id]">{{franchise.company.name}}</a></div> 
             </div>
             <div class="side right-info">
                 <div class="logo-container">
-                    <img class="logo" src="http://localhost:3000/images/franchises/sonic.png">
+                    <img class="logo" [src]="'http://localhost:3000/images/franchises/'+franchise.main_img">
                 </div>
             </div>
         </div>
@@ -19,5 +17,23 @@
 
     <div class="common-content">
         FRANCH detail
+        <div class="info-entry" *ngIf="franchise.creators">
+            <div class="label-info">Creadores:</div>
+            <div class="value-info" *ngFor="let creator of franchise.creators"><a [routerLink]="['/people', creator.id]">{{creator.name}}</a></div>
+        </div>
+        <div class="info-entry">
+            <button (click)="create()">creators</button>
+        </div>
+        <div class="info-entry" *ngIf="franchise.series">
+            <div class="label-info">Series:</div>
+            <div class="value-info" *ngFor="let serie of franchise.series">{{serie.name}}</div>
+        </div>
+        <div class="info-entry">
+            <button (click)="createSerie()">series</button>
+        </div>
+        <div class="info-entry" *ngIf="franchise.characters">
+            <div class="label-info">Personajes:</div>
+            <div class="value-info" *ngFor="let character of franchise.characters"><a [routerLink]="['/characters', character.id]">{{character.name}}</a></div>
+        </div>
     </div>
 </div>

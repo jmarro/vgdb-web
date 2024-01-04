@@ -3,6 +3,7 @@ import { Platform } from '../../../models/platform.model';
 import { PlatformsService } from '../../../services/platforms.service';
 import { Subscription, filter } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
+import { PlatformModel } from '../../../models/platformModel.model';
 
 @Component({
   selector: 'vgdb-platform-detail',
@@ -30,6 +31,20 @@ export class PlatformDetailPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.routerSubs.unsubscribe();
+  }
+
+  public create() {
+    console.log('create')
+    const newplatform: PlatformModel = {
+      
+      name: 'Mega Drive EUR',
+      release_date: new Date('09/01/1990'),
+      platform_family_id: 2,
+      main_img: 'sega/megadrive/main_img.jpeg'
+    }
+    this.platformsService.createPlatformModel(newplatform).subscribe(result => {
+      console.log('ok??', result)
+    })
   }
 
   private loadPlatform() {

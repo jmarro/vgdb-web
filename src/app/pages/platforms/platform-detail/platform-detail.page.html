@@ -7,7 +7,7 @@
                     <div class="aka-title">{{platform.alt_names}}</div>
                 </div>
                 <mat-chip-listbox aria-label="Fish selection" *ngIf="platform.manufacturer">
-                    <mat-chip  [routerLink]="['/companies', platform.manufacturer.id]">{{platform.manufacturer.name}}</mat-chip>
+                    <mat-chip [routerLink]="['/companies', platform.manufacturer.id]">{{platform.manufacturer.name}}</mat-chip>
                 </mat-chip-listbox>
             </div>
             <div class="side right-info">
@@ -20,5 +20,13 @@
 
     <div class="common-content">
         PLATF detail
+        <div *ngIf="platform.models && platform.models.length">
+            <vgdb-items-list [itemsList]="platform.models"
+                        navigateTo="platforms" imgPath="platforms">
+            </vgdb-items-list>
+        </div>
+        <div class="info-entry">
+            <button (click)="create()">creta</button>
+        </div>
     </div>
 </div>

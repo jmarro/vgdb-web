@@ -6,6 +6,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { CharactersPage } from './characters.page';
 import { CHARACTERS_ROUTES } from './characters-routes.page';
 import { CharacterDetailPage } from './character-detail/character-detail.page';
+import { ItemsListComponentModule } from '../../components/items-list/items-list.module';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { CharacterDetailPage } from './character-detail/character-detail.page';
   imports: [
     CommonModule,
     MatChipsModule,
+    ItemsListComponentModule,
     RouterModule.forChild(CHARACTERS_ROUTES)
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],

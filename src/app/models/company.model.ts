@@ -1,3 +1,4 @@
+import { Franchise } from "./franchise.model";
 import { Platform } from "./platform.model";
 
 export interface Company {
@@ -14,4 +15,5 @@ export interface Company {
     parent_company?: Company;
     platforms?: Platform[];
     previous_names?: string;
+    franchises?: Franchise[];
 };
