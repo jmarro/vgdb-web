@@ -25,6 +25,12 @@
                               navigateTo="franchises" imgPath="franchises">
             </vgdb-items-list>
         </div>
+        <div *ngIf="person.games && person.games.length">
+            <div class="info-entry"><div class="label-info">Juegos:</div></div>
+            <vgdb-items-list [itemsList]="person.games"
+                              navigateTo="games" imgPath="games">
+            </vgdb-items-list>
+        </div>
         <div *ngIf="person.characters && person.characters.length">
             <div class="info-entry"><div class="label-info">Personajes:</div></div>
             <vgdb-items-list [itemsList]="person.characters"

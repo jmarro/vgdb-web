@@ -1,4 +1,5 @@
 import { Company } from "./company.model";
+import { Game } from "./game.model";
 import { PlatformModel } from "./platformModel.model";
 
 export interface Platform {
@@ -16,4 +17,5 @@ export interface Platform {
     manufacturer?: Company;
     alt_names?: string;
     models?: PlatformModel[];
+    games?: Game[];
 };

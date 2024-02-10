@@ -1,5 +1,5 @@
 <div *ngIf="company">
-    <div class="header-container">
+    <div class="header-container" [style]="backgroundStyle">
         <div class="common-header">
             <div class="side left-info">
                 <div class="titles-container">
@@ -34,8 +34,21 @@
             </div>
         </div>
         <div *ngIf="company.platforms && company.platforms.length">
+            <div class="info-entry"><div class="label-info">Videoconsolas:</div></div>
             <vgdb-items-list [itemsList]="company.platforms"
                         navigateTo="platforms" imgPath="platforms">
+            </vgdb-items-list>
+        </div>
+        <div *ngIf="gamesDev && gamesDev.length">
+            <div class="info-entry"><div class="label-info">Juegos desarrollados:</div></div>
+            <vgdb-items-list [itemsList]="gamesDev"
+                        navigateTo="games" imgPath="games">
+            </vgdb-items-list>
+        </div>
+        <div *ngIf="gamesPub && gamesPub.length">
+            <div class="info-entry"><div class="label-info">Juegos publicados:</div></div>
+            <vgdb-items-list [itemsList]="gamesPub"
+                        navigateTo="games" imgPath="games">
             </vgdb-items-list>
         </div>
     </div>

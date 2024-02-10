@@ -1,0 +1,26 @@
+<div *ngIf="award">
+    <div class="header-container">
+        <div class="common-header">
+            <div class="side left-info">
+                <div class="titles-container">
+                    <div class="title">{{award.name}}</div>
+                </div>
+            </div>
+            <div class="side right-info">
+                <div class="logo-container">
+                    <img class="logo" [src]="'http://localhost:3000/images/awards/'+award.main_img">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="common-content">
+        <div class="info-entry" *ngIf="award.categories">
+            <div class="label-info">Categorias:</div>
+            <div class="value-info" *ngFor="let category of award.categories">{{category.name}}</div>
+        </div>
+        <div class="info-entry">
+            <button (click)="create()">creta</button>
+        </div>
+    </div>
+</div>

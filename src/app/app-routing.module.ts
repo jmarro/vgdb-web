@@ -30,6 +30,18 @@ const routes: Routes = [
     loadChildren: () => import('./pages/people/people.module').then( m => m.PeoplePageModule),
     path: 'people'
   },
+  {
+    loadChildren: () => import('./pages/genres/genres.module').then( m => m.GenresPageModule),
+    path: 'genres'
+  },
+  {
+    loadChildren: () => import('./pages/themes/themes.module').then( m => m.ThemesPageModule),
+    path: 'themes'
+  },
+  {
+    loadChildren: () => import('./pages/awards/awards.module').then( m => m.AwardsPageModule),
+    path: 'awards'
+  },
   {path: '', redirectTo: 'home', pathMatch:'full'}
 ];
 

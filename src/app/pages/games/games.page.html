@@ -1,4 +1,12 @@
-<div>
+<div class="common-content">
     GAMES!!!
-    <a [routerLink]="['/games', 10]">click</a>
+    <div *ngIf="games.length">
+        <vgdb-items-list [itemsList]="games"
+                          navigateTo="games" imgPath="games">
+        </vgdb-items-list>
+    </div>
+
+    <div class="info-entry">
+        <button (click)="create()">creta</button>
+    </div>
 </div>

@@ -1,0 +1,11 @@
+<div class="common-content">
+    awards!!!
+    <div *ngIf="awards.length">
+        <vgdb-items-list [itemsList]="awards"
+                          navigateTo="awards" imgPath="awards">
+        </vgdb-items-list>
+    </div>
+    <div class="info-entry">
+        <button (click)="create()">creta</button>
+    </div>
+</div>

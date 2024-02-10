@@ -16,6 +16,7 @@ export class FranchiseDetailPage implements OnInit, OnDestroy {
 
   public franchise: Franchise;
   public routerSubs: Subscription;
+  public backgroundStyle: any;
 
   constructor(private franchisesService: FranchisesService,
     private seriesService: SeriesService,
@@ -65,7 +66,14 @@ export class FranchiseDetailPage implements OnInit, OnDestroy {
     this.franchisesService.getFranchise(id).subscribe(result => {
       console.log('franch', result)
       this.franchise = result;
+      this.backgroundStyle = this.getBackgroundStyle(this.franchise);
     });
+  }
+
+  private getBackgroundStyle(franchise: Franchise) {
+    return {
+      'background-color': franchise.color? franchise.color : 'rgb(68, 67, 67)'
+    }
   }
 
 }

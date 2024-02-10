@@ -1,5 +1,6 @@
 import { CharacterRole } from "../enums/character-role.enum";
 import { Franchise } from "./franchise.model";
+import { Game_Character } from "./game_character.model";
 import { Person } from "./person.model";
 
 export interface Character {
@@ -16,4 +17,5 @@ export interface Character {
     main_img?: string;
     bio?: string;
     creators?: Person[];
+    Game_Character?: Game_Character;
 };

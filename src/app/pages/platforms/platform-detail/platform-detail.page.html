@@ -28,5 +28,11 @@
         <div class="info-entry">
             <button (click)="create()">creta</button>
         </div>
+        <div *ngIf="platform.games && platform.games.length">
+            <div class="info-entry"><div class="label-info">Juegos:</div></div>
+            <vgdb-items-list [itemsList]="platform.games"
+                              navigateTo="games" imgPath="games">
+            </vgdb-items-list>
+        </div>
     </div>
 </div>

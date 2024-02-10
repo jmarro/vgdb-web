@@ -1,4 +1,6 @@
 import { Franchise } from "./franchise.model";
+import { Game } from "./game.model";
+import { Game_Company } from "./game_company.model";
 import { Platform } from "./platform.model";
 
 export interface Company {
@@ -16,4 +18,6 @@ export interface Company {
     platforms?: Platform[];
     previous_names?: string;
     franchises?: Franchise[];
+    games?: Game[];
+    Game_Company?: Game_Company;
 };

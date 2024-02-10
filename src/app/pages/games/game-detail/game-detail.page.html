@@ -1,39 +1,33 @@
-<div>
-    <div class="header-container">
+<div *ngIf="game">
+    <div class="header-container" [style]="backgroundStyle">
         <div class="common-header">
             <div class="side left-info">
                 <div class="titles-container">
-                    <div class="title">Sonic the Hedgehog</div>
-                    <div class="aka-title">AKA: Sonico Huchi (JAP)</div>
+                    <div class="title">{{game.name}}</div>
+                    <div class="aka-title" *ngIf="game.alt_name">{{game.alt_name}}</div>
                 </div>
-                <div class="related-game">Remaster de <a [routerLink]="'/games'">Sonic: tu juego favorito</a></div>
+                <div class="related-game" *ngIf="game.parent_game">Remaster de <a [routerLink]="'/games'">Sonic: tu juego favorito</a></div>
                 <mat-chip-listbox aria-label="Games info">
-                    <mat-chip [routerLink]="'/franchises/10'">Sonic the Hedgehog</mat-chip>
-                    <mat-chip>Plataformas</mat-chip>
-                    <mat-chip>Plataformas 3D</mat-chip>
-                    <mat-chip>Warn fish</mat-chip>
+                    <mat-chip [routerLink]="'/franchises/'+game.franchise!.id">{{game.franchise!.name}}</mat-chip>
+                    <div *ngIf="game.genres && game.genres.length">
+                        <mat-chip *ngFor="let genre of game.genres" [routerLink]="'/genres/'+genre!.id">{{genre.name}}</mat-chip>
+                    </div>
+                    <div *ngIf="game.themes && game.themes.length">
+                        <mat-chip *ngFor="let theme of game.themes" [routerLink]="'/themes/'+theme!.id">{{theme.name}}</mat-chip>
+                    </div>
                 </mat-chip-listbox>
             </div>
             <div class="side right-info">
                 <div class="logo-container">
-                    <img class="logo" src="http://localhost:3000/images/games/sonic/sonic_the_hedgehog/logo.png"/>
+                    <img class="logo" [src]="'http://localhost:3000/images/games/'+game.logo"/>
                 </div>
             </div>
         </div>
     </div>
-    <div class="platforms-container">
+    <div class="platforms-container" *ngIf="game.platforms && game.platforms.length">
         <div class="platforms-area">
-            <div class="platform-tag megadrive" matTooltip="Mega Drive" [routerLink]="'/platforms/10'">
-                <img class="platform-mini-logo" src="http://localhost:3000/images/platforms/sega/megadrive/mini_logo.png"/>
-            </div>
-            <div class="platform-tag megadrive" matTooltip="Super Nintendo" [routerLink]="'/platforms/10'">
-                <img class="platform-mini-logo" src="http://localhost:3000/images/platforms/nintendo/snes/mini-logo.png"/>
-            </div>
-            <div class="platform-tag nes" matTooltip="Nintendo Entertainment System" [routerLink]="'/platforms/10'">
-                <img class="platform-mini-logo" src="http://localhost:3000/images/platforms/nintendo/nes/mini-logo.png"/>
-            </div>
-            <div class="platform-tag nes" matTooltip="Master System" [routerLink]="'/platforms/10'">
-                <img class="platform-mini-logo" src="http://localhost:3000/images/platforms/sega/master_system/mini-logo.png"/>
+            <div *ngFor="let platform of game.platforms" class="platform-tag megadrive" [matTooltip]="platform.name" [routerLink]="'/platforms/'+platform!.id">
+                <img class="platform-mini-logo" [src]="'http://localhost:3000/images/platforms/'+platform.mini_logo"/>
             </div>
         </div>
     </div>
@@ -42,8 +36,8 @@
         <div class="main-game">
             <div class="game-data">
                 <div class="cover-container">
-                    <img class="cover-img" *ngIf="cover" src="http://localhost:3000/images/games/sonic/sonic_the_hedgehog/cover.jpeg"/>
-                    <img class="cover-img" *ngIf="!cover" src="http://localhost:3000/images/games/sonic/sonic_the_hedgehog/back.jpg"/>
+                    <img class="cover-img" *ngIf="cover" [src]="'http://localhost:3000/images/games/'+game.main_img"/>
+                    <img class="cover-img" *ngIf="!cover" [src]="'http://localhost:3000/images/games/'+game.back_cover"/>
                     <mat-button-toggle-group class="cover-selector" name="coverSelected" aria-label="coverSelected" [(ngModel)]="cover">
                         <mat-button-toggle [value]="true">Front</mat-button-toggle>
                         <mat-button-toggle [value]="false">Back</mat-button-toggle>
@@ -51,32 +45,39 @@
                 </div>
                 <div class="game-info">
                     <div class="info-entry">
-                        <div class="label-info">Release Date:</div>
-                        <!--{{company.founding_date | date: 'dd/MM/yyyy'}}-->
-                        <div class="value-info">23/10/1991</div>
+                        <div class="label-info">Fecha de salida (España):</div>
+                        <div class="value-info">{{game.release_date | date: 'dd/MM/yyyy'}}</div>
+                    </div>
+                    <div class="info-entry" *ngIf="companiesDev && companiesDev.length">
+                        <div class="label-info">Desarrolladora:</div>
+                        <div class="value-info" *ngFor="let company of companiesDev"><a [routerLink]="['/companies', company.id]">{{company.name}}</a></div>
+                    </div>
+                    <div class="info-entry" *ngIf="companiesPub && companiesPub.length">
+                        <div class="label-info">Distribuidora:</div>
+                        <div class="value-info" *ngFor="let company of companiesPub"><a [routerLink]="['/companies', company.id]">{{company.name}}</a></div>
+                    </div>
+                    <div class="info-entry" *ngIf="game.directors && game.directors.length">
+                        <div class="label-info">Director(es):</div>
+                        <div class="value-info" *ngFor="let director of game.directors"><a [routerLink]="['/people', director.id]">{{director.name}}</a></div>
                     </div>
                     <div class="info-entry">
-                        <div class="label-info">Developer:</div>
-                        <div class="value-info"><a [routerLink]="['/companies', 10]">Sonic Team</a></div>
-                    </div>
-                    <div class="info-entry">
-                        <div class="label-info">Distributor:</div>
-                        <div class="value-info"><a [routerLink]="['/companies', 10]">Sega Corporation</a></div>
-                    </div>
-                    <div class="info-entry">
-                        <div class="label-info">Director:</div>
-                        <div class="value-info"><a [routerLink]="['/persons', 10]">Yuji Naka</a></div>
-                    </div>
-                    <div class="info-entry">
-                        <div class="label-info">Num. Players:</div>
-                        <div class="value-info">1</div>
+                        <div class="label-info">Num. Jugadores:</div>
+                        <div class="value-info">{{game.num_players}}</div>
                     </div>
                 </div>
             </div>
 
             <div class="game-additional">
                 <div class="main-row">
-                    <div class="score">94</div>
+                    <div class="score">{{game.score}}</div>
+                    <div *ngIf="game.awards && game.awards.length">
+                        <div *ngFor="let award of game.awards" class="award-color" [matTooltip]="award.Game_Award!.year + ' ' +award.award!.name + ' ' + award.Game_Award!.result">
+                            <div class="award-background">
+                                <img class="award-logo" [src]="'http://localhost:3000/images/awards/'+award.award!.main_img"/>
+                            </div>
+                        </div>
+
+                    </div>
                     <div class="award-color" matTooltip="GOTY winner">
                         <div class="award-background">
                             <img class="award-logo" src="../../../../assets/icons/game_awards.png"/>
@@ -99,11 +100,59 @@
                 </div>
                 <div class="game-price-row">
                     <div class="game-price-container">
-                        <div class="game-price-value">30 €</div>
-                        <div class="game-price-format">PAL ES</div>
+                        <div class="game-price-value">{{game.price}} €</div>
+                        <div class="game-price-format">{{game.format}}</div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div *ngIf="charactersPlayable && charactersPlayable.length">
+            <div class="info-entry"><div class="label-info">Personajes jugables:</div></div>
+            <vgdb-items-list [itemsList]="charactersPlayable"
+                              navigateTo="characters" imgPath="characters">
+            </vgdb-items-list>
+        </div>
+        <div *ngIf="charactersSecondary && charactersSecondary.length">
+            <div class="info-entry"><div class="label-info">Personajes secundarios:</div></div>
+            <vgdb-items-list [itemsList]="charactersSecondary"
+                              navigateTo="characters" imgPath="characters">
+            </vgdb-items-list>
+        </div>
+        <div *ngIf="charactersAntagonist && charactersAntagonist.length">
+            <div class="info-entry"><div class="label-info">Antagonistas:</div></div>
+            <vgdb-items-list [itemsList]="charactersAntagonist"
+                              navigateTo="characters" imgPath="characters">
+            </vgdb-items-list>
+        </div>
+        <div *ngIf="charactersVillain && charactersVillain.length">
+            <div class="info-entry"><div class="label-info">Otros villanos:</div></div>
+            <vgdb-items-list [itemsList]="charactersVillain"
+                              navigateTo="characters" imgPath="characters">
+            </vgdb-items-list>
+        </div>
+        <div class="info-entry">
+            <button (click)="addGenre()">Genre</button>
+        </div>
+        <div class="info-entry">
+            <button (click)="addDirectors()">Directors</button>
+        </div>
+        <div class="info-entry">
+            <button (click)="addPlatforms()">Platforms</button>
+        </div>
+        <div class="info-entry">
+            <button (click)="addDevelopers()">Developers</button>
+        </div>
+        <div class="info-entry">
+            <button (click)="addPublishers()">Publishers</button>
+        </div>
+        <div class="info-entry">
+            <button (click)="addPlayable()">Playable</button>
+        </div>
+        <div class="info-entry">
+            <button (click)="addAntagonist()">addAntagonist</button>
+        </div>
+        <div class="info-entry">
+            <button (click)="addAwards()">addAwards</button>
         </div>
     </div>
 </div>

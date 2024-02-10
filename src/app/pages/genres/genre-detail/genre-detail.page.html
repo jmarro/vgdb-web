@@ -1,0 +1,28 @@
+<div *ngIf="genre">
+    <div class="header-container" [style]="backgroundStyle">
+        <div class="common-header">
+            <div class="side left-info">
+                <div class="titles-container">
+                    <div class="title">{{genre.name}}</div>
+                </div>
+            </div>
+            <div class="side right-info">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="common-content">
+        genre
+        <div class="info-entry" *ngIf="genre.sub_genre && genre.sub_genre.length">
+            <div class="label-info">Subgéneros:</div>
+            <div class="value-info" *ngFor="let subgenre of genre.sub_genre"><a [routerLink]="['/genres', subgenre.id]">{{subgenre.name}}</a></div>
+        </div>
+        <div *ngIf="genre.games && genre.games.length">
+            <div class="info-entry"><div class="label-info">Juegos:</div></div>
+            <vgdb-items-list [itemsList]="genre.games"
+                              navigateTo="games" imgPath="games">
+            </vgdb-items-list>
+        </div>
+    </div>
+</div>

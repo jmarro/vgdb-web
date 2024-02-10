@@ -1,0 +1,11 @@
+<div class="common-content">
+    themes!!!
+    <div *ngIf="themes.length">
+        <vgdb-items-list [itemsList]="themes"
+                          navigateTo="themes" imgPath="themes">
+        </vgdb-items-list>
+    </div>
+    <div class="info-entry">
+        <button (click)="create()">creta</button>
+    </div>
+</div>

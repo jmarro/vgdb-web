@@ -1,5 +1,6 @@
 import { Character } from "./character.model";
 import { Franchise } from "./franchise.model";
+import { Game } from "./game.model";
 
 export interface Person {
     id?: number;
@@ -9,4 +10,5 @@ export interface Person {
     nationality?: string;
     franchises?: Franchise[];
     characters?: Character[];
+    games?: Game[];
 };

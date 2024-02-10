@@ -15,6 +15,8 @@ export class CharacterDetailPage implements OnInit, OnDestroy {
   public character: Character;
   public routerSubs: Subscription;
 
+  public backgroundStyle: any;
+
   constructor(private charactersService: CharactersService,
     private router: Router) {
   }
@@ -50,7 +52,14 @@ export class CharacterDetailPage implements OnInit, OnDestroy {
     this.charactersService.getCharacter(id).subscribe(result => {
       console.log('char', result)
       this.character = result;
+      this.backgroundStyle = this.getBackgroundStyle(this.character);
     });
+  }
+
+  private getBackgroundStyle(character: Character) {
+    return {
+      'background-color': character.color? character.color : 'rgb(68, 67, 67)'
+    }
   }
 
 }

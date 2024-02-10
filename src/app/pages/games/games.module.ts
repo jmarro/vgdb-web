@@ -10,6 +10,8 @@ import { GAMES_ROUTES } from './games-routes.page';
 import { GameDetailPage } from './game-detail/game-detail.page';
 import { FormsModule } from '@angular/forms';
 
+import { ItemsListComponentModule } from '../../components/items-list/items-list.module';
+
 @NgModule({
   declarations: [
     GamesPage,
@@ -20,6 +22,7 @@ import { FormsModule } from '@angular/forms';
     MatButtonToggleModule,
     MatChipsModule,
     MatTooltipModule,
+    ItemsListComponentModule,
     FormsModule,
     RouterModule.forChild(GAMES_ROUTES)
   ],

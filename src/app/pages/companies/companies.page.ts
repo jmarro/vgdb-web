@@ -19,22 +19,30 @@ export class CompaniesPage implements OnInit {
     this.companiesService.getList().subscribe(result => {
       console.log('result', result);
       this.companies = result.companies;
-      this.companies.push({id:2, name:'yes', country:'mx', active:true, founding_year: 1990})
     });
     
   }
 
   public create() {
     console.log('create')
-
     const newcompany: Company = {
+      
+      name: 'Sonic Team',
+      founding_year: 1990,
+      country: 'jp',
+      color: '#17569b',
+      main_img: 'sonic_team.png',
+      ownerId: 1
+    }
+
+   /* const newcompany: Company = {
       
       name: 'Sega',
       founding_year: 1960,
       country: 'jp',
       color: '#17569b',
       main_img: 'sega.png'
-    }
+    }*/
     /*const newcompany: Company = {
       
       name: 'Sega Technical Institute',
@@ -49,7 +57,7 @@ export class CompaniesPage implements OnInit {
     }*/
     this.companiesService.createCompany(newcompany).subscribe(result => {
       console.log('ok??', result)
-    })
+    });
   }
 
 }
