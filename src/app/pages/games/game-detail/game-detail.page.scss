@@ -45,9 +45,40 @@
     }
 }
 
+.divider {
+    font-family: "pixela";
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.45;
+
+    height: 50px;
+}
+
+mat-expansion-panel {
+    margin-bottom: 50px;
+    .expansion-container {
+        &:nth-of-type(1) {
+            margin-top: 20px;
+        }
+        &:last-child {
+            border-bottom: none;
+        }
+        padding-bottom: 20px;
+        margin-top: 30px;
+        border-bottom: 1px solid variables.$grey-border;
+    }
+    .subtitle {
+        font-size: 20px;
+        margin-bottom: 20px;
+        font-weight: 700;
+    }
+}
+
 .main-game {
     display: flex;
     padding-top: 10px;
+    margin-bottom: 30px;
     .game-data {
         display: flex;
     }
@@ -57,6 +88,7 @@
         display: flex;
         flex-direction: column;
         margin-right: 30px;
+        max-height: 500px;
         .cover-img {
             width: 215px;
             max-height: 450px;
@@ -84,6 +116,7 @@
         .main-row {
             display: flex;
             justify-content: end;
+            padding-bottom: 10px;
         }
         .score {
             background-color: #01ce7a;
@@ -118,13 +151,46 @@
             }
         }
 
+        .game-status {
+            display: flex;
+            justify-content: end;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            .game-owned-button{
+                font-family: "pixela";
+                width: 160px;
+                border: 1px solid variables.$grey-border;
+                cursor: pointer;
+                background-color: variables.$light-grey;
+                opacity: .6;
+                padding: 5px;
+                text-align: center;
+                line-height: 21px;
+                &.owned, &.completed {
+                    opacity: 1;
+                    background-color: green;
+                    color: white;
+                }
+                &.not_played {
+                    opacity: 1;
+                    background-color: darkred;
+                    color: white;
+                }
+                &.played {
+                    opacity: 1;
+                    background-color: darkorange;
+                    color: white;
+                }
+            }
+        }
+
         .game-price-row {
             display: flex;
             justify-content: end;
             margin-top: 20px;
             .game-price-container {
                 border: 3px solid variables.$grey-border;
-                width: 150px;
+                width: 170px;
                 text-align: center;
                 .game-price-value {
                     font-weight: 700;

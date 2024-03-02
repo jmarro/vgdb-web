@@ -12,6 +12,7 @@ import { Character } from '../../../models/character.model';
 import { CharacterRole } from '../../../enums/character-role.enum';
 import { Game_Award } from '../../../models/game_award.model';
 import { AwardResult } from '../../../enums/award-result.enum';
+import { GameStatus } from '../../../enums/game-status.enum';
 
 
 @Component({
@@ -21,6 +22,7 @@ import { AwardResult } from '../../../enums/award-result.enum';
 })
 export class GameDetailPage implements OnInit, OnDestroy {
 
+  public readonly GameStatus: typeof GameStatus = GameStatus;
   public game: Game;
   public routerSubs: Subscription;
   public cover: boolean = true;
@@ -32,6 +34,8 @@ export class GameDetailPage implements OnInit, OnDestroy {
   public charactersAntagonist: Character[] = [];
   public charactersVillain: Character[] = [];
   public backgroundStyle: any;
+  public hideCharacters = true;
+  public statusText: string = 'NO JUGADO';
 
   constructor(private gamesService: GamesService,
               private router: Router) {
@@ -69,7 +73,30 @@ export class GameDetailPage implements OnInit, OnDestroy {
         this.charactersVillain = this.game.characters.filter(character => character.Game_Character?.type === CharacterRole.villain);
       }
       this.backgroundStyle = this.getBackgroundStyle(this.game);
+      this.statusText = this.getStatusText(this.game.personal_status);
     });
+  }
+
+
+ 
+
+  public changeGameOwned(owned: boolean) {
+    if (this.game && this.game.id) {
+      this.gamesService.updateOwnedGame(this.game.id, owned).subscribe(result => {
+        console.log('ok??', result)
+        this.game.owned = owned;
+      });
+    }
+  }
+
+  public changeGameStatus(status: GameStatus) {
+    if (this.game && this.game.id) {
+      this.gamesService.updatePersonalStatus(this.game.id, status).subscribe(result => {
+        console.log('status', status);
+        this.game.personal_status = status;
+        this.statusText = this.getStatusText(this.game.personal_status);
+      });
+    }
   }
 
   private getBackgroundStyle(game: Game) {
@@ -77,10 +104,16 @@ export class GameDetailPage implements OnInit, OnDestroy {
       'background-color': game.color? game.color : 'rgb(68, 67, 67)'
     }
   }
- 
 
-  public gameOwned(e: any) {
-    console.log(e);
+  private getStatusText(status?: GameStatus): string {
+    switch (status) {
+      case GameStatus.completed: 
+        return 'COMPLETADO';
+      case GameStatus.played:
+        return 'JUGADO';
+      default:
+        return 'NO JUGADO';
+    }
   }
 
   public addGenre() {

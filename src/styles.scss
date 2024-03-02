@@ -86,12 +86,42 @@ body {
         margin-left: auto; 
         margin-right: auto;
         padding: 10px 20px;
+
+
+        .mat-expansion-panel:not([class*=mat-elevation-z]) {
+            box-shadow: none;
+        }
+
+        .mat-expansion-panel-header-title {
+            color: white;
+        }
+        .mat-expansion-panel-header.mat-expanded {
+            height: 50px;
+        }
+
+        .mat-expansion-indicator::after {
+            color: white;
+        }
     }
 
     .info-entry {
         margin-bottom: 10px;
         .label-info {
             font-weight: bold;
+        }
+        .value-info {
+            display: flex;
+            align-items: center;
+        }
+        .img-line {
+            height: 35px;
+            width: 35px;
+            border: 1px solid variables.$grey-border;
+            border-radius: 35px;
+            object-fit: scale-down;
+            margin-right: 5px;
+            margin-top: 5px;
+            margin-bottom: 5px;
         }
     }
 

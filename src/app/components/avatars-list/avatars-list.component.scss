@@ -1,0 +1,17 @@
+.avatar-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    .logo-container {
+        width: 150px;
+       .logo {
+            width: 150px;
+            height: 150px;
+       }
+       cursor: pointer;
+       font-family: "pixela";
+       .name {
+        text-align: center;
+       }
+    }
+}

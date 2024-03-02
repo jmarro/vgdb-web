@@ -9,6 +9,7 @@ import { Platform } from '../models/platform.model';
 import { Company } from '../models/company.model';
 import { Character } from '../models/character.model';
 import { Game_Award } from '../models/game_award.model';
+import { GameStatus } from '../enums/game-status.enum';
 
 export interface GamesResponse {
     count: number;
@@ -99,5 +100,13 @@ export class GamesService {
 
     public addAwards(id: number, awards: Game_Award[]): Observable<any> {
         return this.httpService.post(`http://localhost:3000/games/${id}/addAwards`, awards);
+    }
+
+    public updateOwnedGame(id: number, owned: boolean): Observable<any> {
+        return this.httpService.post(`http://localhost:3000/games/${id}/updateOwnedGame`, {owned});
+    }
+
+    public updatePersonalStatus(id: number, personal_status: GameStatus): Observable<any> {
+        return this.httpService.post(`http://localhost:3000/games/${id}/updatePersonalStatus`, {personal_status});
     }
 }

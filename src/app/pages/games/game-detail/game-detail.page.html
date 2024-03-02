@@ -50,19 +50,22 @@
                     </div>
                     <div class="info-entry" *ngIf="companiesDev && companiesDev.length">
                         <div class="label-info">Desarrolladora:</div>
-                        <div class="value-info" *ngFor="let company of companiesDev"><a [routerLink]="['/companies', company.id]">{{company.name}}</a></div>
+                        <div class="value-info" *ngFor="let company of companiesDev"><img class="img-line" [src]="'http://localhost:3000/images/companies/'+company.main_img"/><a [routerLink]="['/companies', company.id]">{{company.name}}</a></div>
                     </div>
                     <div class="info-entry" *ngIf="companiesPub && companiesPub.length">
                         <div class="label-info">Distribuidora:</div>
-                        <div class="value-info" *ngFor="let company of companiesPub"><a [routerLink]="['/companies', company.id]">{{company.name}}</a></div>
+                        <div class="value-info" *ngFor="let company of companiesPub"><img class="img-line" [src]="'http://localhost:3000/images/companies/'+company.main_img"/><a [routerLink]="['/companies', company.id]">{{company.name}}</a></div>
                     </div>
                     <div class="info-entry" *ngIf="game.directors && game.directors.length">
                         <div class="label-info">Director(es):</div>
-                        <div class="value-info" *ngFor="let director of game.directors"><a [routerLink]="['/people', director.id]">{{director.name}}</a></div>
+                        <div class="value-info" *ngFor="let director of game.directors"><img class="img-line" [src]="'http://localhost:3000/images/people/'+director.main_img"/><a [routerLink]="['/people', director.id]">{{director.name}}</a></div>
                     </div>
                     <div class="info-entry">
                         <div class="label-info">Num. Jugadores:</div>
                         <div class="value-info">{{game.num_players}}</div>
+                    </div>
+                    <div class="info-entry">
+                        <div class="value-info"><a [href]="game.wikipedia" target="_blank">Wikipedia</a></div>
                     </div>
                 </div>
             </div>
@@ -71,31 +74,35 @@
                 <div class="main-row">
                     <div class="score">{{game.score}}</div>
                     <div *ngIf="game.awards && game.awards.length">
-                        <div *ngFor="let award of game.awards" class="award-color" [matTooltip]="award.Game_Award!.year + ' ' +award.award!.name + ' ' + award.Game_Award!.result">
+                        <div *ngFor="let award of game.awards" class="award-color" [matTooltip]="award.Game_Award!.year + ' ' +award.award!.name + ' ' + award.name + ' ' + award.Game_Award!.result">
                             <div class="award-background">
                                 <img class="award-logo" [src]="'http://localhost:3000/images/awards/'+award.award!.main_img"/>
                             </div>
                         </div>
-
-                    </div>
-                    <div class="award-color" matTooltip="GOTY winner">
-                        <div class="award-background">
-                            <img class="award-logo" src="../../../../assets/icons/game_awards.png"/>
-                        </div>
-                    </div>
-                    <div class="award-color" matTooltip="Golden Joystick Award winner">
-                        <div class="award-background">
-                            <img class="award-logo" src="../../../../assets/icons/Golden_Joystick_Award.png"/>
-                        </div>
-                    </div>
-                    <div class="award-color" matTooltip="Spike VGA winner">
-                        <div class="award-background">
-                            <img class="award-logo" src="../../../../assets/icons/Spike_VGA.png"/>
-                        </div>
                     </div>
                 </div>
                 <div class="game-status">
-                    <div class="game-personal">
+                    <div class="game-owned-button" [matMenuTriggerFor]="status_select" [ngClass]="{'completed': game.personal_status === GameStatus.completed, 'played': game.personal_status === GameStatus.played, 'not_played': game.personal_status === GameStatus.notPlayed}">
+                        {{statusText}}
+                    </div>
+                    <mat-menu #status_select="matMenu">
+                        <button mat-menu-item (click)="changeGameStatus(GameStatus.notPlayed)">
+                            <span>NO JUGADO</span>
+                        </button>
+                        <button mat-menu-item (click)="changeGameStatus(GameStatus.played)">
+                            <span>JUGADO</span>
+                        </button>
+                        <button mat-menu-item (click)="changeGameStatus(GameStatus.completed)">
+                            <span>COMPLETADO</span>
+                        </button>
+                    </mat-menu>
+                </div>
+                <div class="game-status">
+                    <div *ngIf="!game.owned" class="game-owned-button" (click)="changeGameOwned(true)">
+                        ME FALTA
+                    </div>
+                    <div *ngIf="game.owned" class="game-owned-button owned" (click)="changeGameOwned(false)">
+                        EN LA COLECCIÓN
                     </div>
                 </div>
                 <div class="game-price-row">
@@ -106,30 +113,48 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="charactersPlayable && charactersPlayable.length">
-            <div class="info-entry"><div class="label-info">Personajes jugables:</div></div>
-            <vgdb-items-list [itemsList]="charactersPlayable"
-                              navigateTo="characters" imgPath="characters">
-            </vgdb-items-list>
-        </div>
-        <div *ngIf="charactersSecondary && charactersSecondary.length">
-            <div class="info-entry"><div class="label-info">Personajes secundarios:</div></div>
-            <vgdb-items-list [itemsList]="charactersSecondary"
-                              navigateTo="characters" imgPath="characters">
-            </vgdb-items-list>
-        </div>
-        <div *ngIf="charactersAntagonist && charactersAntagonist.length">
-            <div class="info-entry"><div class="label-info">Antagonistas:</div></div>
-            <vgdb-items-list [itemsList]="charactersAntagonist"
-                              navigateTo="characters" imgPath="characters">
-            </vgdb-items-list>
-        </div>
-        <div *ngIf="charactersVillain && charactersVillain.length">
-            <div class="info-entry"><div class="label-info">Otros villanos:</div></div>
-            <vgdb-items-list [itemsList]="charactersVillain"
-                              navigateTo="characters" imgPath="characters">
-            </vgdb-items-list>
-        </div>
+
+        <mat-expansion-panel *ngIf="charactersPlayable && charactersPlayable.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Personajes
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngIf="charactersPlayable && charactersPlayable.length" class="expansion-container">
+                <div class="subtitle">Jugable:</div>
+                <vgdb-avatars-list [avatarsList]="charactersPlayable"
+                                  navigateTo="characters" imgPath="characters">
+                </vgdb-avatars-list>
+            </div>
+            <div *ngIf="charactersSecondary && charactersSecondary.length" class="expansion-container">
+                <div class="subtitle">Secundario:</div>
+                <vgdb-avatars-list [avatarsList]="charactersSecondary"
+                                  navigateTo="characters" imgPath="characters">
+                </vgdb-avatars-list>
+            </div>
+            <div *ngIf="charactersAntagonist && charactersAntagonist.length" class="expansion-container">
+                <div class="subtitle">Antagonista:</div>
+                <vgdb-avatars-list [avatarsList]="charactersAntagonist"
+                                  navigateTo="characters" imgPath="characters">
+                </vgdb-avatars-list>
+            </div>
+            <div *ngIf="charactersVillain && charactersVillain.length" class="expansion-container">
+                <div class="subtitle">Otros villanos:</div>
+                <vgdb-avatars-list [avatarsList]="charactersVillain"
+                                  navigateTo="characters" imgPath="characters">
+                </vgdb-avatars-list>
+            </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="game.awards && game.awards.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+                <mat-panel-title>
+                Premios
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="value-info" *ngFor="let award of game.awards">{{award.Game_Award!.year + ' ' +award.award!.name + ' ' + award.name + ' ' + award.Game_Award!.result}}</div>
+        </mat-expansion-panel>
+
         <div class="info-entry">
             <button (click)="addGenre()">Genre</button>
         </div>
