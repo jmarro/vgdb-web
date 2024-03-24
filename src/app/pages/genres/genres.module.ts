@@ -2,6 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { GenresPage } from './genres.page';
 import { GENRES_ROUTES } from './genres-routes.page';
@@ -17,6 +18,7 @@ import { GenresService } from '../../services/genres.service';
   imports: [
     CommonModule,
     MatChipsModule,
+    MatExpansionModule,
     ItemsListComponentModule,
     RouterModule.forChild(GENRES_ROUTES)
   ],

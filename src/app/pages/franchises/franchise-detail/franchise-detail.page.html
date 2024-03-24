@@ -16,24 +16,59 @@
     </div>
 
     <div class="common-content">
-        FRANCH detail
-        <div class="info-entry" *ngIf="franchise.creators">
-            <div class="label-info">Creadores:</div>
-            <div class="value-info" *ngFor="let creator of franchise.creators"><a [routerLink]="['/people', creator.id]">{{creator.name}}</a></div>
-        </div>
         <div class="info-entry">
-            <button (click)="create()">creators</button>
+            <div class="label-info">Fecha del primer juego (España):</div>
+            <div class="value-info">{{franchise.first_game_date | date: 'dd/MM/yyyy'}}</div>
         </div>
-        <div class="info-entry" *ngIf="franchise.series">
-            <div class="label-info">Series:</div>
-            <div class="value-info" *ngFor="let serie of franchise.series">{{serie.name}}</div>
+        <div class="info-entry" *ngIf="franchise.creators && franchise.creators.length">
+            <div class="label-info">Creador(es):</div>
+            <div class="value-info" *ngFor="let creator of franchise.creators"><img class="img-line" [src]="'http://localhost:3000/images/people/'+creator.main_img"/><a [routerLink]="['/people', creator.id]">{{creator.name}}</a></div>
         </div>
-        <div class="info-entry">
-            <button (click)="createSerie()">series</button>
-        </div>
-        <div class="info-entry" *ngIf="franchise.characters">
-            <div class="label-info">Personajes:</div>
-            <div class="value-info" *ngFor="let character of franchise.characters"><a [routerLink]="['/characters', character.id]">{{character.name}}</a></div>
-        </div>
+        <mat-expansion-panel *ngIf="seriesMain && seriesMain.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Series principales
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngFor="let serie of seriesMain"  class="expansion-container">
+                <div class="subtitle">{{serie.name}}:</div>
+                <div *ngIf="serie.games && serie.games.length">
+                    <vgdb-items-list [itemsList]="serie.games"
+                                      navigateTo="games" imgPath="games">
+                    </vgdb-items-list>
+                </div>
+            </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="charactersMain && charactersMain.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Personajes
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngIf="charactersMain && charactersMain.length" class="expansion-container">
+                <div class="subtitle">Principales:</div>
+                <vgdb-avatars-list [avatarsList]="charactersMain"
+                                  navigateTo="characters" imgPath="characters">
+                </vgdb-avatars-list>
+            </div>
+            <div *ngIf="charactersSecondary && charactersSecondary.length" class="expansion-container">
+                <div class="subtitle">Secundario:</div>
+                <vgdb-avatars-list [avatarsList]="charactersSecondary"
+                                  navigateTo="characters" imgPath="characters">
+                </vgdb-avatars-list>
+            </div>
+            <div *ngIf="charactersAntagonist && charactersAntagonist.length" class="expansion-container">
+                <div class="subtitle">Antagonista:</div>
+                <vgdb-avatars-list [avatarsList]="charactersAntagonist"
+                                  navigateTo="characters" imgPath="characters">
+                </vgdb-avatars-list>
+            </div>
+            <div *ngIf="charactersVillain && charactersVillain.length" class="expansion-container">
+                <div class="subtitle">Otros villanos:</div>
+                <vgdb-avatars-list [avatarsList]="charactersVillain"
+                                  navigateTo="characters" imgPath="characters">
+                </vgdb-avatars-list>
+            </div>
+        </mat-expansion-panel>
     </div>
 </div>

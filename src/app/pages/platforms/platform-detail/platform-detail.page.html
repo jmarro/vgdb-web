@@ -1,5 +1,5 @@
 <div *ngIf="platform">
-    <div class="header-container">
+    <div class="header-container" [style]="backgroundStyle">
         <div class="common-header">
             <div class="side left-info">
                 <div class="titles-container">
@@ -19,20 +19,50 @@
     </div>
 
     <div class="common-content">
-        PLATF detail
-        <div *ngIf="platform.models && platform.models.length">
-            <vgdb-items-list [itemsList]="platform.models"
+        <div class="main-platform">
+            <div class="platform-img">
+                <img [src]="'http://localhost:3000/images/platforms/'+platform.img">
+            </div>
+            <div class="platform-info">
+                <div class="info-entry">
+                    <div class="label-info">Fecha de salida:</div>
+                    <div class="value-info">{{platform.release_date | date: 'dd/MM/yyyy'}}</div>
+                </div>
+                <div class="info-entry">
+                    <div class="label-info">Generación:</div>
+                    <div class="value-info">{{platform.gen}}</div>
+                </div>
+                <div class="info-entry">
+                    <div class="label-info">Tipo:</div>
+                    <div class="value-info">{{platform.type}}</div>
+                </div>
+                <div class="info-entry">
+                    <div class="label-info">Especificaciones:</div>
+                    <div class="value-info">{{platform.specs}}</div>
+                </div>
+            </div>
+        </div>
+
+        <mat-expansion-panel *ngIf="platform.models && platform.models.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+                <mat-panel-title>
+                Modelos
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <vgdb-items-list [itemsList]="platform.models" [clickable]="false"
                         navigateTo="platforms" imgPath="platforms">
             </vgdb-items-list>
-        </div>
-        <div class="info-entry">
-            <button (click)="create()">creta</button>
-        </div>
-        <div *ngIf="platform.games && platform.games.length">
-            <div class="info-entry"><div class="label-info">Juegos:</div></div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="platform.games && platform.games.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+                <mat-panel-title>
+                Juegos
+                </mat-panel-title>
+            </mat-expansion-panel-header>
             <vgdb-items-list [itemsList]="platform.games"
-                              navigateTo="games" imgPath="games">
+                        navigateTo="games" imgPath="games">
             </vgdb-items-list>
-        </div>
+        </mat-expansion-panel>
     </div>
 </div>

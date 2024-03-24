@@ -7,6 +7,7 @@ export interface Person {
     name: string;
     main_img?: string;
     birthday?: Date;
+    wikipedia?: string;
     nationality?: string;
     franchises?: Franchise[];
     characters?: Character[];

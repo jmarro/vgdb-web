@@ -24,6 +24,7 @@ export interface Game {
     num_players?: string;
     alt_name?: string;
     wikipedia?: string;
+    media?: string;
     color?: string;
     owned?: boolean;
     personal_status?: GameStatus;

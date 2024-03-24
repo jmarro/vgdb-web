@@ -11,6 +11,7 @@ export class ItemsListComponent implements OnInit {
   @Input() itemsList: any[];
   @Input() navigateTo: string;
   @Input() imgPath: string;
+  @Input() clickable: boolean = true;
 
   constructor(private router: Router) {
   }
@@ -19,7 +20,9 @@ export class ItemsListComponent implements OnInit {
   }
 
   public navigateToFn(id: string) {
-    this.router.navigate([this.navigateTo, id]);
+    if (this.clickable) {
+      this.router.navigate([this.navigateTo, id]);
+    }
   }
 
 }

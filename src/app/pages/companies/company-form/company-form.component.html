@@ -1,0 +1,47 @@
+<div *ngIf="companyForm">
+    <form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input id="name" type="text" formControlName="name" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Año de fundación</mat-label>
+            <input id="founding_year" type="number" formControlName="founding_year" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>País</mat-label>
+            <input id="country" type="text" formControlName="country" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Logo</mat-label>
+            <input id="main_img" type="text" formControlName="main_img" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Color</mat-label>
+            <input id="color" type="text" formControlName="color" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Wikipedia</mat-label>
+            <input id="wikipedia" type="text" formControlName="wikipedia" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Nombres previos</mat-label>
+            <textarea id="previous_names" formControlName="previous_names" matInput></textarea>
+        </mat-form-field>
+        <mat-checkbox formControlName="active">Activa</mat-checkbox>
+
+        <ng-container *ngIf="!companyForm.get('active')?.getRawValue()">
+            <mat-form-field>
+                <mat-label>Año de liquidación</mat-label>
+                <input id="defunct_year" type="number" formControlName="defunct_year" matInput>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Razón de liquidación</mat-label>
+                <input id="defunct_reason" type="text" formControlName="defunct_reason" matInput>
+            </mat-form-field>
+
+        </ng-container>
+
+        <div class="form-button"><button type="submit" [disabled]="!companyForm.valid" mat-stroked-button>Crear</button></div>
+    </form>
+</div>

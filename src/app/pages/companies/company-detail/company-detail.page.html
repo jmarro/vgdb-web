@@ -4,7 +4,6 @@
             <div class="side left-info">
                 <div class="titles-container">
                     <div class="title">{{company.name}} <span [class]="'fi fi-' +company.country+' flag'"></span></div>
-                    <div class="aka-title">Nombres previos: Segata</div>
                 </div>
                 <div *ngIf="company.parent_company" class="related-game">Pertenece a <a [routerLink]="['/companies', company.parent_company.id]">{{company.parent_company.name}}</a></div>  
             </div>
@@ -23,6 +22,14 @@
                     <div class="label-info">Fecha fundación:</div>
                     <div class="value-info">{{company.founding_year}}</div>
                 </div>
+                <div class="company-status">
+                    <div *ngIf="!company.active" class="company-active-button">
+                        INACTIVA
+                    </div>
+                    <div *ngIf="company.active" class="company-active-button active">
+                        ACTIVA
+                    </div>
+                </div>
                 <div class="info-entry" *ngIf="company.defunct_year">
                     <div class="label-info">Fecha disolución:</div>
                     <div class="value-info">{{company.defunct_year}}</div>
@@ -31,25 +38,53 @@
                     <div class="label-info">Razón de disolución:</div>
                     <div class="value-info">{{company.defunct_reason}}</div>
                 </div>
+                <div class="info-entry" *ngIf="company.previous_names">
+                    <div class="label-info">Nombres previos:</div>
+                    <div class="value-info">{{company.previous_names}}</div>
+                </div>
+                <div class="info-entry" *ngIf="company.wikipedia">
+                    <div class="value-info"><a [href]="company.wikipedia" target="_blank">Wikipedia</a></div>
+                </div>
             </div>
         </div>
-        <div *ngIf="company.platforms && company.platforms.length">
-            <div class="info-entry"><div class="label-info">Videoconsolas:</div></div>
+        <mat-expansion-panel *ngIf="company.games && company.games.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Juegos
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngIf="gamesDev && gamesDev.length" class="expansion-container">
+                <div class="subtitle">Desarrollados:</div>
+                <vgdb-items-list [itemsList]="gamesDev"
+                            navigateTo="games" imgPath="games">
+                </vgdb-items-list>
+            </div>
+            <div *ngIf="gamesPub && gamesPub.length" class="expansion-container">
+                <div class="subtitle">Publicados:</div>
+                <vgdb-items-list [itemsList]="gamesPub"
+                            navigateTo="games" imgPath="games">
+                </vgdb-items-list>
+            </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="company.platforms && company.platforms.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Videoconsolas
+              </mat-panel-title>
+            </mat-expansion-panel-header>
             <vgdb-items-list [itemsList]="company.platforms"
                         navigateTo="platforms" imgPath="platforms">
             </vgdb-items-list>
-        </div>
-        <div *ngIf="gamesDev && gamesDev.length">
-            <div class="info-entry"><div class="label-info">Juegos desarrollados:</div></div>
-            <vgdb-items-list [itemsList]="gamesDev"
-                        navigateTo="games" imgPath="games">
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="company.sub_companies && company.sub_companies.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Empresas filiales
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <vgdb-items-list [itemsList]="company.sub_companies"
+                        navigateTo="companies" imgPath="companies">
             </vgdb-items-list>
-        </div>
-        <div *ngIf="gamesPub && gamesPub.length">
-            <div class="info-entry"><div class="label-info">Juegos publicados:</div></div>
-            <vgdb-items-list [itemsList]="gamesPub"
-                        navigateTo="games" imgPath="games">
-            </vgdb-items-list>
-        </div>
+        </mat-expansion-panel>
     </div>
 </div>

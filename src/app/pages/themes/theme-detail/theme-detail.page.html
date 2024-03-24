@@ -13,6 +13,25 @@
     </div>
 
     <div class="common-content">
-        theme
+        <mat-expansion-panel *ngIf="theme.sub_theme && theme.sub_theme.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Subgéneros
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <vgdb-items-list [itemsList]="theme.sub_theme"
+                              navigateTo="themes" imgPath="themes">
+            </vgdb-items-list>
+        </mat-expansion-panel>        
+        <mat-expansion-panel *ngIf="theme.games && theme.games.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Juegos
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <vgdb-items-list [itemsList]="theme.games"
+                              navigateTo="games" imgPath="games">
+            </vgdb-items-list>
+        </mat-expansion-panel>
     </div>
 </div>

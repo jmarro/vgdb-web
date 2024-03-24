@@ -14,6 +14,7 @@ export class PlatformDetailPage implements OnInit, OnDestroy {
 
   public platform: Platform;
   public routerSubs: Subscription;
+  public backgroundStyle: any;
 
   constructor(private platformsService: PlatformsService,
               private router: Router) {
@@ -53,7 +54,14 @@ export class PlatformDetailPage implements OnInit, OnDestroy {
     this.platformsService.getPlatform(id).subscribe(result => {
       console.log('platform', result)
       this.platform = result;
+      this.backgroundStyle = this.getBackgroundStyle(this.platform);
     });
+  }
+
+  private getBackgroundStyle(platform: Platform) {
+    return {
+      'background-color': platform.color? platform.color : 'rgb(68, 67, 67)'
+    }
   }
 
 }

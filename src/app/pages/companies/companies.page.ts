@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CompaniesService } from '../../services/companies.service';
 import { Company } from '../../models/company.model';
+import { DialogService } from '../../components/dialog/utils/dialog.service';
+import { DialogFactoryService } from '../../components/dialog/utils/dialog-factory.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'vgdb-companies',
@@ -10,8 +13,13 @@ import { Company } from '../../models/company.model';
 export class CompaniesPage implements OnInit {
 
   public companies: Company[] = [];
+  dialog: DialogService;
 
-  constructor(private companiesService: CompaniesService) {
+  @ViewChild('companyForm') companyForm: TemplateRef<any>;
+
+  constructor(private companiesService: CompaniesService,
+              private dialogFactoryService: DialogFactoryService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -20,7 +28,26 @@ export class CompaniesPage implements OnInit {
       console.log('result', result);
       this.companies = result.companies;
     });
-    
+  }
+
+  public formSubmitted(data: any) {
+    this.closeDialog();
+    this.router.navigate(['companies', data]);
+  }
+
+  public closeDialog() {
+    this.dialog.close();
+  }
+
+  public dispatchDialog() {
+    this.openDialog({
+      headerText: 'Nueva compañia',
+      template: this.companyForm
+    });
+  }
+
+  private openDialog(dialogData: any): void {
+    this.dialog = this.dialogFactoryService.open(dialogData);
   }
 
   public create() {
@@ -55,9 +82,7 @@ export class CompaniesPage implements OnInit {
       ownerId: 1,
       main_img: 'Sega_technical_institute.jpg'
     }*/
-    this.companiesService.createCompany(newcompany).subscribe(result => {
-      console.log('ok??', result)
-    });
+
   }
 
 }

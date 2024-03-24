@@ -1,0 +1,11 @@
+.main-character {
+    display: flex;
+    padding-top: 10px;
+    margin-bottom: 30px;
+    .character-img {
+        margin-right: 50px;
+        img {
+            width: 200px;
+        }
+    }
+}

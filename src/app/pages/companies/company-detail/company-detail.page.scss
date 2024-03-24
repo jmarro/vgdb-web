@@ -1,3 +1,5 @@
+@use '../../../../variables'; 
+
 .flag {
     border: 1px solid black;
     background-size: cover;
@@ -17,6 +19,26 @@
             margin-bottom: 10px;
             .label-info {
                 font-weight: bold;
+            }
+        }
+    }
+    .company-status {
+        display: flex;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        .company-active-button{
+            font-family: "pixela";
+            width: 160px;
+            border: 1px solid variables.$grey-border;
+            cursor: pointer;
+            background-color: darkred;
+            padding: 5px;
+            text-align: center;
+            line-height: 21px;
+            color: white;
+            &.active {
+                background-color: green;
+                
             }
         }
     }

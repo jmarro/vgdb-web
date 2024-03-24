@@ -9,6 +9,7 @@ export interface Franchise {
     main_img?: string;
     first_game_date?: Date;
     color?: string;
+    wikipedia?: string;
     ownerId?: number;
     company?: Company;
     franchises_parents?: Franchise[];

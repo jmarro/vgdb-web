@@ -1,14 +1,15 @@
 
 <div class="common-content">
-    companies!!!
+    <div>
+        <button mat-icon-button aria-label="Nueva" (click)="dispatchDialog()">
+            <mat-icon>add</mat-icon>
+         </button>
+    </div>
     <div *ngIf="companies.length">
         <vgdb-items-list [itemsList]="companies"
                           navigateTo="companies" imgPath="companies">
         </vgdb-items-list>
     </div>
-
-    <div class="info-entry">
-        <button (click)="create()">creta</button>
-    </div>
-    
 </div>
+
+<ng-template #companyForm><vgdb-company-form (submitted)="formSubmitted($event)"></vgdb-company-form></ng-template>

@@ -13,16 +13,25 @@
     </div>
 
     <div class="common-content">
-        genre
-        <div class="info-entry" *ngIf="genre.sub_genre && genre.sub_genre.length">
-            <div class="label-info">Subgéneros:</div>
-            <div class="value-info" *ngFor="let subgenre of genre.sub_genre"><a [routerLink]="['/genres', subgenre.id]">{{subgenre.name}}</a></div>
-        </div>
-        <div *ngIf="genre.games && genre.games.length">
-            <div class="info-entry"><div class="label-info">Juegos:</div></div>
+        <mat-expansion-panel *ngIf="genre.sub_genre && genre.sub_genre.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Subgéneros
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <vgdb-items-list [itemsList]="genre.sub_genre"
+                              navigateTo="genres" imgPath="genres">
+            </vgdb-items-list>
+        </mat-expansion-panel>        
+        <mat-expansion-panel *ngIf="genre.games && genre.games.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Juegos
+              </mat-panel-title>
+            </mat-expansion-panel-header>
             <vgdb-items-list [itemsList]="genre.games"
                               navigateTo="games" imgPath="games">
             </vgdb-items-list>
-        </div>
+        </mat-expansion-panel>
     </div>
 </div>

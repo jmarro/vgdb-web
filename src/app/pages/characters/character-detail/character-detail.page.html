@@ -11,21 +11,60 @@
                 </mat-chip-listbox>
             </div>
             <div class="side right-info">
-                <div class="logo-container">
-                    <img class="logo" [src]="'http://localhost:3000/images/characters/'+character.main_img">
+                <div class="logo-container" *ngIf="character.franchise">
+                    <img class="logo" [src]="'http://localhost:3000/images/franchises/'+character.franchise.main_img" [routerLink]="['/franchises', character.franchise.id]">
                 </div>
             </div>
         </div>
     </div>
 
     <div class="common-content">
-        CHAR detail
-        <div class="info-entry" *ngIf="character.creators">
-            <div class="label-info">Creadores:</div>
-            <div class="value-info" *ngFor="let creator of character.creators"><a [routerLink]="['/people', creator.id]">{{creator.name}}</a></div>
+        <div class="main-character">
+            <div class="character-img">
+                <img [src]="'http://localhost:3000/images/characters/'+character.main_img">
+            </div>
+            <div class="character-info">
+                <div class="info-entry">
+                    <div class="label-info">Año de creación:</div>
+                    <div class="value-info">{{character.creation_year}}</div>
+                </div>
+                <div class="info-entry" *ngIf="character.creators && character.creators.length">
+                    <div class="label-info">Creador(es):</div>
+                    <div class="value-info" *ngFor="let creator of character.creators"><img class="img-line" [src]="'http://localhost:3000/images/people/'+creator.main_img"/><a [routerLink]="['/people', creator.id]">{{creator.name}}</a></div>
+                </div>
+            </div>
         </div>
-        <div class="info-entry">
-            <button (click)="create()">creators</button>
-        </div>
+
+        <mat-expansion-panel *ngIf="character.games && character.games.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Juegos
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngIf="gamesPlayable && gamesPlayable.length" class="expansion-container">
+                <div class="subtitle">Jugable en:</div>
+                <vgdb-items-list [itemsList]="gamesPlayable"
+                                    navigateTo="games" imgPath="games">
+                </vgdb-items-list>
+            </div>
+            <div *ngIf="gamesSecondary && gamesSecondary.length" class="expansion-container">
+                <div class="subtitle">Secundario en:</div>
+                <vgdb-items-list [itemsList]="gamesSecondary"
+                                    navigateTo="games" imgPath="games">
+                </vgdb-items-list>
+            </div>
+            <div *ngIf="gamesAntagonist && gamesAntagonist.length" class="expansion-container">
+                <div class="subtitle">Antagonista en:</div>
+                <vgdb-items-list [itemsList]="gamesAntagonist"
+                                    navigateTo="games" imgPath="games">
+                </vgdb-items-list>
+            </div>
+            <div *ngIf="gamesVillain && gamesVillain.length" class="expansion-container">
+                <div class="subtitle">Villano en:</div>
+                <vgdb-items-list [itemsList]="gamesVillain"
+                                    navigateTo="games" imgPath="games">
+                </vgdb-items-list>
+            </div>
+        </mat-expansion-panel>
     </div>
 </div>

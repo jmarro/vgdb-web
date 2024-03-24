@@ -13,6 +13,7 @@ export class PersonDetailPage implements OnInit, OnDestroy {
 
   public person: Person;
   public routerSubs: Subscription;
+  public backgroundStyle: any = {'background-color': 'rgb(68, 67, 67)'};
 
   constructor(private peopleService: PeopleService,
     private router: Router) {

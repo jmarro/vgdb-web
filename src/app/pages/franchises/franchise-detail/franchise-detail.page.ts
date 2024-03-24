@@ -6,6 +6,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Person } from '../../../models/person.model';
 import { SeriesService } from '../../../services/series.service';
 import { Serie } from '../../../models/serie.model';
+import { CharacterRole } from '../../../enums/character-role.enum';
+import { Character } from '../../../models/character.model';
 
 @Component({
   selector: 'vgdb-franchise-detail',
@@ -15,6 +17,12 @@ import { Serie } from '../../../models/serie.model';
 export class FranchiseDetailPage implements OnInit, OnDestroy {
 
   public franchise: Franchise;
+  public charactersMain: Character[] = [];
+  public charactersSecondary: Character[] = [];
+  public charactersAntagonist: Character[] = [];
+  public charactersVillain: Character[] = [];
+  public seriesMain: Serie[] = [];
+  public seriesNotMain: Serie[] = [];
   public routerSubs: Subscription;
   public backgroundStyle: any;
 
@@ -66,6 +74,16 @@ export class FranchiseDetailPage implements OnInit, OnDestroy {
     this.franchisesService.getFranchise(id).subscribe(result => {
       console.log('franch', result)
       this.franchise = result;
+      if (this.franchise.series && this.franchise.series.length) {
+        this.seriesMain = this.franchise.series.filter(serie => serie.is_main);
+        this.seriesNotMain = this.franchise.series.filter(serie => !serie.is_main);
+      }
+      if (this.franchise.characters && this.franchise.characters.length) {
+        this.charactersMain = this.franchise.characters.filter(character => character.role_in_franchise === CharacterRole.main);
+        this.charactersSecondary = this.franchise.characters.filter(character => character.role_in_franchise === CharacterRole.secondary);
+        this.charactersAntagonist = this.franchise.characters.filter(character => character.role_in_franchise === CharacterRole.antagonist);
+        this.charactersVillain = this.franchise.characters.filter(character => character.role_in_franchise === CharacterRole.villain);
+      }
       this.backgroundStyle = this.getBackgroundStyle(this.franchise);
     });
   }

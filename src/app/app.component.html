@@ -45,7 +45,7 @@
         </button>
       </mat-menu>
       <span class="spacer"></span>
-      <button mat-icon-button [matMenuTriggerFor]="menuAdd" aria-label="Example icon-button with a menu">
+      <!--<button mat-icon-button [matMenuTriggerFor]="menuAdd" aria-label="Example icon-button with a menu">
         <mat-icon>add</mat-icon>
       </button>
       <mat-menu #menuAdd="matMenu">
@@ -53,7 +53,7 @@
           <mat-icon>dialpad</mat-icon>
           <span>Games</span>
         </button>
-        <button mat-menu-item disabled>
+        <button mat-menu-item (click)="dispatchDialog()">
           <mat-icon>voicemail</mat-icon>
           <span>Check voice mail</span>
         </button>
@@ -61,7 +61,7 @@
           <mat-icon>notifications_off</mat-icon>
           <span>Disable alerts</span>
         </button>
-      </mat-menu>
+      </mat-menu>-->
     </mat-toolbar>
   </div>
 
@@ -70,6 +70,3 @@
     <router-outlet></router-outlet>
   </div>
 </div>
-
-
-

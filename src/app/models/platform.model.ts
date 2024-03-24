@@ -10,6 +10,7 @@ export interface Platform {
     img?: string;
     color?: string;
     release_date: Date;
+    wikipedia?: string;
     gen?: number;
     specs?: string;
     type?: string;

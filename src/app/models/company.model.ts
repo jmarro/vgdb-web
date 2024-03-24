@@ -11,10 +11,12 @@ export interface Company {
     color?: string;
     founding_year: number;
     active?: boolean;
+    wikipedia?: string;
     defunct_year?: number;
     defunct_reason?: string;
     ownerId?: number;
     parent_company?: Company;
+    sub_companies?: Company[];
     platforms?: Platform[];
     previous_names?: string;
     franchises?: Franchise[];

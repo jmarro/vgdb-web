@@ -4,6 +4,8 @@ import { CharactersService } from '../../../services/characters.service';
 import { Subscription, filter } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
 import { Person } from '../../../models/person.model';
+import { Game } from '../../../models/game.model';
+import { CharacterRole } from '../../../enums/character-role.enum';
 
 @Component({
   selector: 'vgdb-character-detail',
@@ -15,6 +17,10 @@ export class CharacterDetailPage implements OnInit, OnDestroy {
   public character: Character;
   public routerSubs: Subscription;
 
+  public gamesPlayable: Game[] = [];
+  public gamesSecondary: Game[] = [];
+  public gamesAntagonist: Game[] = [];
+  public gamesVillain: Game[] = [];
   public backgroundStyle: any;
 
   constructor(private charactersService: CharactersService,
@@ -27,7 +33,6 @@ export class CharacterDetailPage implements OnInit, OnDestroy {
     this.routerSubs = this.router.events
     .pipe(filter(event => event instanceof NavigationEnd))  
     .subscribe((event: any) => {
-      console.log('hpl')
       this.loadCharacter();
     });
   }
@@ -52,6 +57,14 @@ export class CharacterDetailPage implements OnInit, OnDestroy {
     this.charactersService.getCharacter(id).subscribe(result => {
       console.log('char', result)
       this.character = result;
+
+      if (this.character.games && this.character.games.length) {
+        this.gamesPlayable = this.character.games.filter(game => game.Game_Character?.type === CharacterRole.playable);
+        this.gamesSecondary = this.character.games.filter(game => game.Game_Character?.type === CharacterRole.secondary);
+        this.gamesAntagonist = this.character.games.filter(game => game.Game_Character?.type === CharacterRole.antagonist);
+        this.gamesVillain = this.character.games.filter(game => game.Game_Character?.type === CharacterRole.villain);
+      }
+
       this.backgroundStyle = this.getBackgroundStyle(this.character);
     });
   }

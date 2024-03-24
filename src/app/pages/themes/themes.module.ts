@@ -2,6 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { ThemesPage } from './themes.page';
 import { THEMES_ROUTES } from './themes-routes.page';
@@ -17,6 +18,7 @@ import { ThemesService } from '../../services/themes.service';
   imports: [
     CommonModule,
     MatChipsModule,
+    MatExpansionModule,
     ItemsListComponentModule,
     RouterModule.forChild(THEMES_ROUTES)
   ],

@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 
 import { ItemsListComponentModule } from '../../components/items-list/items-list.module';
 import { AvatarsListComponentModule } from '../../components/avatars-list/avatars-list.module';
+import { SafePipe } from 'safe-pipe';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { AvatarsListComponentModule } from '../../components/avatars-list/avatar
     ItemsListComponentModule,
     AvatarsListComponentModule,
     FormsModule,
+    SafePipe,
     RouterModule.forChild(GAMES_ROUTES)
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],

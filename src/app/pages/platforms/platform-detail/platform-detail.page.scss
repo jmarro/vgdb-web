@@ -1,3 +1,15 @@
 .header-container {
    background-color: indigo;
 }
+
+.main-platform {
+   display: flex;
+   padding-top: 10px;
+   margin-bottom: 30px;
+   .platform-img {
+       margin-right: 50px;
+       img {
+           width: 200px;
+       }
+   }
+}

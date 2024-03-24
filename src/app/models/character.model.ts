@@ -1,5 +1,6 @@
 import { CharacterRole } from "../enums/character-role.enum";
 import { Franchise } from "./franchise.model";
+import { Game } from "./game.model";
 import { Game_Character } from "./game_character.model";
 import { Person } from "./person.model";
 
@@ -11,6 +12,7 @@ export interface Character {
     alt_names?: string;
     color?: string;
     creation_year?: number;
+    wikipedia?: string;
     franchise?: Franchise;
     franchise_id: number;
     role_in_franchise: CharacterRole;
@@ -18,4 +20,5 @@ export interface Character {
     bio?: string;
     creators?: Person[];
     Game_Character?: Game_Character;
+    games?: Game[];
 };

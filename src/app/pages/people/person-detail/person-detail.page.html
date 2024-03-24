@@ -17,25 +17,37 @@
     <div class="common-content">
         <div class="info-entry">
             <div class="label-info">Fecha nacimiento:</div>
-            <div class="value-info">{{person.birthday}}</div>
+            <div class="value-info">{{person.birthday | date: 'dd/MM/yyyy'}}</div>
         </div>
-        <div *ngIf="person.franchises && person.franchises.length">
-            <div class="info-entry"><div class="label-info">Franquicias:</div></div>
-            <vgdb-items-list [itemsList]="person.franchises"
-                              navigateTo="franchises" imgPath="franchises">
-            </vgdb-items-list>
-        </div>
-        <div *ngIf="person.games && person.games.length">
-            <div class="info-entry"><div class="label-info">Juegos:</div></div>
+        <mat-expansion-panel *ngIf="person.games && person.games.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Juegos dirigidos
+              </mat-panel-title>
+            </mat-expansion-panel-header>
             <vgdb-items-list [itemsList]="person.games"
                               navigateTo="games" imgPath="games">
             </vgdb-items-list>
-        </div>
-        <div *ngIf="person.characters && person.characters.length">
-            <div class="info-entry"><div class="label-info">Personajes:</div></div>
-            <vgdb-items-list [itemsList]="person.characters"
-                              navigateTo="characters" imgPath="characters">
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="person.franchises && person.franchises.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Franquicias creadas
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <vgdb-items-list [itemsList]="person.franchises"
+                              navigateTo="franchises" imgPath="franchises">
             </vgdb-items-list>
-        </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="person.characters && person.characters.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Personajes diseñados
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <vgdb-avatars-list [avatarsList]="person.characters"
+                        navigateTo="characters" imgPath="characters">
+            </vgdb-avatars-list>
+        </mat-expansion-panel>
     </div>
 </div>

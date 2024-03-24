@@ -25,7 +25,6 @@ export class GenreDetailPage implements OnInit, OnDestroy {
     this.routerSubs = this.router.events
     .pipe(filter(event => event instanceof NavigationEnd))  
     .subscribe((event: any) => {
-      console.log('hpl')
       this.loadGenre();
     });
   }
