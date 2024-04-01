@@ -5,7 +5,12 @@
                 <div class="titles-container">
                     <div class="title">{{company.name}} <span [class]="'fi fi-' +company.country+' flag'"></span></div>
                 </div>
-                <div *ngIf="company.parent_company" class="related-game">Pertenece a <a [routerLink]="['/companies', company.parent_company.id]">{{company.parent_company.name}}</a></div>  
+                <div *ngIf="company.parent_company" class="related-game">
+                    <span *ngIf="company.owner_relation === CompanyOwnerRelation.division">División de </span>
+                    <span *ngIf="company.owner_relation === CompanyOwnerRelation.merge">Fusionada en </span>
+                    <span *ngIf="company.owner_relation === CompanyOwnerRelation.adquisition">Adquirida por </span>
+                    <a [routerLink]="['/companies', company.parent_company.id]">{{company.parent_company.name}}</a>
+                </div>  
             </div>
             <div class="side right-info">
                 <div class="logo-container">
@@ -40,7 +45,7 @@
                 </div>
                 <div class="info-entry" *ngIf="company.previous_names">
                     <div class="label-info">Nombres previos:</div>
-                    <div class="value-info">{{company.previous_names}}</div>
+                    <div class="value-info" style="white-space: pre-line">{{company.previous_names}}</div>
                 </div>
                 <div class="info-entry" *ngIf="company.wikipedia">
                     <div class="value-info"><a [href]="company.wikipedia" target="_blank">Wikipedia</a></div>
@@ -76,15 +81,109 @@
                         navigateTo="platforms" imgPath="platforms">
             </vgdb-items-list>
         </mat-expansion-panel>
-        <mat-expansion-panel *ngIf="company.sub_companies && company.sub_companies.length">
+        <mat-expansion-panel *ngIf="subcompaniesMerge && subcompaniesMerge.length">
             <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
               <mat-panel-title>
-                Empresas filiales
+                Compañías fusionadas
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <vgdb-items-list [itemsList]="company.sub_companies"
+            <vgdb-items-list [itemsList]="subcompaniesMerge"
                         navigateTo="companies" imgPath="companies">
             </vgdb-items-list>
         </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="subcompaniesDivision && subcompaniesDivision.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Divisiones
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <vgdb-items-list [itemsList]="subcompaniesDivision"
+                        navigateTo="companies" imgPath="companies">
+            </vgdb-items-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="subcompaniesAdquision && subcompaniesAdquision.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Compañías adquiridas
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <vgdb-items-list [itemsList]="subcompaniesAdquision"
+                        navigateTo="companies" imgPath="companies">
+            </vgdb-items-list>
+        </mat-expansion-panel>
+        <div class="fav-button-bottom-right">
+            <button mat-fab [style]="backgroundStyle" [matMenuTriggerFor]="menu">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="presentEditDialog()">
+                  <mat-icon>edit</mat-icon>
+                  <span>Editar</span>
+                </button>
+                <button mat-menu-item *ngIf="!company.parent_company" (click)="presentAddCompanyDialog()">
+                  <mat-icon>apartment</mat-icon>
+                  <span>Añadir empresa matriz</span>
+                </button>
+                <button mat-menu-item *ngIf="!!company.parent_company" (click)="presentRemoveParentCompanyDialog()">
+                    <mat-icon>apartment</mat-icon>
+                    <span>Eliminar empresa matriz</span>
+                  </button>
+                <button mat-menu-item (click)="presentDeleteDialog()">
+                  <mat-icon>delete</mat-icon>
+                  <span>Eliminar</span>
+                </button>
+              </mat-menu>
+        </div>
     </div>
+
 </div>
+
+<ng-template #companyForm><vgdb-company-form [data]="company" (submitted)="formSubmitted()"></vgdb-company-form></ng-template>
+
+<ng-template #addCompanyDialog>
+    <div *ngIf="!!companyParentForm">
+        <form [formGroup]="companyParentForm" (ngSubmit)="onAddParentCompany()">
+            <mat-form-field>
+                <mat-label>Compañía</mat-label>
+                <input matInput
+                        aria-label="Compania"
+                        [matAutocomplete]="auto"
+                        formControlName="ownerId">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayName(companiesInCurrentSearch)">
+                    @for (company of filteredCompanies | async; track company) {
+                    <mat-option [value]="company.id">
+                        <div class="info-entry"><div class="value-info"><img class="img-line" [src]="'http://localhost:3000/images/companies/'+company.main_img"/>{{company.name}}</div></div>
+                    </mat-option>
+                    }
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Relación</mat-label>
+                <mat-select formControlName="owner_relation">
+                  <mat-option [value]="CompanyOwnerRelation.division">División</mat-option>
+                  <mat-option [value]="CompanyOwnerRelation.adquisition">Adquisición</mat-option>
+                  <mat-option [value]="CompanyOwnerRelation.merge">Fusión</mat-option>
+                </mat-select>
+              </mat-form-field>
+            <div class="form-button">
+                <button type="submit" [disabled]="!companyParentForm.valid" mat-stroked-button>Añadir</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #removeParentCompanyDialog>
+    <p>¿Estás seguro que quieres desvincular la compañía matriz?</p>
+    <div class="alert-buttons">
+        <button mat-stroked-button (click)="closeDialog()">No</button>
+        <button mat-flat-button color="warn" (click)="removeParentCompany()">Sí</button>
+    </div>
+</ng-template>
+
+<ng-template #deleteDialog>
+    <p>¿Estás seguro que quieres eliminar esta compañía?</p>
+    <div class="alert-buttons">
+        <button mat-stroked-button (click)="closeDialog()">No</button>
+        <button mat-flat-button color="warn" (click)="deleteCompany()">Sí</button>
+    </div>
+</ng-template>

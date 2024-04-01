@@ -1,8 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Subscription, filter } from 'rxjs';
 import { PeopleService } from '../../../services/people.service';
 import { Person } from '../../../models/person.model';
 import { NavigationEnd, Router } from '@angular/router';
+import { DialogService } from '../../../components/dialog/utils/dialog.service';
+import { DialogFactoryService } from '../../../components/dialog/utils/dialog-factory.service';
 
 @Component({
   selector: 'vgdb-person-detail',
@@ -15,7 +17,13 @@ export class PersonDetailPage implements OnInit, OnDestroy {
   public routerSubs: Subscription;
   public backgroundStyle: any = {'background-color': 'rgb(68, 67, 67)'};
 
-  constructor(private peopleService: PeopleService,
+  public dialog: DialogService;
+  
+  @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
+  @ViewChild('personForm') personForm: TemplateRef<any>;
+
+  constructor(private dialogFactoryService: DialogFactoryService,
+    private peopleService: PeopleService,
     private router: Router) {
   }
 
@@ -32,6 +40,41 @@ export class PersonDetailPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.routerSubs.unsubscribe();
+  }
+
+  public formSubmitted() {
+    this.closeDialog();
+    this.loadPerson();
+  }
+
+  public closeDialog() {
+    this.dialog.close();
+  }
+
+  public deletePerson() {
+    this.closeDialog();
+    this.peopleService.deletePerson(this.person.id!).subscribe(result => {
+      this.router.navigate(['people']);
+    });
+  }
+
+  public presentEditDialog() {
+    this.openDialog({
+      headerText: 'Editar persona',
+      template: this.personForm,
+      context: this.person
+    });
+  }
+
+  public presentDeleteDialog() {
+    this.openDialog({
+      headerText: 'Eliminar persona',
+      template: this.deleteDialog
+    });
+  }
+
+  private openDialog(dialogData: any): void {
+    this.dialog = this.dialogFactoryService.open(dialogData);
   }
 
   private loadPerson() {

@@ -1,11 +1,13 @@
 <div class="common-content">
-    characters!!!
-    <div *ngIf="characters.length">
-        <vgdb-items-list [itemsList]="characters"
-                          navigateTo="characters" imgPath="characters">
-        </vgdb-items-list>
+    <vgdb-common-list-header (dialogNewOpen)="dispatchNewDialog()" (toSearch)="search($event)"></vgdb-common-list-header>
+    <div *ngIf="!!characters.length">
+        <vgdb-avatars-list [avatarsList]="characters"
+                navigateTo="characters" imgPath="characters">
+        </vgdb-avatars-list>
     </div>
-    <div class="info-entry">
-        <button (click)="create()">creta</button>
+    <div *ngIf="!characters.length">
+        <p>No se han encontrado personajes</p>
     </div>
 </div>
+
+<ng-template #characterForm><vgdb-character-form (submitted)="formSubmitted($event)"></vgdb-character-form></ng-template>

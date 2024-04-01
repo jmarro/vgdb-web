@@ -1,14 +1,13 @@
 
 <div class="common-content">
-    <div>
-        <button mat-icon-button aria-label="Nueva" (click)="dispatchDialog()">
-            <mat-icon>add</mat-icon>
-         </button>
-    </div>
+    <vgdb-common-list-header (dialogNewOpen)="dispatchNewDialog()" (toSearch)="search($event)"></vgdb-common-list-header>
     <div *ngIf="companies.length">
         <vgdb-items-list [itemsList]="companies"
                           navigateTo="companies" imgPath="companies">
         </vgdb-items-list>
+    </div>
+    <div *ngIf="!companies.length">
+        <p>No se han encontrado compañias</p>
     </div>
 </div>
 

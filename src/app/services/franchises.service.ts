@@ -28,6 +28,17 @@ export class FranchisesService {
         );
     }
 
+    public getFilteredList(name:string): Observable<FranchisesResponse> {
+        return this.httpService.get(`http://localhost:3000/franchises?name=${name}`).pipe(
+            map((res: any) => {
+                return {
+                    count: res.count,
+                    franchises: res.rows.map((franchise: any) => franchise as Franchise)
+                }
+            })
+        );
+    }
+
     public getFranchise(id: number): Observable<Franchise> {
         return this.httpService.get(`http://localhost:3000/franchises/${id}`).pipe(
             map((res: any) => {

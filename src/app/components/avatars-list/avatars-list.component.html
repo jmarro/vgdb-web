@@ -2,5 +2,6 @@
     <div class="logo-container" *ngFor="let avatar of avatarsList" (click)="navigateToFn(avatar.id)">
         <img class="logo" [src]="'http://localhost:3000/images/'+imgPath+'/'+avatar.main_img">
         <div class="name">{{avatar.name}}</div>
+        <div *ngIf="avatar.franchise" class="franchise">{{avatar.franchise.name}}</div>
     </div>
 </div>

@@ -27,6 +27,17 @@ export class CompaniesService {
         );
     }
 
+    public getFilteredList(name:string): Observable<CompaniesResponse> {
+        return this.httpService.get(`http://localhost:3000/companies?name=${name}`).pipe(
+            map((res: any) => {
+                return {
+                    count: res.count,
+                    companies: res.rows.map((company: any) => company as Company)
+                }
+            })
+        );
+    }
+
     public getCompany(id: number): Observable<Company> {
         return this.httpService.get(`http://localhost:3000/companies/${id}`).pipe(
             map((res: any) => {
@@ -37,5 +48,13 @@ export class CompaniesService {
 
     public createCompany(company: Company): Observable<any> {
         return this.httpService.post('http://localhost:3000/companies', company);
+    }
+
+    public updateCompany(id: number, company: Company): Observable<any> {
+        return this.httpService.put(`http://localhost:3000/companies/${id}`, company);
+    }
+
+    public deleteCompany(id: number): Observable<any> {
+        return this.httpService.delete(`http://localhost:3000/companies/${id}`);
     }
 }

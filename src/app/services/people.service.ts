@@ -27,6 +27,17 @@ export class PeopleService {
         );
     }
 
+    public getFilteredList(name:string): Observable<PeopleResponse> {
+        return this.httpService.get(`http://localhost:3000/people?name=${name}`).pipe(
+            map((res: any) => {
+                return {
+                    count: res.count,
+                    people: res.rows.map((person: any) => person as Person)
+                }
+            })
+        );
+    }
+
     public getPerson(id: number): Observable<Person> {
         return this.httpService.get(`http://localhost:3000/people/${id}`).pipe(
             map((res: any) => {
@@ -37,5 +48,13 @@ export class PeopleService {
 
     public createPerson(person: Person): Observable<any> {
         return this.httpService.post('http://localhost:3000/people', person);
+    }
+
+    public updatePerson(id: number, person: Person): Observable<any> {
+        return this.httpService.put(`http://localhost:3000/people/${id}`, person);
+    }
+
+    public deletePerson(id: number): Observable<any> {
+        return this.httpService.delete(`http://localhost:3000/people/${id}`);
     }
 }

@@ -1,0 +1,41 @@
+<div *ngIf="characterForm">
+    <form [formGroup]="characterForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input id="name" type="text" formControlName="name" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Nombre completo</mat-label>
+            <input id="full_name" type="text" formControlName="full_name" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Alias</mat-label>
+            <input id="alias" type="text" formControlName="alias" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Nombres alternativos</mat-label>
+            <input id="alt_names" type="text" formControlName="alt_names" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Año de creación</mat-label>
+            <input id="creation_year" type="text" formControlName="creation_year" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Imagen</mat-label>
+            <input id="main_img" type="text" formControlName="main_img" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Color</mat-label>
+            <input id="color" type="text" formControlName="color" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Wikipedia</mat-label>
+            <input id="wikipedia" type="text" formControlName="wikipedia" matInput>
+        </mat-form-field>
+        
+        <div class="form-button">
+            <button type="submit" [disabled]="!characterForm.valid" *ngIf="!data" mat-stroked-button>Crear</button>
+            <button type="submit" [disabled]="!characterForm.valid" *ngIf="!!data" mat-stroked-button>Modificar</button>
+        </div>
+    </form>
+</div>

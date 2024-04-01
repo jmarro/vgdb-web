@@ -19,6 +19,9 @@
             <div class="label-info">Fecha nacimiento:</div>
             <div class="value-info">{{person.birthday | date: 'dd/MM/yyyy'}}</div>
         </div>
+        <div class="info-entry" *ngIf="person.wikipedia">
+            <div class="value-info"><a [href]="person.wikipedia" target="_blank">Wikipedia</a></div>
+        </div>
         <mat-expansion-panel *ngIf="person.games && person.games.length">
             <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
               <mat-panel-title>
@@ -49,5 +52,31 @@
                         navigateTo="characters" imgPath="characters">
             </vgdb-avatars-list>
         </mat-expansion-panel>
+
+        <div class="fav-button-bottom-right">
+            <button mat-fab [style]="backgroundStyle" [matMenuTriggerFor]="menu">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="presentEditDialog()">
+                  <mat-icon>edit</mat-icon>
+                  <span>Editar</span>
+                </button>
+                <button mat-menu-item (click)="presentDeleteDialog()">
+                  <mat-icon>delete</mat-icon>
+                  <span>Eliminar</span>
+                </button>
+              </mat-menu>
+        </div>
     </div>
 </div>
+
+<ng-template #personForm><vgdb-person-form [data]="person" (submitted)="formSubmitted()"></vgdb-person-form></ng-template>
+
+<ng-template #deleteDialog>
+    <p>¿Estás seguro que quieres eliminar esta persona?</p>
+    <div class="alert-buttons">
+        <button mat-stroked-button (click)="closeDialog()">No</button>
+        <button mat-flat-button color="warn" (click)="deletePerson()">Sí</button>
+    </div>
+</ng-template>

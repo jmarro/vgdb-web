@@ -4,7 +4,9 @@ import { RouterModule } from '@angular/router';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { GamesPage } from './games.page';
@@ -25,6 +27,8 @@ import { SafePipe } from 'safe-pipe';
     CommonModule,
     MatButtonToggleModule,
     MatChipsModule,
+    MatButtonModule,
+    MatIconModule,
     MatTooltipModule,
     MatExpansionModule,
     MatMenuModule,

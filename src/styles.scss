@@ -175,4 +175,26 @@ body {
         }
     }
 
+    .dialog-button {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+    }
+
+    .fav-button-bottom-right {
+        right: 60px;
+        bottom: 40px;
+        position: fixed;
+    }
+
+    .alert-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+        button {
+            width: 160px;
+            height: 40px;
+        }
+    }
+
 }

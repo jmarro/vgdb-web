@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CharactersService } from '../../services/characters.service';
 import { Character } from '../../models/character.model';
-import { CharacterRole } from '../../enums/character-role.enum';
+import { DialogService } from '../../components/dialog/utils/dialog.service';
+import { DialogFactoryService } from '../../components/dialog/utils/dialog-factory.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'vgdb-characters',
@@ -11,8 +13,13 @@ import { CharacterRole } from '../../enums/character-role.enum';
 export class CharactersPage implements OnInit {
 
   public characters: Character[] = [];
+  public dialog: DialogService;
 
-  constructor(private charactersService: CharactersService) {
+  @ViewChild('characterForm') characterForm: TemplateRef<any>;
+
+  constructor(private charactersService: CharactersService,
+    private dialogFactoryService: DialogFactoryService,
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -23,32 +30,31 @@ export class CharactersPage implements OnInit {
     });
   }
 
-  public create() {
-    console.log('create')
-    const newplatform: Character = {
-      name: 'Doctor Robotnik',
-      full_name: 'Doctor Ivo Robotnik',
-      alias: 'Eggman',
-      alt_names: 'Doctor Eggman',
-      creation_year: 1991,
-      color: '#b60505',
-      franchise_id: 1,
-      role_in_franchise: CharacterRole.antagonist,
-      main_img: 'sonic/robotnik.jpeg'
-    }
-    /*const newplatform: Character = {
-      name: 'Sonic',
-      full_name: 'Sonic the Hedgehog',
-      creation_year: 1991,
-      color: '#17569b',
-      franchise_id: 1,
-      role_in_franchise: CharacterRole.main,
-      main_img: 'sonic/sonic.jpeg'
-    }*/
-    this.charactersService.createCharacter(newplatform).subscribe(result => {
-      console.log('ok??', result)
-    })
+  public formSubmitted(data: any) {
+    this.closeDialog();
+    this.router.navigate(['characters', data]);
   }
 
+  public closeDialog() {
+    this.dialog.close();
+  }
+
+  public dispatchNewDialog() {
+    this.openDialog({
+      headerText: 'Nuevo personaje',
+      template: this.characterForm
+    });
+  }
+
+  public search(term: string) {
+    this.charactersService.getFilteredList(term).subscribe(result => {
+      console.log('result', result);
+      this.characters = result.characters;
+    });
+  }
+
+  private openDialog(dialogData: any): void {
+    this.dialog = this.dialogFactoryService.open(dialogData);
+  }
 
 }

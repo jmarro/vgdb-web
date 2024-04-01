@@ -5,6 +5,7 @@
                 <div class="titles-container">
                     <div class="title">{{character.name}}</div>
                     <div class="aka-title">{{character.full_name}}</div>
+                    <div class="aka-title">{{character.alias}}</div>
                 </div>
                 <mat-chip-listbox aria-label="Fish selection" *ngIf="character.franchise">
                     <mat-chip [routerLink]="['/franchises', character.franchise.id]">{{character.franchise.name}}</mat-chip>
@@ -31,6 +32,13 @@
                 <div class="info-entry" *ngIf="character.creators && character.creators.length">
                     <div class="label-info">Creador(es):</div>
                     <div class="value-info" *ngFor="let creator of character.creators"><img class="img-line" [src]="'http://localhost:3000/images/people/'+creator.main_img"/><a [routerLink]="['/people', creator.id]">{{creator.name}}</a></div>
+                </div>
+                <div class="info-entry" *ngIf="character.alt_names">
+                    <div class="label-info">Otros nombres:</div>
+                    <div class="value-info" style="white-space: pre-line">{{character.alt_names}}</div>
+                </div>
+                <div class="info-entry" *ngIf="character.wikipedia">
+                    <div class="value-info"><a [href]="character.wikipedia" target="_blank">Wikipedia</a></div>
                 </div>
             </div>
         </div>
@@ -66,5 +74,92 @@
                 </vgdb-items-list>
             </div>
         </mat-expansion-panel>
+        <div class="fav-button-bottom-right">
+            <button mat-fab [style]="backgroundStyle" [matMenuTriggerFor]="menu">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="presentEditDialog()">
+                  <mat-icon>edit</mat-icon>
+                  <span>Editar</span>
+                </button>
+                <button mat-menu-item *ngIf="!character.franchise_id" (click)="presentAddFranchiseDialog()">
+                    <mat-icon>group_work</mat-icon>
+                    <span>Añadir franquicia</span>
+                </button>
+                <button mat-menu-item *ngIf="!!character.franchise_id" (click)="presentRemoveFranchiseDialog()">
+                    <mat-icon>group_work</mat-icon>
+                    <span>Eliminar franquicia</span>
+                </button>
+                <button mat-menu-item *ngIf="!!character.franchise_id" (click)="presentAddCreatorsDialog()">
+                    <mat-icon>person</mat-icon>
+                    <span>Añadir creador</span>
+                </button>
+                <button mat-menu-item (click)="presentDeleteDialog()">
+                  <mat-icon>delete</mat-icon>
+                  <span>Eliminar</span>
+                </button>
+              </mat-menu>
+        </div>
     </div>
 </div>
+
+<ng-template #characterForm><vgdb-character-form [data]="character" (submitted)="formSubmitted()"></vgdb-character-form></ng-template>
+
+<ng-template #deleteDialog>
+    <p>¿Estás seguro que quieres eliminar este personaje?</p>
+    <div class="alert-buttons">
+        <button mat-stroked-button (click)="closeDialog()">No</button>
+        <button mat-flat-button color="warn" (click)="deleteCharacter()">Sí</button>
+    </div>
+</ng-template>
+
+
+<ng-template #addFranchiseDialog>
+    <div *ngIf="!!franchiseForm">
+        <form [formGroup]="franchiseForm" (ngSubmit)="onAddFranchise()">
+            <mat-form-field>
+                <mat-label>Franquicia</mat-label>
+                <input matInput
+                        aria-label="Franchise"
+                        [matAutocomplete]="auto"
+                        formControlName="franchise_id">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayName(franchisesInCurrentSearch)">
+                    @for (franchise of filteredFranchises | async; track franchise) {
+                    <mat-option [value]="franchise.id">
+                        <div class="info-entry"><div class="value-info"><img class="img-line" [src]="'http://localhost:3000/images/franchises/'+franchise.main_img"/>{{franchise.name}}</div></div>
+                    </mat-option>
+                    }
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Relación</mat-label>
+                <mat-select formControlName="role_in_franchise">
+                  <mat-option [value]="CharacterRole.main">Principal</mat-option>
+                  <mat-option [value]="CharacterRole.antagonist">Antagonista</mat-option>
+                  <mat-option [value]="CharacterRole.secondary">Secundario</mat-option>
+                  <mat-option [value]="CharacterRole.villain">Villano secundario</mat-option>
+                </mat-select>
+              </mat-form-field>
+            <div class="form-button">
+                <button type="submit" [disabled]="!franchiseForm.valid" mat-stroked-button>Añadir</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+<ng-template #removeFranchiseDialog>
+    <p>¿Estás seguro que lo quieres desvincular la franquicia?</p>
+    <div class="alert-buttons">
+        <button mat-stroked-button (click)="closeDialog()">No</button>
+        <button mat-flat-button color="warn" (click)="removeFranchise()">Sí</button>
+    </div>
+</ng-template>
+
+<ng-template #addCreatorsDialog>
+    <vgdb-multi-autocomplete-field [dataType]="'person'" (onItemSelected)="onCreatorChange($event)" [itemsPreSelected]="character.creators"></vgdb-multi-autocomplete-field>
+    <div class="dialog-button">
+        <button mat-stroked-button (click)="addCreator()">Aceptar</button>
+    </div>
+</ng-template>

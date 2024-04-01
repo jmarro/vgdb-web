@@ -1,0 +1,29 @@
+<div *ngIf="personForm">
+    <form [formGroup]="personForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input id="name" type="text" formControlName="name" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Fecha de nacimiento</mat-label>
+            <input id="birthday" type="date" formControlName="birthday" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Nacionalidad</mat-label>
+            <input id="nationality" type="text" formControlName="nationality" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Imagen</mat-label>
+            <input id="main_img" type="text" formControlName="main_img" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Wikipedia</mat-label>
+            <input id="wikipedia" type="text" formControlName="wikipedia" matInput>
+        </mat-form-field>
+        
+        <div class="form-button">
+            <button type="submit" [disabled]="!personForm.valid" *ngIf="!data" mat-stroked-button>Crear</button>
+            <button type="submit" [disabled]="!personForm.valid" *ngIf="!!data" mat-stroked-button>Modificar</button>
+        </div>
+    </form>
+</div>

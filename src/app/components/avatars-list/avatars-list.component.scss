@@ -1,7 +1,7 @@
 .avatar-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 40px;
     .logo-container {
         width: 150px;
        .logo {
@@ -12,6 +12,13 @@
        font-family: "pixela";
        .name {
         text-align: center;
+       }
+       .franchise {
+        text-align: center;
+        font-style: italic;
+        font-weight: lighter;
+        font-family: roboto;
+        font-size: 12px;
        }
     }
 }

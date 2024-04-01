@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CompaniesService } from '../../../services/companies.service';
+import { Company } from '../../../models/company.model';
 
 @Component({
   selector: 'vgdb-company-form',
@@ -9,7 +10,7 @@ import { CompaniesService } from '../../../services/companies.service';
 })
 export class CompanyFormComponent implements OnInit {
 
-  @Input() itemsList: any[];
+  @Input() data?: Company;
   @Output() submitted: any = new EventEmitter<any>();
   
   public companyForm: FormGroup;
@@ -19,30 +20,37 @@ export class CompanyFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.companyForm = this.createForm();
+    this.companyForm = this.createForm(this.data);
+    console.log('data', this.data)
   }
 
-  onSubmit() {
-    // TODO: Use EventEmitter with form value
+  public onSubmit() {
     console.log(this.companyForm.value);
-    this.companiesService.createCompany(this.companyForm.value).subscribe(result => {
-      console.log('ok??', result)
-      this.submitted.emit(result.id);
-    });
+    if (!this.data) {
+      this.companiesService.createCompany(this.companyForm.value).subscribe(result => {
+        console.log('ok??', result)
+        this.submitted.emit(result.id);
+      });
+    } else {
+      this.companiesService.updateCompany(this.data.id!, this.companyForm.value).subscribe(result => {
+        console.log('ok??', result)
+        this.submitted.emit(true);
+      });
+    }
   }
 
-  createForm() {
+  private createForm(data?: Company) {
     return this.formBuilder.group({
-      name: ['', Validators.required],
-      founding_year: ['', Validators.required],
-      active: [true, Validators.required],
-      country: [''],
-      main_img: [''],
-      color: [''],
-      wikipedia: [''],
-      previous_names: [''],
-      defunct_year: [''],
-      defunct_reason: ['']
+      name: [data?.name, Validators.required],
+      founding_year: [data?.founding_year, Validators.required],
+      active: [data? data.active : true, Validators.required],
+      country: [data?.country],
+      main_img: [data?.main_img],
+      color: [data?.color],
+      wikipedia: [data?.wikipedia],
+      previous_names: [data?.previous_names],
+      defunct_year: [data?.defunct_year],
+      defunct_reason: [data?.defunct_reason]
     });
   }
 

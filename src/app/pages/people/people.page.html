@@ -1,11 +1,13 @@
 <div class="common-content">
-    people!!!
-    <div *ngIf="people.length">
+    <vgdb-common-list-header (dialogNewOpen)="dispatchNewDialog()" (toSearch)="search($event)"></vgdb-common-list-header>
+    <div *ngIf="!!people.length">
         <vgdb-items-list [itemsList]="people"
                           navigateTo="people" imgPath="people">
         </vgdb-items-list>
     </div>
-    <div class="info-entry">
-        <button (click)="create()">creta</button>
+    <div *ngIf="!people.length">
+        <p>No se han encontrado personas</p>
     </div>
 </div>
+
+<ng-template #personForm><vgdb-person-form (submitted)="formSubmitted($event)"></vgdb-person-form></ng-template>

@@ -23,6 +23,7 @@ import { GameStatus } from '../../../enums/game-status.enum';
 export class GameDetailPage implements OnInit, OnDestroy {
 
   public readonly GameStatus: typeof GameStatus = GameStatus;
+  
   public game: Game;
   public routerSubs: Subscription;
   public cover: boolean = true;

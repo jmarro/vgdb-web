@@ -41,7 +41,10 @@
             </mat-form-field>
 
         </ng-container>
-
-        <div class="form-button"><button type="submit" [disabled]="!companyForm.valid" mat-stroked-button>Crear</button></div>
+        
+        <div class="form-button">
+            <button type="submit" [disabled]="!companyForm.valid" *ngIf="!data" mat-stroked-button>Crear</button>
+            <button type="submit" [disabled]="!companyForm.valid" *ngIf="!!data" mat-stroked-button>Modificar</button>
+        </div>
     </form>
 </div>

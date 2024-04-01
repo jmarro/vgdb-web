@@ -1,0 +1,11 @@
+.header-search {
+    display: flex;
+    .search-container {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        mat-form-field {
+            width: 350px;
+        }
+    }
+}
