@@ -1,11 +1,13 @@
 <div class="common-content">
-    franchises!!!
-    <div *ngIf="franchises.length">
+    <vgdb-common-list-header (dialogNewOpen)="dispatchNewDialog()" (toSearch)="search($event)"></vgdb-common-list-header>
+    <div *ngIf="!!franchises.length">
         <vgdb-items-list [itemsList]="franchises"
                           navigateTo="franchises" imgPath="franchises">
         </vgdb-items-list>
     </div>
-    <div class="info-entry">
-        <button (click)="create()">creta</button>
+    <div *ngIf="!franchises.length">
+        <p>No se han encontrado franquicias</p>
     </div>
 </div>
+
+<ng-template #franchiseForm><vgdb-franchise-form (submitted)="formSubmitted($event)"></vgdb-franchise-form></ng-template>

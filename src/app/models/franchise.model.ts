@@ -11,7 +11,9 @@ export interface Franchise {
     color?: string;
     wikipedia?: string;
     ownerId?: number;
+    company_creator_id?: number;
     company?: Company;
+    company_creator?: Company;
     franchises_parents?: Franchise[];
     subfranchises?: Franchise[];
     parent_id?: number;

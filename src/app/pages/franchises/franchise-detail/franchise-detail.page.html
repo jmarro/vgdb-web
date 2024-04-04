@@ -6,6 +6,7 @@
                     <div class="title">{{franchise.name}}</div>
                 </div>
                 <div *ngIf="franchise.company" class="related-game">Pertenece a <a [routerLink]="['/companies', franchise.company.id]">{{franchise.company.name}}</a></div> 
+                <div *ngIf="franchise.company_creator" class="related-game">Creada por <a [routerLink]="['/companies', franchise.company_creator.id]">{{franchise.company_creator.name}}</a></div> 
             </div>
             <div class="side right-info">
                 <div class="logo-container">
@@ -16,7 +17,7 @@
     </div>
 
     <div class="common-content">
-        <div class="info-entry">
+        <div class="info-entry" *ngIf="franchise.first_game_date">
             <div class="label-info">Fecha del primer juego (España):</div>
             <div class="value-info">{{franchise.first_game_date | date: 'dd/MM/yyyy'}}</div>
         </div>
@@ -31,6 +32,21 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <div *ngFor="let serie of seriesMain"  class="expansion-container">
+                <div class="subtitle">{{serie.name}}:</div>
+                <div *ngIf="serie.games && serie.games.length">
+                    <vgdb-items-list [itemsList]="serie.games"
+                                      navigateTo="games" imgPath="games">
+                    </vgdb-items-list>
+                </div>
+            </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="seriesNotMain && seriesNotMain.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Otras series
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngFor="let serie of seriesNotMain"  class="expansion-container">
                 <div class="subtitle">{{serie.name}}:</div>
                 <div *ngIf="serie.games && serie.games.length">
                     <vgdb-items-list [itemsList]="serie.games"
@@ -71,4 +87,118 @@
             </div>
         </mat-expansion-panel>
     </div>
+
+    <div class="fav-button-bottom-right">
+        <button mat-fab [style]="backgroundStyle" [matMenuTriggerFor]="menu">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="presentEditDialog()">
+              <mat-icon>edit</mat-icon>
+              <span>Editar</span>
+            </button>
+            <button mat-menu-item *ngIf="!franchise.company" (click)="presentAddCompanyDialog(true)">
+                <mat-icon>apartment</mat-icon>
+                <span>Añadir compañia</span>
+            </button>
+            <button mat-menu-item *ngIf="!!franchise.company" (click)="presentRemoveCompanyDialog(true)">
+                <mat-icon>apartment</mat-icon>
+                <span>Eliminar compañia</span>
+            </button>
+            <button mat-menu-item *ngIf="!franchise.company_creator" (click)="presentAddCompanyDialog(false)">
+                <mat-icon>apartment</mat-icon>
+                <span>Añadir compañia creadora</span>
+            </button>
+            <button mat-menu-item *ngIf="!!franchise.company_creator" (click)="presentRemoveCompanyDialog(false)">
+                <mat-icon>apartment</mat-icon>
+                <span>Eliminar compañia creadora</span>
+            </button>
+            <button mat-menu-item (click)="presentAddCreatorsDialog()">
+                <mat-icon>person</mat-icon>
+                <span>Añadir creador</span>
+            </button>
+            <button mat-menu-item (click)="presentManageSerieDialog()">
+                <mat-icon>list_alt</mat-icon>
+                <span>Gestionar series</span>
+            </button>
+            <button mat-menu-item (click)="presentDeleteDialog()">
+              <mat-icon>delete</mat-icon>
+              <span>Eliminar</span>
+            </button>
+          </mat-menu>
+    </div>
 </div>
+
+<ng-template #franchiseForm><vgdb-franchise-form [data]="franchise" (submitted)="formSubmitted()"></vgdb-franchise-form></ng-template>
+
+<ng-template #addCompanyDialog>
+    <div *ngIf="!!addCompanyForm">
+        <form [formGroup]="addCompanyForm" (ngSubmit)="onAddCompany()">
+            <mat-form-field>
+                <mat-label>Compañía</mat-label>
+                <input matInput
+                        aria-label="Compania"
+                        [matAutocomplete]="auto"
+                        formControlName="ownerId">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayName(companiesInCurrentSearch)">
+                    @for (company of filteredCompanies | async; track company) {
+                    <mat-option [value]="company.id">
+                        <div class="info-entry"><div class="value-info"><img class="img-line" [src]="'http://localhost:3000/images/companies/'+company.main_img"/>{{company.name}}</div></div>
+                    </mat-option>
+                    }
+                </mat-autocomplete>
+            </mat-form-field>
+            <div class="form-button">
+                <button type="submit" [disabled]="!addCompanyForm.valid" mat-stroked-button>Añadir</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #removeCompanyDialog>
+    <p>¿Estás seguro que quieres desvincular la compañía?</p>
+    <div class="alert-buttons">
+        <button mat-stroked-button (click)="closeDialog()">No</button>
+        <button mat-flat-button color="warn" (click)="removeCompany()">Sí</button>
+    </div>
+</ng-template>
+
+<ng-template #addCreatorsDialog>
+    <vgdb-multi-autocomplete-field [dataType]="'person'" (onItemSelected)="onCreatorChange($event)" [itemsPreSelected]="franchise.creators"></vgdb-multi-autocomplete-field>
+    <div class="dialog-button">
+        <button mat-stroked-button (click)="addCreator()">Aceptar</button>
+    </div>
+</ng-template>
+
+<ng-template #manageSeriesDialog>
+    <ng-container *ngIf="manageSerieShowList">
+        <div class="series-list" *ngIf="franchise.series && franchise.series.length">
+            <div class="serie-item" *ngFor="let serie of franchise.series">
+                <div>{{serie.name}}</div>
+                <div>
+                    <button mat-icon-button aria-label="Nueva" (click)="addSerie(serie)">
+                        <mat-icon>edit</mat-icon>
+                     </button>
+                     <button mat-icon-button aria-label="Nueva" (click)="deleteSerie(serie)">
+                        <mat-icon>delete</mat-icon>
+                     </button>
+                </div>
+
+            </div>
+        </div>
+        <div class="dialog-button">
+            <button mat-stroked-button (click)="addSerie()">Añadir nueva</button>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!manageSerieShowList">
+        <vgdb-serie-form [data]="selectedSerie" [franchiseId]="franchise.id!" (submitted)="formSubmitted()"></vgdb-serie-form>
+    </ng-container>
+</ng-template>
+
+<ng-template #deleteDialog>
+    <p>¿Estás seguro que quieres eliminar esta franquicia?</p>
+    <div class="alert-buttons">
+        <button mat-stroked-button (click)="closeDialog()">No</button>
+        <button mat-flat-button color="warn" (click)="deleteFranchise()">Sí</button>
+    </div>
+</ng-template>

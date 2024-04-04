@@ -38,4 +38,12 @@ export class SeriesService {
     public createSerie(serie: Serie): Observable<any> {
         return this.httpService.post('http://localhost:3000/series', serie);
     }
+
+    public updateSerie(id: number, serie: Serie): Observable<any> {
+        return this.httpService.put(`http://localhost:3000/series/${id}`, serie);
+    }
+
+    public deleteSerie(id: number): Observable<any> {
+        return this.httpService.delete(`http://localhost:3000/series/${id}`);
+    }
 }

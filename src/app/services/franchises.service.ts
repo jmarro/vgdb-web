@@ -51,8 +51,21 @@ export class FranchisesService {
         return this.httpService.post('http://localhost:3000/franchises', franchise);
     }
 
+    public updateFranchise(id: number, franchise: Franchise): Observable<any> {
+        return this.httpService.put(`http://localhost:3000/franchises/${id}`, franchise);
+    }
+
+    public deleteFranchise(id: number): Observable<any> {
+        return this.httpService.delete(`http://localhost:3000/franchises/${id}`);
+    }
+
     public addCreators(id: number, creators: Person[]): Observable<any> {
         const creatorsIds = creators.map(creator => creator.id);
         return this.httpService.post(`http://localhost:3000/franchises/${id}/addCreators`, creatorsIds);
+    }
+
+    public removeCreator(id: number, creator: Person): Observable<any> {
+        const creatorId = creator.id;
+        return this.httpService.post(`http://localhost:3000/franchises/${id}/removeCreator`, {creatorId});
     }
 }

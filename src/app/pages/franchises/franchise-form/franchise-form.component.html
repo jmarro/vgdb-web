@@ -1,0 +1,29 @@
+<div *ngIf="!!franchiseForm">
+    <form [formGroup]="franchiseForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input id="name" type="text" formControlName="name" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Logo</mat-label>
+            <input id="main_img" type="text" formControlName="main_img" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Color</mat-label>
+            <input id="color" type="text" formControlName="color" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Fecha del primer juego</mat-label>
+            <input id="first_game_date" type="date" formControlName="first_game_date" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Wikipedia</mat-label>
+            <input id="wikipedia" type="text" formControlName="wikipedia" matInput>
+        </mat-form-field>
+        
+        <div class="form-button">
+            <button type="submit" [disabled]="!franchiseForm.valid" *ngIf="!data" mat-stroked-button>Crear</button>
+            <button type="submit" [disabled]="!franchiseForm.valid" *ngIf="!!data" mat-stroked-button>Modificar</button>
+        </div>
+    </form>
+</div>

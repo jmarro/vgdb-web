@@ -22,6 +22,7 @@ export interface Company {
     platforms?: Platform[];
     previous_names?: string;
     franchises?: Franchise[];
+    franchises_created?: Franchise[];
     games?: Game[];
     Game_Company?: Game_Company;
 };

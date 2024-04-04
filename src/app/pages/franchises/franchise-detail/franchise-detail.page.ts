@@ -1,13 +1,20 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Franchise } from '../../../models/franchise.model';
-import { Subscription, filter } from 'rxjs';
-import { FranchisesService } from '../../../services/franchises.service';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
+import { Observable, Subscription, filter, forkJoin, map, mergeMap, of, startWith, tap } from 'rxjs';
+
+import { Franchise } from '../../../models/franchise.model';
+import { FranchisesService } from '../../../services/franchises.service';
 import { Person } from '../../../models/person.model';
 import { SeriesService } from '../../../services/series.service';
 import { Serie } from '../../../models/serie.model';
 import { CharacterRole } from '../../../enums/character-role.enum';
 import { Character } from '../../../models/character.model';
+import { DialogFactoryService } from '../../../components/dialog/utils/dialog-factory.service';
+import { DialogService } from '../../../components/dialog/utils/dialog.service';
+import { CompaniesResponse, CompaniesService } from '../../../services/companies.service';
+import { Company } from '../../../models/company.model';
+
 
 @Component({
   selector: 'vgdb-franchise-detail',
@@ -26,7 +33,35 @@ export class FranchiseDetailPage implements OnInit, OnDestroy {
   public routerSubs: Subscription;
   public backgroundStyle: any;
 
-  constructor(private franchisesService: FranchisesService,
+  public companies: Company[];
+  public addCompanyForm: FormGroup;
+  public filteredCompanies: Observable<Company[]>;
+  public companiesInCurrentSearch: Company[];
+
+  public creatorsFromSelector: Person[];
+
+  public addingOwnerCompany: boolean = true;
+
+  public manageSerieShowList: boolean = true;
+  public selectedSerie?: Serie;
+
+  public dialog: DialogService;
+  
+  @ViewChild('addCompanyDialog') addCompanyDialog: TemplateRef<any>;
+  @ViewChild('franchiseForm') franchiseForm: TemplateRef<any>;
+  @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
+  @ViewChild('removeCompanyDialog') removeCompanyDialog: TemplateRef<any>;
+  @ViewChild('addCreatorsDialog') addCreatorsDialog: TemplateRef<any>;
+
+  @ViewChild('companyForm') companyForm: TemplateRef<any>;
+
+  @ViewChild('manageSeriesDialog') manageSeriesDialog: TemplateRef<any>;
+  
+
+  constructor(private companiesService: CompaniesService,
+    private franchisesService: FranchisesService,
+    private dialogFactoryService: DialogFactoryService,
+    private formBuilder: FormBuilder,
     private seriesService: SeriesService,
     private router: Router) {
   }
@@ -45,28 +80,146 @@ export class FranchiseDetailPage implements OnInit, OnDestroy {
     this.routerSubs.unsubscribe();
   }
 
-  public create() {
-    console.log('create')
-    const creators = [{id: 1, name: 'vla'}, {id: 2}, {id: 3}] as Person[];
-    if (this.franchise && this.franchise.id) {
-      this.franchisesService.addCreators(this.franchise.id, creators).subscribe(result => {
-        console.log('ok??', result)
+  public formSubmitted() {
+    this.closeDialog();
+    this.loadFranchise();
+  }
+
+  public closeDialog() {
+    this.dialog.close();
+  }
+
+  public deleteFranchise() {
+    this.closeDialog();
+    this.franchisesService.deleteFranchise(this.franchise.id!).subscribe(result => {
+      this.router.navigate(['franchises']);
+    });
+  }
+
+  public presentEditDialog() {
+    this.openDialog({
+      headerText: 'Editar franquicia',
+      template: this.franchiseForm,
+      context: this.franchise
+    });
+  }
+
+  public presentDeleteDialog() {
+    this.openDialog({
+      headerText: 'Eliminar franquicia',
+      template: this.deleteDialog
+    });
+  }
+
+  public presentAddCompanyDialog(owner: boolean) {
+    this.addingOwnerCompany = owner;
+    this.companiesService.getList().subscribe(result => {
+      this.addCompanyForm = this.createCompanyForm();
+      this.companies = result.companies;
+      this.openDialog({
+        headerText: this.addingOwnerCompany ? 'Añadir compañía propietaria' : 'Añadir compañía creadora',
+        template: this.addCompanyDialog
+      });
+
+      this.filteredCompanies = this.addCompanyForm.controls['ownerId'].valueChanges.pipe(
+        startWith(''),
+        mergeMap(text => text? this.companiesService.getFilteredList(text):  of({} as CompaniesResponse)),
+        map(companyRes => (companyRes.companies ? companyRes.companies : this.companies.slice())),
+        tap((companies) => { this.companiesInCurrentSearch = companies} )
+      );
+    });
+  }
+
+  public presentRemoveCompanyDialog(owner: boolean) {
+    this.addingOwnerCompany = owner;
+    this.openDialog({
+      headerText: 'Desvincular compañía',
+      template: this.removeCompanyDialog
+    });
+  }
+
+  public onAddCompany() {
+    let value: any;
+    value = this.addingOwnerCompany? this.addCompanyForm.value : {company_creator_id: this.addCompanyForm.get('ownerId')!.value};
+    console.log(this.addCompanyForm.value);
+    this.franchisesService.updateFranchise(this.franchise.id!, value).subscribe(result => {
+      this.formSubmitted();
+    });
+  }
+
+  public removeCompany() {
+    let value: any;
+    value = this.addingOwnerCompany? {ownerId: null} : {company_creator_id: null};
+    value = value as unknown as Franchise;
+    this.franchisesService.updateFranchise(this.franchise.id!, value).subscribe(result => {
+      this.formSubmitted();
+    });
+  }
+
+  public displayName(companies: Company[]) {
+    return (id: any) => companies && companies.length && companies.find(company => company.id === id)? companies.find(company => company.id === id)!.name : ''; 
+  }
+
+  public presentAddCreatorsDialog() {
+    this.openDialog({
+      headerText: 'Añadir creador',
+      template: this.addCreatorsDialog
+    });
+  }
+
+  public onCreatorChange(value: Person[]) {
+    this.creatorsFromSelector = value;
+  }
+
+  public addCreator() {
+    this.creatorsFromSelector = this.creatorsFromSelector ? this.creatorsFromSelector : [];
+    const creatorsToAdd = this.creatorsFromSelector.filter(o => !this.franchise.creators!.some((i: any) => i.id === o.id));
+    const creatorsToRemove = this.franchise.creators!.filter(o => !this.creatorsFromSelector.some((i: any) => i.id === o.id));
+    const observables = [];
+    if (creatorsToAdd.length) {
+      observables.push(this.franchisesService.addCreators(this.franchise.id!, creatorsToAdd));
+    }
+    if (creatorsToRemove.length) {
+      creatorsToRemove.forEach(creator => {
+        observables.push(this.franchisesService.removeCreator(this.franchise.id!, creator));
       });
     }
-  }
 
-  public createSerie() {
-    console.log('create ser')
-    const newplatform: Serie = {
-      name: 'Sonic Genesis series',
-      franchise_id: 1,
-      is_main: true
+    if(observables.length) {
+      forkJoin(observables).subscribe(result => {
+        console.log('ok??', result)
+        this.formSubmitted();
+      });
+    } else {
+      this.closeDialog();
     }
-    this.seriesService.createSerie(newplatform).subscribe(result => {
-      console.log('ok??', result)
-    })
   }
 
+  public presentManageSerieDialog() {
+    this.manageSerieShowList = true;
+    this.selectedSerie = undefined;
+    this.openDialog({
+      headerText: 'Gestionar series',
+      template: this.manageSeriesDialog
+    });
+  }
+
+  public addSerie(serie?: Serie) {
+    if (serie) {
+      this.selectedSerie = serie;
+    }
+    this.manageSerieShowList = false;
+  }
+
+  public deleteSerie(serie: Serie) {
+    this.seriesService.deleteSerie(serie.id!).subscribe(result => {
+      this.formSubmitted();
+    });
+  }
+
+  private openDialog(dialogData: any): void {
+    this.dialog = this.dialogFactoryService.open(dialogData);
+  }
 
   private loadFranchise() {
     const split = this.router.url.split('/');
@@ -92,6 +245,12 @@ export class FranchiseDetailPage implements OnInit, OnDestroy {
     return {
       'background-color': franchise.color? franchise.color : 'rgb(68, 67, 67)'
     }
+  }
+
+  private createCompanyForm() {
+    return this.formBuilder.group({
+      ownerId: [null, Validators.required]
+    });
   }
 
 }
