@@ -34,11 +34,14 @@
                 </div>
                 <div class="info-entry">
                     <div class="label-info">Tipo:</div>
-                    <div class="value-info">{{platform.type}}</div>
+                    <div class="value-info">{{getPlatformType(platform.type!)}}</div>
                 </div>
-                <div class="info-entry">
+                <div class="info-entry" *ngIf="platform.specs">
                     <div class="label-info">Especificaciones:</div>
-                    <div class="value-info">{{platform.specs}}</div>
+                    <div class="value-info" style="white-space: pre-line">{{platform.specs}}</div>
+                </div>
+                <div class="info-entry" *ngIf="platform.wikipedia">
+                    <div class="value-info"><a [href]="platform.wikipedia" target="_blank">Wikipedia</a></div>
                 </div>
             </div>
         </div>
@@ -64,5 +67,100 @@
                         navigateTo="games" imgPath="games">
             </vgdb-items-list>
         </mat-expansion-panel>
+
+        <div class="fav-button-bottom-right">
+            <button mat-fab [style]="backgroundStyle" [matMenuTriggerFor]="menu">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="presentEditDialog()">
+                  <mat-icon>edit</mat-icon>
+                  <span>Editar</span>
+                </button>
+                <button mat-menu-item *ngIf="!platform.manufacturer" (click)="presentAddCompanyDialog()">
+                    <mat-icon>apartment</mat-icon>
+                    <span>Añadir compañia</span>
+                </button>
+                <button mat-menu-item *ngIf="!!platform.manufacturer" (click)="presentRemoveCompanyDialog()">
+                    <mat-icon>apartment</mat-icon>
+                    <span>Eliminar compañia</span>
+                </button>
+                <button mat-menu-item (click)="presentManageModelsDialog()">
+                    <mat-icon>videogame_asset</mat-icon>
+                    <span>Gestionar modelos</span>
+                </button>
+                <button mat-menu-item (click)="presentDeleteDialog()">
+                  <mat-icon>delete</mat-icon>
+                  <span>Eliminar</span>
+                </button>
+              </mat-menu>
+        </div>
     </div>
 </div>
+
+<ng-template #platformForm><vgdb-platform-form [data]="platform" (submitted)="formSubmitted()"></vgdb-platform-form></ng-template>
+
+<ng-template #addCompanyDialog>
+    <div *ngIf="!!addCompanyForm">
+        <form [formGroup]="addCompanyForm" (ngSubmit)="onAddCompany()">
+            <mat-form-field>
+                <mat-label>Compañía</mat-label>
+                <input matInput
+                        aria-label="Compania"
+                        [matAutocomplete]="auto"
+                        formControlName="manufacturerId">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayName(companiesInCurrentSearch)">
+                    @for (company of filteredCompanies | async; track company) {
+                    <mat-option [value]="company.id">
+                        <div class="info-entry"><div class="value-info"><img class="img-line" [src]="'http://localhost:3000/images/companies/'+company.main_img"/>{{company.name}}</div></div>
+                    </mat-option>
+                    }
+                </mat-autocomplete>
+            </mat-form-field>
+            <div class="form-button">
+                <button type="submit" [disabled]="!addCompanyForm.valid" mat-stroked-button>Añadir</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #removeCompanyDialog>
+    <p>¿Estás seguro que quieres desvincular la compañía?</p>
+    <div class="alert-buttons">
+        <button mat-stroked-button (click)="closeDialog()">No</button>
+        <button mat-flat-button color="warn" (click)="removeCompany()">Sí</button>
+    </div>
+</ng-template>
+
+<ng-template #manageModelsDialog>
+    <ng-container *ngIf="manageModelsShowList">
+        <div class="models-list" *ngIf="platform.models && platform.models.length">
+            <div class="model-item" *ngFor="let model of platform.models">
+                <div>{{model.name}}</div>
+                <div>
+                    <button mat-icon-button aria-label="Nueva" (click)="addModel(model)">
+                        <mat-icon>edit</mat-icon>
+                     </button>
+                     <button mat-icon-button aria-label="Nueva" (click)="deleteModel(model)">
+                        <mat-icon>delete</mat-icon>
+                     </button>
+                </div>
+
+            </div>
+        </div>
+        <div class="dialog-button">
+            <button mat-stroked-button (click)="addModel()">Añadir nuevo</button>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!manageModelsShowList">
+        <vgdb-model-form [data]="selectedModel" [platformId]="platform.id!" (submitted)="formSubmitted()"></vgdb-model-form>
+    </ng-container>
+</ng-template>
+
+<ng-template #deleteDialog>
+    <p>¿Estás seguro que quieres eliminar esta plataforma?</p>
+    <div class="alert-buttons">
+        <button mat-stroked-button (click)="closeDialog()">No</button>
+        <button mat-flat-button color="warn" (click)="deletePlatform()">Sí</button>
+    </div>
+</ng-template>

@@ -1,11 +1,13 @@
 <div class="common-content">
-    genres!!!
-    <div *ngIf="genres.length">
+    <vgdb-common-list-header (dialogNewOpen)="dispatchNewDialog()" (toSearch)="search($event)"></vgdb-common-list-header>
+    <div *ngIf="!!genres.length">
         <vgdb-items-list [itemsList]="genres"
                           navigateTo="genres" imgPath="genres">
         </vgdb-items-list>
     </div>
-    <div class="info-entry">
-        <button (click)="create()">creta</button>
+    <div *ngIf="!genres.length">
+        <p>No se han encontrado géneros</p>
     </div>
 </div>
+
+<ng-template #genreForm><vgdb-genre-form (submitted)="formSubmitted($event)"></vgdb-genre-form></ng-template>

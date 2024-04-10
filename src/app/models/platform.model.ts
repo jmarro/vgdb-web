@@ -1,3 +1,4 @@
+import { PlatformType } from "../enums/platform-type.enum";
 import { Company } from "./company.model";
 import { Game } from "./game.model";
 import { PlatformModel } from "./platformModel.model";
@@ -13,7 +14,7 @@ export interface Platform {
     wikipedia?: string;
     gen?: number;
     specs?: string;
-    type?: string;
+    type?: PlatformType;
     manufacturerId?: number;
     manufacturer?: Company;
     alt_names?: string;

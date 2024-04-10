@@ -7,7 +7,6 @@ import { Person } from '../../models/person.model';
 import { PeopleService } from '../../services/people.service';
 import { DialogService } from '../../components/dialog/utils/dialog.service';
 
-
 @Component({
   selector: 'vgdb-people',
   templateUrl: './people.page.html',

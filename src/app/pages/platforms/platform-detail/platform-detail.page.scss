@@ -13,3 +13,16 @@
        }
    }
 }
+
+.models-list {
+   margin-bottom: 20px;
+   .model-item {
+       height: 60px;
+       width: 100%;
+       color: black;
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       border-bottom: 1px solid lightgray;
+   }
+}

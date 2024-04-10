@@ -1,0 +1,21 @@
+<div *ngIf="!!modelForm">
+    <form [formGroup]="modelForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input id="name" type="text" formControlName="name" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Fecha de lanzamiento</mat-label>
+            <input id="release_date" type="date" formControlName="release_date" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Imagen</mat-label>
+            <input id="main_img" type="text" formControlName="main_img" matInput>
+        </mat-form-field>
+
+        <div class="form-button">
+            <button type="submit" [disabled]="!modelForm.valid" *ngIf="!data" mat-stroked-button>Crear</button>
+            <button type="submit" [disabled]="!modelForm.valid" *ngIf="!!data" mat-stroked-button>Modificar</button>
+        </div>
+    </form>
+</div>

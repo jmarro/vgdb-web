@@ -28,6 +28,17 @@ export class PlatformsService {
         );
     }
 
+    public getFilteredList(name:string): Observable<PlatformsResponse> {
+        return this.httpService.get(`http://localhost:3000/platforms?name=${name}`).pipe(
+            map((res: any) => {
+                return {
+                    count: res.count,
+                    platforms: res.rows.map((platform: any) => platform as Platform)
+                }
+            })
+        );
+    }
+
     public getPlatform(id: number): Observable<Platform> {
         return this.httpService.get(`http://localhost:3000/platforms/${id}`).pipe(
             map((res: any) => {
@@ -40,7 +51,11 @@ export class PlatformsService {
         return this.httpService.post('http://localhost:3000/platforms', platform);
     }
 
-    public createPlatformModel(platformModel: PlatformModel): Observable<any> {
-        return this.httpService.post('http://localhost:3000/platforms/model', platformModel);
+    public updatePlatform(id: number, platform: Platform): Observable<any> {
+        return this.httpService.put(`http://localhost:3000/platforms/${id}`, platform);
+    }
+
+    public deletePlatform(id: number): Observable<any> {
+        return this.httpService.delete(`http://localhost:3000/platforms/${id}`);
     }
 }

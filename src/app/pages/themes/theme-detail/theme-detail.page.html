@@ -5,6 +5,9 @@
                 <div class="titles-container">
                     <div class="title">{{theme.name}}</div>
                 </div>
+                <mat-chip-listbox aria-label="Fish selection" *ngIf="theme.parent_theme">
+                    <mat-chip [routerLink]="['/themes', theme.parent_theme.id]">{{theme.parent_theme.name}}</mat-chip>
+                </mat-chip-listbox>
             </div>
             <div class="side right-info">
 
@@ -16,7 +19,7 @@
         <mat-expansion-panel *ngIf="theme.sub_theme && theme.sub_theme.length">
             <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
               <mat-panel-title>
-                Subgéneros
+                Subtemáticas
               </mat-panel-title>
             </mat-expansion-panel-header>
             <vgdb-items-list [itemsList]="theme.sub_theme"
@@ -34,4 +37,35 @@
             </vgdb-items-list>
         </mat-expansion-panel>
     </div>
+
+    <div class="fav-button-bottom-right">
+        <button mat-fab [style]="backgroundStyle" [matMenuTriggerFor]="menu">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="presentEditDialog()">
+              <mat-icon>edit</mat-icon>
+              <span>Editar</span>
+            </button>
+            <button mat-menu-item (click)="presentNewSubDialog()" *ngIf="!theme.parentId">
+                <mat-icon>castle</mat-icon>
+                <span>Añadir subtemática</span>
+            </button>
+            <button mat-menu-item (click)="presentDeleteDialog()">
+              <mat-icon>delete</mat-icon>
+              <span>Eliminar</span>
+            </button>
+          </mat-menu>
+    </div>
 </div>
+
+<ng-template #themeForm><vgdb-theme-form [data]="theme" (submitted)="formSubmitted()"></vgdb-theme-form></ng-template>
+<ng-template #subthemeForm><vgdb-theme-form [parentThemeId]="theme.id" (submitted)="formSubmitted()"></vgdb-theme-form></ng-template>
+
+<ng-template #deleteDialog>
+    <p>¿Estás seguro que quieres eliminar esta temática?</p>
+    <div class="alert-buttons">
+        <button mat-stroked-button (click)="closeDialog()">No</button>
+        <button mat-flat-button color="warn" (click)="deleteTheme()">Sí</button>
+    </div>
+</ng-template>

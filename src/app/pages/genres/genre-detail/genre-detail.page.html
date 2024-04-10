@@ -5,6 +5,9 @@
                 <div class="titles-container">
                     <div class="title">{{genre.name}}</div>
                 </div>
+                <mat-chip-listbox aria-label="Fish selection" *ngIf="genre.parent_genre">
+                    <mat-chip [routerLink]="['/genres', genre.parent_genre.id]">{{genre.parent_genre.name}}</mat-chip>
+                </mat-chip-listbox>
             </div>
             <div class="side right-info">
 
@@ -34,4 +37,36 @@
             </vgdb-items-list>
         </mat-expansion-panel>
     </div>
+
+    <div class="fav-button-bottom-right">
+        <button mat-fab [style]="backgroundStyle" [matMenuTriggerFor]="menu">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="presentEditDialog()">
+              <mat-icon>edit</mat-icon>
+              <span>Editar</span>
+            </button>
+            <button mat-menu-item (click)="presentNewSubDialog()" *ngIf="!genre.parentId">
+                <mat-icon>sports_basketball</mat-icon>
+                <span>Añadir subgénero</span>
+              </button>
+            <button mat-menu-item (click)="presentDeleteDialog()">
+              <mat-icon>delete</mat-icon>
+              <span>Eliminar</span>
+            </button>
+          </mat-menu>
+    </div>
+
 </div>
+
+<ng-template #genreForm><vgdb-genre-form [data]="genre" (submitted)="formSubmitted()"></vgdb-genre-form></ng-template>
+<ng-template #subgenreForm><vgdb-genre-form [parentGenreId]="genre.id" (submitted)="formSubmitted()"></vgdb-genre-form></ng-template>
+
+<ng-template #deleteDialog>
+    <p>¿Estás seguro que quieres eliminar este género?</p>
+    <div class="alert-buttons">
+        <button mat-stroked-button (click)="closeDialog()">No</button>
+        <button mat-flat-button color="warn" (click)="deleteGenre()">Sí</button>
+    </div>
+</ng-template>

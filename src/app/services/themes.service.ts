@@ -27,6 +27,18 @@ export class ThemesService {
         );
     }
 
+    public getFilteredList(name:string): Observable<ThemesResponse> {
+        return this.httpService.get(`http://localhost:3000/themes?name=${name}`).pipe(
+            map((res: any) => {
+                return {
+                    count: res.count,
+                    themes: res.rows.map((theme: any) => theme as Theme)
+                }
+            })
+        );
+    }
+
+
     public getTheme(id: number): Observable<Theme> {
         return this.httpService.get(`http://localhost:3000/themes/${id}`).pipe(
             map((res: any) => {
@@ -37,5 +49,13 @@ export class ThemesService {
 
     public createTheme(theme: Theme): Observable<any> {
         return this.httpService.post('http://localhost:3000/themes', theme);
+    }
+
+    public updateTheme(id: number, theme: Theme): Observable<any> {
+        return this.httpService.put(`http://localhost:3000/themes/${id}`, theme);
+    }
+
+    public deleteTheme(id: number): Observable<any> {
+        return this.httpService.delete(`http://localhost:3000/themes/${id}`);
     }
 }

@@ -1,0 +1,17 @@
+<div *ngIf="genreForm">
+    <form [formGroup]="genreForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input id="name" type="text" formControlName="name" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Imagen</mat-label>
+            <input id="main_img" type="text" formControlName="main_img" matInput>
+        </mat-form-field>
+        
+        <div class="form-button">
+            <button type="submit" [disabled]="!genreForm.valid" *ngIf="!data" mat-stroked-button>Crear</button>
+            <button type="submit" [disabled]="!genreForm.valid" *ngIf="!!data" mat-stroked-button>Modificar</button>
+        </div>
+    </form>
+</div>

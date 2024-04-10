@@ -1,11 +1,13 @@
 <div class="common-content">
-    themes!!!
-    <div *ngIf="themes.length">
+    <vgdb-common-list-header (dialogNewOpen)="dispatchNewDialog()" (toSearch)="search($event)"></vgdb-common-list-header>
+    <div *ngIf="!!themes.length">
         <vgdb-items-list [itemsList]="themes"
                           navigateTo="themes" imgPath="themes">
         </vgdb-items-list>
     </div>
-    <div class="info-entry">
-        <button (click)="create()">creta</button>
+    <div *ngIf="!themes.length">
+        <p>No se han encontrado temáticas</p>
     </div>
 </div>
+
+<ng-template #themeForm><vgdb-theme-form (submitted)="formSubmitted($event)"></vgdb-theme-form></ng-template>

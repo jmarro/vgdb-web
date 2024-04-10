@@ -1,8 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Subscription, filter } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
 import { Theme } from '../../../models/theme.model';
 import { ThemesService } from '../../../services/themes.service';
+import { DialogFactoryService } from '../../../components/dialog/utils/dialog-factory.service';
+import { DialogService } from '../../../components/dialog/utils/dialog.service';
 
 @Component({
   selector: 'vgdb-theme-detail',
@@ -15,7 +17,14 @@ export class ThemeDetailPage implements OnInit, OnDestroy {
   public routerSubs: Subscription;
   public backgroundStyle: any;
 
-  constructor(private themesService: ThemesService,
+  public dialog: DialogService;
+  
+  @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
+  @ViewChild('themeForm') themeForm: TemplateRef<any>;
+  @ViewChild('subthemeForm') subthemeForm: TemplateRef<any>;
+
+  constructor(private dialogFactoryService: DialogFactoryService,
+    private themesService: ThemesService,
     private router: Router) {
   }
 
@@ -32,6 +41,50 @@ export class ThemeDetailPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.routerSubs.unsubscribe();
+  }
+
+  public formSubmitted() {
+    this.closeDialog();
+    this.loadTheme();
+  }
+
+  public closeDialog() {
+    this.dialog.close();
+  }
+
+  public deleteTheme() {
+    this.closeDialog();
+    this.themesService.deleteTheme(this.theme.id!).subscribe(result => {
+      this.router.navigate(['themes']);
+    });
+  }
+
+  public presentEditDialog() {
+    this.openDialog({
+      headerText: 'Editar temática',
+      template: this.themeForm,
+      context: this.theme
+    });
+  }
+
+  public presentNewSubDialog() {
+    this.openDialog({
+      headerText: 'Añadir subtemática',
+      template: this.subthemeForm,
+      context: this.theme
+    });
+  }
+
+
+  public presentDeleteDialog() {
+    this.openDialog({
+      headerText: 'Eliminar temática',
+      template: this.deleteDialog
+    });
+  }
+
+  private openDialog(dialogData: any): void {
+    this.dialog = this.dialogFactoryService.open(dialogData);
   }
 
   private loadTheme() {

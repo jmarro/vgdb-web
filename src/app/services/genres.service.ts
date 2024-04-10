@@ -27,6 +27,18 @@ export class GenresService {
         );
     }
 
+    public getFilteredList(name:string): Observable<GenresResponse> {
+        return this.httpService.get(`http://localhost:3000/genres?name=${name}`).pipe(
+            map((res: any) => {
+                return {
+                    count: res.count,
+                    genres: res.rows.map((genre: any) => genre as Genre)
+                }
+            })
+        );
+    }
+
+
     public getGenre(id: number): Observable<Genre> {
         return this.httpService.get(`http://localhost:3000/genres/${id}`).pipe(
             map((res: any) => {
@@ -37,5 +49,13 @@ export class GenresService {
 
     public createGenre(genre: Genre): Observable<any> {
         return this.httpService.post('http://localhost:3000/genres', genre);
+    }
+
+    public updateGenre(id: number, genre: Genre): Observable<any> {
+        return this.httpService.put(`http://localhost:3000/genres/${id}`, genre);
+    }
+
+    public deleteGenre(id: number): Observable<any> {
+        return this.httpService.delete(`http://localhost:3000/genres/${id}`);
     }
 }

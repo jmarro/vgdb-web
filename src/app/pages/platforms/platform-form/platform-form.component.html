@@ -1,0 +1,57 @@
+<div *ngIf="platformForm">
+    <form [formGroup]="platformForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input id="name" type="text" formControlName="name" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Fecha de lanzamiento</mat-label>
+            <input id="release_date" type="date" formControlName="release_date" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Color</mat-label>
+            <input id="color" type="text" formControlName="color" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Logo</mat-label>
+            <input id="main_img" type="text" formControlName="main_img" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Logo pequeño</mat-label>
+            <input id="mini_logo" type="text" formControlName="mini_logo" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Imagen</mat-label>
+            <input id="img" type="text" formControlName="img" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Generación</mat-label>
+            <input id="gen" type="number" formControlName="gen" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Tipo</mat-label>
+            <mat-select id="type" formControlName="type">
+              <mat-option value="desktop">Sobremesa</mat-option>
+              <mat-option value="portable">Portátil</mat-option>
+              <mat-option value="hybrid">Híbrida</mat-option>
+            </mat-select>
+          </mat-form-field>
+        <mat-form-field>
+            <mat-label>Especificaciones</mat-label>
+            <textarea id="specs" formControlName="specs" matInput></textarea>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Nombres alternativos</mat-label>
+            <input id="alt_names" type="text" formControlName="alt_names" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Wikipedia</mat-label>
+            <input id="wikipedia" type="text" formControlName="wikipedia" matInput>
+        </mat-form-field>
+        
+        <div class="form-button">
+            <button type="submit" [disabled]="!platformForm.valid" *ngIf="!data" mat-stroked-button>Crear</button>
+            <button type="submit" [disabled]="!platformForm.valid" *ngIf="!!data" mat-stroked-button>Modificar</button>
+        </div>
+    </form>
+</div>
