@@ -5,5 +5,6 @@ export interface Award {
     name: string;
     is_main?: boolean;
     main_img?: string;
+    wikipedia?: string;
     categories?: AwardCategory[];
 };

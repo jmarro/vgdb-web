@@ -1,11 +1,13 @@
 <div class="common-content">
-    awards!!!
-    <div *ngIf="awards.length">
+    <vgdb-common-list-header (dialogNewOpen)="dispatchNewDialog()" (toSearch)="search($event)"></vgdb-common-list-header>
+    <div *ngIf="!!awards.length">
         <vgdb-items-list [itemsList]="awards"
                           navigateTo="awards" imgPath="awards">
         </vgdb-items-list>
     </div>
-    <div class="info-entry">
-        <button (click)="create()">creta</button>
+    <div *ngIf="!awards.length">
+        <p>No se han encontrado premios</p>
     </div>
 </div>
+
+<ng-template #awardForm><vgdb-award-form (submitted)="formSubmitted($event)"></vgdb-award-form></ng-template>

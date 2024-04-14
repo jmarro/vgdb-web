@@ -1,0 +1,14 @@
+<div *ngIf="categoryForm">
+    <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input id="name" type="text" formControlName="name" matInput>
+        </mat-form-field>
+        <mat-checkbox formControlName="is_main">Categoría principal</mat-checkbox>
+        
+        <div class="form-button">
+            <button type="submit" [disabled]="!categoryForm.valid" *ngIf="!data" mat-stroked-button>Crear</button>
+            <button type="submit" [disabled]="!categoryForm.valid" *ngIf="!!data" mat-stroked-button>Modificar</button>
+        </div>
+    </form>
+</div>

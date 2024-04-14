@@ -2,3 +2,15 @@
    background-color: rgb(68, 67, 67);
 }
 
+.categories-list {
+   margin-bottom: 20px;
+   .category-item {
+       height: 60px;
+       width: 100%;
+       color: black;
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       border-bottom: 1px solid lightgray;
+   }
+}

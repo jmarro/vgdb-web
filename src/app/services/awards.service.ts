@@ -28,6 +28,18 @@ export class AwardsService {
         );
     }
 
+    public getFilteredList(name:string): Observable<AwardsResponse> {
+        return this.httpService.get(`http://localhost:3000/awards?name=${name}`).pipe(
+            map((res: any) => {
+                return {
+                    count: res.count,
+                    awards: res.rows.map((award: any) => award as Award)
+                }
+            })
+        );
+    }
+
+
     public getAward(id: number): Observable<Award> {
         return this.httpService.get(`http://localhost:3000/awards/${id}`).pipe(
             map((res: any) => {
@@ -40,7 +52,11 @@ export class AwardsService {
         return this.httpService.post('http://localhost:3000/awards', award);
     }
 
-    public createAwardCategory(awardCategory: AwardCategory): Observable<any> {
-        return this.httpService.post('http://localhost:3000/awards/category', awardCategory);
+    public updateAward(id: number, award: Award): Observable<any> {
+        return this.httpService.put(`http://localhost:3000/awards/${id}`, award);
+    }
+
+    public deleteAward(id: number): Observable<any> {
+        return this.httpService.delete(`http://localhost:3000/awards/${id}`);
     }
 }

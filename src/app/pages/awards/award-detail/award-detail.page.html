@@ -19,8 +19,61 @@
             <div class="label-info">Categorias:</div>
             <div class="value-info" *ngFor="let category of award.categories">{{category.name}}</div>
         </div>
-        <div class="info-entry">
-            <button (click)="create()">creta</button>
-        </div>
+    </div>
+
+    <div class="fav-button-bottom-right">
+        <button mat-fab [style]="backgroundStyle" [matMenuTriggerFor]="menu">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="presentEditDialog()">
+              <mat-icon>edit</mat-icon>
+              <span>Editar</span>
+            </button>
+            <button mat-menu-item (click)="presentManageCategoriesDialog()">
+                <mat-icon>emoji_events</mat-icon>
+                <span>Gestionar categorías</span>
+            </button>
+            <button mat-menu-item (click)="presentDeleteDialog()">
+              <mat-icon>delete</mat-icon>
+              <span>Eliminar</span>
+            </button>
+          </mat-menu>
     </div>
 </div>
+
+<ng-template #awardForm><vgdb-award-form [data]="award" (submitted)="formSubmitted()"></vgdb-award-form></ng-template>
+
+
+<ng-template #manageCategoriesDialog>
+    <ng-container *ngIf="manageCategoriesShowList">
+        <div class="categories-list" *ngIf="award.categories && award.categories.length">
+            <div class="category-item" *ngFor="let category of award.categories">
+                <div>{{category.name}}</div>
+                <div>
+                    <button mat-icon-button aria-label="Nueva" (click)="addCategory(category)">
+                        <mat-icon>edit</mat-icon>
+                     </button>
+                     <button mat-icon-button aria-label="Nueva" (click)="deleteCategory(category)">
+                        <mat-icon>delete</mat-icon>
+                     </button>
+                </div>
+
+            </div>
+        </div>
+        <div class="dialog-button">
+            <button mat-stroked-button (click)="addCategory()">Añadir nueva</button>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!manageCategoriesShowList">
+        <vgdb-category-form [data]="selectedCategory" [awardId]="award.id!" (submitted)="formSubmitted()"></vgdb-category-form>
+    </ng-container>
+</ng-template>
+
+<ng-template #deleteDialog>
+    <p>¿Estás seguro que quieres eliminar este premio?</p>
+    <div class="alert-buttons">
+        <button mat-stroked-button (click)="closeDialog()">No</button>
+        <button mat-flat-button color="warn" (click)="deleteAward()">Sí</button>
+    </div>
+</ng-template>
