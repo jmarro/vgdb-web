@@ -1,0 +1,43 @@
+<div *ngIf="gameAwardForm">
+    <form [formGroup]="gameAwardForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>Premio</mat-label>
+            <input matInput
+                    aria-label="awardId"
+                    [matAutocomplete]="auto"
+                    formControlName="awardId">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayName(awardsInCurrentSearch)" (optionSelected)='getCategories($event.option.value)'>
+                @for (award of filteredAwards | async; track award) {
+                <mat-option [value]="award.id">
+                    <div class="info-entry"><div class="value-info"><img class="img-line" [src]="'http://localhost:3000/images/awards/'+award.main_img"/>{{award.name}}</div></div>
+                </mat-option>
+                }
+            </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field *ngIf="categoriesFromAward && categoriesFromAward.length">
+            <mat-label>Categoria</mat-label>
+            <mat-select id="AwardCategoryId" formControlName="AwardCategoryId">
+            @for (category of categoriesFromAward; track category) {
+              <mat-option [value]="category.id">{{category.name}}</mat-option>
+            }
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Año</mat-label>
+            <input id="year" type="number" formControlName="year" matInput>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Resultado</mat-label>
+            <mat-select id="result" formControlName="result">
+              <mat-option [value]="AwardResult.winner">Ganador</mat-option>
+              <mat-option [value]="AwardResult.runnerup">Finalista</mat-option>
+            </mat-select>
+          </mat-form-field>
+        
+        <div class="form-button">
+            <button type="submit" [disabled]="!gameAwardForm.valid" mat-stroked-button>Añadir</button>
+        </div>
+    </form>
+</div>

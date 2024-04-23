@@ -59,11 +59,11 @@
                         <div class="label-info">Director(es):</div>
                         <div class="value-info" *ngFor="let director of game.directors"><img class="img-line" [src]="'http://localhost:3000/images/people/'+director.main_img"/><a [routerLink]="['/people', director.id]">{{director.name}}</a></div>
                     </div>
-                    <div class="info-entry">
+                    <div class="info-entry" *ngIf="game.num_players">
                         <div class="label-info">Num. Jugadores:</div>
                         <div class="value-info">{{game.num_players}}</div>
                     </div>
-                    <div class="info-entry">
+                    <div class="info-entry" *ngIf="game.wikipedia">
                         <div class="value-info"><a [href]="game.wikipedia" target="_blank">Wikipedia</a></div>
                     </div>
                 </div>
@@ -72,8 +72,8 @@
             <div class="game-additional">
                 <div class="main-row">
                     <div class="score">{{game.score}}</div>
-                    <div *ngIf="game.awards && game.awards.length">
-                        <div *ngFor="let award of game.awards" class="award-color" [matTooltip]="award.Game_Award!.year + ' ' +award.award!.name + ' ' + award.name + ' ' + award.Game_Award!.result">
+                    <div *ngIf="mainAwards && mainAwards.length">
+                        <div *ngFor="let award of mainAwards" class="award-color" [matTooltip]="award.Game_Award!.year + ' ' +award.award!.name + ' ' + award.name + ' ' + award.Game_Award!.result">
                             <div class="award-background">
                                 <img class="award-logo" [src]="'http://localhost:3000/images/awards/'+award.award!.main_img"/>
                             </div>
@@ -162,9 +162,34 @@
                 Premios
                 </mat-panel-title>
             </mat-expansion-panel-header>
-            <div class="value-info" *ngFor="let award of game.awards">{{award.Game_Award!.year + ' ' +award.award!.name + ' ' + award.name + ' ' + award.Game_Award!.result}}</div>
-        </mat-expansion-panel>
+            <table mat-table [dataSource]="game.awards" class="mat-elevation-z8">
+                  <!-- Position Column -->
+                <ng-container matColumnDef="Game_Award.year">
+                    <th mat-header-cell *matHeaderCellDef> Año </th>
+                    <td mat-cell *matCellDef="let award"> {{award.Game_Award!.year}} </td>
+                </ng-container>
 
+                <ng-container matColumnDef="award.name">
+                    <th mat-header-cell *matHeaderCellDef> Premio </th>
+                    <td mat-cell *matCellDef="let award"> {{award.award!.name}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Categoria </th>
+                    <td mat-cell *matCellDef="let award"> {{award.name}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="Game_Award.result">
+                    <th mat-header-cell *matHeaderCellDef> Resultado </th>
+                    <td mat-cell *matCellDef="let award"> {{award.Game_Award!.result === "WINNER" ? "Ganador" : "Finalista"}} </td>
+                </ng-container>
+                
+                <tr mat-header-row *matHeaderRowDef="displayedAwardsColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedAwardsColumns;"></tr>
+
+            </table>
+        </mat-expansion-panel>
 
         <mat-expansion-panel *ngIf="game.media">
             <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
@@ -176,38 +201,194 @@
                 [src]="game.media | safe: 'resourceUrl'">
             </iframe>
         </mat-expansion-panel>
-
-
-
-
-        <div class="info-entry">
-            <button (click)="addGenre()">Genre</button>
-        </div>
-        <div class="info-entry">
-            <button (click)="addDirectors()">Directors</button>
-        </div>
-        <div class="info-entry">
-            <button (click)="addPlatforms()">Platforms</button>
-        </div>
-        <div class="info-entry">
-            <button (click)="addDevelopers()">Developers</button>
-        </div>
-        <div class="info-entry">
-            <button (click)="addPublishers()">Publishers</button>
-        </div>
-        <div class="info-entry">
-            <button (click)="addPlayable()">Playable</button>
-        </div>
-        <div class="info-entry">
-            <button (click)="addAntagonist()">addAntagonist</button>
-        </div>
-        <div class="info-entry">
-            <button (click)="addAwards()">addAwards</button>
-        </div>
     </div>
     <div class="fav-button-bottom-right">
-        <button mat-fab [style]="backgroundStyle">
+        <button mat-fab [style]="backgroundStyle" [matMenuTriggerFor]="menu">
           <mat-icon>menu</mat-icon>
         </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="presentEditDialog()">
+              <mat-icon>edit</mat-icon>
+              <span>Editar</span>
+            </button>
+            <button mat-menu-item (click)="presentAddGenresDialog()">
+                <mat-icon>sports_basketball</mat-icon>
+                <span>Añadir géneros</span>
+            </button>
+            <button mat-menu-item (click)="presentAddThemesDialog()">
+                <mat-icon>castle</mat-icon>
+                <span>Añadir temáticas</span>
+            </button>
+            <button mat-menu-item (click)="presentAddDirectorsDialog()">
+                <mat-icon>person</mat-icon>
+                <span>Añadir directores</span>
+            </button>
+            <button mat-menu-item (click)="presentAddPlatformsDialog()">
+                <mat-icon>videogame_asset</mat-icon>
+                <span>Añadir plataformas</span>
+            </button>
+            <button mat-menu-item (click)="presentAddDevelopersDialog()">
+                <mat-icon>apartment</mat-icon>
+                <span>Añadir desarrolladoras</span>
+            </button>
+            <button mat-menu-item (click)="presentAddPublishersDialog()">
+                <mat-icon>apartment</mat-icon>
+                <span>Añadir distribuidoras</span>
+            </button>
+            <button mat-menu-item *ngIf="!game.franchise" (click)="presentAddFranchiseDialog()">
+                <mat-icon>group_work</mat-icon>
+                <span>Añadir franquicia</span>
+            </button>
+            <button mat-menu-item *ngIf="!!game.franchise" (click)="presentRemoveFranchiseDialog()">
+                <mat-icon>group_work</mat-icon>
+                <span>Eliminar franquicia</span>
+            </button>
+            <button mat-menu-item (click)="presentAddCharactersDialog()">
+                <mat-icon>smart_toy</mat-icon>
+                <span>Añadir personajes</span>
+            </button>
+            <button mat-menu-item (click)="presentManageAwardsDialog()">
+                <mat-icon>list_alt</mat-icon>
+                <span>Gestionar premios</span>
+            </button>
+            <button mat-menu-item (click)="presentDeleteDialog()">
+              <mat-icon>delete</mat-icon>
+              <span>Eliminar</span>
+            </button>
+        </mat-menu>
     </div>
 </div>
+
+
+<ng-template #gameForm><vgdb-game-form [data]="game" (submitted)="formSubmitted()"></vgdb-game-form></ng-template>
+
+<ng-template #addGenresDialog>
+    <vgdb-multi-autocomplete-field [dataType]="'genre'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="game.genres"></vgdb-multi-autocomplete-field>
+    <div class="dialog-button">
+        <button mat-stroked-button (click)="addGenre()">Aceptar</button>
+    </div>
+</ng-template>
+
+<ng-template #addThemesDialog>
+    <vgdb-multi-autocomplete-field [dataType]="'theme'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="game.themes"></vgdb-multi-autocomplete-field>
+    <div class="dialog-button">
+        <button mat-stroked-button (click)="addTheme()">Aceptar</button>
+    </div>
+</ng-template>
+
+<ng-template #addDirectorsDialog>
+    <vgdb-multi-autocomplete-field [dataType]="'person'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="game.directors"></vgdb-multi-autocomplete-field>
+    <div class="dialog-button">
+        <button mat-stroked-button (click)="addDirector()">Aceptar</button>
+    </div>
+</ng-template>
+
+<ng-template #addPlatformsDialog>
+    <vgdb-multi-autocomplete-field [dataType]="'platform'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="game.platforms"></vgdb-multi-autocomplete-field>
+    <div class="dialog-button">
+        <button mat-stroked-button (click)="addPlatform()">Aceptar</button>
+    </div>
+</ng-template>
+
+<ng-template #addDevelopersDialog>
+    <vgdb-multi-autocomplete-field [dataType]="'company'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="companiesDev"></vgdb-multi-autocomplete-field>
+    <div class="dialog-button">
+        <button mat-stroked-button (click)="addDeveloper()">Aceptar</button>
+    </div>
+</ng-template>
+
+<ng-template #addPublishersDialog>
+    <vgdb-multi-autocomplete-field [dataType]="'company'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="companiesPub"></vgdb-multi-autocomplete-field>
+    <div class="dialog-button">
+        <button mat-stroked-button (click)="addPublisher()">Aceptar</button>
+    </div>
+</ng-template>
+
+<ng-template #addFranchiseDialog>
+    <div *ngIf="!!addFranchiseForm">
+        <form [formGroup]="addFranchiseForm" (ngSubmit)="onAddFranchise()">
+            <mat-form-field>
+                <mat-label>Franquicia</mat-label>
+                <input matInput
+                        aria-label="Franchise"
+                        [matAutocomplete]="auto"
+                        formControlName="franchiseId">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayName(franchisesInCurrentSearch)" (optionSelected)='getSeries($event.option.value)'>
+                    @for (franchise of filteredFranchises | async; track franchise) {
+                    <mat-option [value]="franchise.id">
+                        <div class="info-entry"><div class="value-info"><img class="img-line" [src]="'http://localhost:3000/images/franchises/'+franchise.main_img"/>{{franchise.name}}</div></div>
+                    </mat-option>
+                    }
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field *ngIf="seriesFromFranchise && seriesFromFranchise.length">
+                <mat-label>Serie</mat-label>
+                <mat-select id="serieId" formControlName="serieId">
+                @for (serie of seriesFromFranchise; track serie) {
+                  <mat-option [value]="serie.id">{{serie.name}}</mat-option>
+                }
+                </mat-select>
+            </mat-form-field>
+            <div class="form-button">
+                <button type="submit" [disabled]="!addFranchiseForm.valid" mat-stroked-button>Añadir</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #removeFranchiseDialog>
+    <p>¿Estás seguro que quieres desvincular la franquicia?</p>
+    <div class="alert-buttons">
+        <button mat-stroked-button (click)="closeDialog()">No</button>
+        <button mat-flat-button color="warn" (click)="removeFranchise()">Sí</button>
+    </div>
+</ng-template>
+
+<ng-template #addCharactersDialog>
+    <mat-form-field style="width: 100%;">
+        <mat-label>Rol</mat-label>
+        <mat-select [(ngModel)]="charactersRole">
+          <mat-option [value]="CharacterRole.playable">Jugable</mat-option>
+          <mat-option [value]="CharacterRole.antagonist">Antagonista</mat-option>
+          <mat-option [value]="CharacterRole.secondary">Secundario</mat-option>
+          <mat-option [value]="CharacterRole.villain">Villano secundario</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <vgdb-multi-autocomplete-field *ngIf="charactersRole === CharacterRole.playable" [dataType]="'character'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="charactersPlayable"></vgdb-multi-autocomplete-field>
+    <vgdb-multi-autocomplete-field *ngIf="charactersRole === CharacterRole.antagonist" [dataType]="'character'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="charactersAntagonist"></vgdb-multi-autocomplete-field>
+    <vgdb-multi-autocomplete-field *ngIf="charactersRole === CharacterRole.secondary" [dataType]="'character'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="charactersSecondary"></vgdb-multi-autocomplete-field>
+    <vgdb-multi-autocomplete-field *ngIf="charactersRole === CharacterRole.villain" [dataType]="'character'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="charactersVillain"></vgdb-multi-autocomplete-field>
+    <div class="dialog-button">
+        <button mat-stroked-button (click)="addCharacter()">Aceptar</button>
+    </div>
+</ng-template>
+
+<ng-template #manageAwardsDialog>
+    <ng-container *ngIf="manageAwardsShowList">
+        <div class="awards-list" *ngIf="game.awards && game.awards.length">
+            <div class="award-item" *ngFor="let award of game.awards">
+                <div>{{award?.award?.name}} - {{award.name}}</div>
+                <div>
+                     <button mat-icon-button aria-label="Nueva" (click)="deleteAward(award.Game_Award)">
+                        <mat-icon>delete</mat-icon>
+                     </button>
+                </div>
+
+            </div>
+        </div>
+        <div class="dialog-button">
+            <button mat-stroked-button (click)="addGameAward()">Añadir nuevo</button>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!manageAwardsShowList">
+        <vgdb-game-award-form [gameId]="game.id!" (submitted)="formSubmitted()"></vgdb-game-award-form>
+    </ng-container>
+</ng-template>
+
+<ng-template #deleteDialog>
+    <p>¿Estás seguro que quieres eliminar este juego?</p>
+    <div class="alert-buttons">
+        <button mat-stroked-button (click)="closeDialog()">No</button>
+        <button mat-flat-button color="warn" (click)="deleteGame()">Sí</button>
+    </div>
+</ng-template>

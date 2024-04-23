@@ -5,6 +5,11 @@ import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/a
 import {Observable, of} from 'rxjs';
 import {map, mergeMap, startWith} from 'rxjs/operators';
 import { PeopleService } from '../../services/people.service';
+import { GenresService } from '../../services/genres.service';
+import { ThemesService } from '../../services/themes.service';
+import { PlatformsService } from '../../services/platforms.service';
+import { CompaniesService } from '../../services/companies.service';
+import { CharactersService } from '../../services/characters.service';
 
 @Component({
   selector: 'vgdb-multi-autocomplete-field',
@@ -34,7 +39,12 @@ export class MultiAutocompleteFieldComponent {
   @ViewChild('itemInput', {static: false}) itemInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
 
-  constructor(private peopleService: PeopleService) {
+  constructor(private charactersService: CharactersService,
+    private companiesService: CompaniesService,
+    private genresService: GenresService,
+    private peopleService: PeopleService,
+    private platformsService: PlatformsService,
+    private themesService: ThemesService) {
     this.filteredItems = this.formCtrl.valueChanges.pipe(
         startWith(null),
         mergeMap(text => text? this.getFilterService(text) :  of({})),
@@ -45,11 +55,46 @@ export class MultiAutocompleteFieldComponent {
     this.itemsSelected = JSON.parse(JSON.stringify(this.itemsPreSelected));
     this.onItemSelected.emit(this.itemsSelected);
     switch (this.dataType) {
+      case 'character':
+        this.imgPath = 'characters';
+        this.propertyResponse = 'characters';
+        this.charactersService.getList().subscribe(result => {
+          this.allItems = result.characters;
+        });
+      break;
+      case 'company':
+        this.imgPath = 'companies';
+        this.propertyResponse = 'companies';
+        this.companiesService.getList().subscribe(result => {
+          this.allItems = result.companies;
+        });
+      break;
+      case 'genre':
+        this.imgPath = 'genres';
+        this.propertyResponse = 'genres';
+        this.genresService.getList().subscribe(result => {
+          this.allItems = result.genres;
+        });
+      break;
       case 'person':
         this.imgPath = 'people';
         this.propertyResponse = 'people';
         this.peopleService.getList().subscribe(result => {
           this.allItems = result.people;
+        });
+      break;
+      case 'platform':
+        this.imgPath = 'platforms';
+        this.propertyResponse = 'platforms';
+        this.platformsService.getList().subscribe(result => {
+          this.allItems = result.platforms;
+        });
+      break;
+      case 'theme':
+        this.imgPath = 'themes';
+        this.propertyResponse = 'themes';
+        this.themesService.getList().subscribe(result => {
+          this.allItems = result.themes;
         });
       break;
     }
@@ -86,9 +131,18 @@ export class MultiAutocompleteFieldComponent {
 
   private getFilterService(text: string) {
     switch (this.dataType) {
+      case 'character':
+        return this.charactersService.getFilteredList(text);
+      case 'company':
+        return this.companiesService.getFilteredList(text);
+      case 'genre':
+        return this.genresService.getFilteredList(text);
       case 'person':
         return this.peopleService.getFilteredList(text);
-      break;
+      case 'platform':
+        return this.platformsService.getFilteredList(text);
+      case 'theme':
+        return this.themesService.getFilteredList(text);
       default:
         return of({});
     }

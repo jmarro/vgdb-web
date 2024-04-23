@@ -1,12 +1,13 @@
 <div class="common-content">
-    GAMES!!!
-    <div *ngIf="games.length">
+    <vgdb-common-list-header (dialogNewOpen)="dispatchNewDialog()" (toSearch)="search($event)"></vgdb-common-list-header>
+    <div *ngIf="!!games.length">
         <vgdb-items-list [itemsList]="games"
                           navigateTo="games" imgPath="games">
         </vgdb-items-list>
     </div>
-
-    <div class="info-entry">
-        <button (click)="create()">creta</button>
+    <div *ngIf="!games.length">
+        <p>No se han encontrado juegos</p>
     </div>
 </div>
+
+<ng-template #gameForm><vgdb-game-form (submitted)="formSubmitted($event)"></vgdb-game-form></ng-template>

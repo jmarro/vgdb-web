@@ -1,0 +1,70 @@
+<div *ngIf="gameForm">
+    <form [formGroup]="gameForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input id="name" type="text" formControlName="name" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Fecha de lanzamiento (España)</mat-label>
+            <input id="release_date" type="date" formControlName="release_date" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Color</mat-label>
+            <input id="color" type="text" formControlName="color" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Portada</mat-label>
+            <input id="main_img" type="text" formControlName="main_img" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Contraportada</mat-label>
+            <input id="back_cover" type="text" formControlName="back_cover" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Logo</mat-label>
+            <input id="logo" type="text" formControlName="logo" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Puntuación</mat-label>
+            <input id="score" type="number" formControlName="score" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Precio</mat-label>
+            <input id="price" type="number" formControlName="price" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Formato</mat-label>
+            <input id="format" type="text" formControlName="format" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Número de jugadores</mat-label>
+            <input id="num_players" type="text" formControlName="num_players" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Estado personal</mat-label>
+            <mat-select id="personal_status" formControlName="personal_status">
+              <mat-option [value]="GameStatus.notPlayed">No jugado</mat-option>
+              <mat-option [value]="GameStatus.played">Jugado</mat-option>
+              <mat-option [value]="GameStatus.completed">Completado</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-checkbox formControlName="owned">En la colección</mat-checkbox>
+        <mat-form-field>
+            <mat-label>Nombre alternativo</mat-label>
+            <input id="alt_name" type="text" formControlName="alt_name" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Media</mat-label>
+            <input id="media" type="text" formControlName="media" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Wikipedia</mat-label>
+            <input id="wikipedia" type="text" formControlName="wikipedia" matInput>
+        </mat-form-field>
+        
+        <div class="form-button">
+            <button type="submit" [disabled]="!gameForm.valid" *ngIf="!data" mat-stroked-button>Crear</button>
+            <button type="submit" [disabled]="!gameForm.valid" *ngIf="!!data" mat-stroked-button>Modificar</button>
+        </div>
+    </form>
+</div>
