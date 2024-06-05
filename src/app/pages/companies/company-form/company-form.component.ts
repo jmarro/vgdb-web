@@ -49,8 +49,10 @@ export class CompanyFormComponent implements OnInit {
       color: [data?.color],
       wikipedia: [data?.wikipedia],
       previous_names: [data?.previous_names],
+      notes: [data?.notes],
       defunct_year: [data?.defunct_year],
-      defunct_reason: [data?.defunct_reason]
+      defunct_reason: [data?.defunct_reason],
+      is_main: [data?.is_main]
     });
   }
 

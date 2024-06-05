@@ -20,4 +20,5 @@ export interface Franchise {
     creators?: Person[];
     characters?: Character[];
     series?: Serie[];
+    is_main?: boolean;
 };

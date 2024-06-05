@@ -1,24 +1,27 @@
 .avatar-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 40px;
-    .logo-container {
-        width: 150px;
-       .logo {
+    .list-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 35px;
+        .logo-container {
             width: 150px;
-            height: 150px;
-       }
-       cursor: pointer;
-       font-family: "pixela";
-       .name {
-        text-align: center;
-       }
-       .franchise {
-        text-align: center;
-        font-style: italic;
-        font-weight: lighter;
-        font-family: roboto;
-        font-size: 12px;
-       }
+           .logo {
+                width: 150px;
+                height: 150px;
+           }
+           cursor: pointer;
+           font-family: "pixela";
+           .name {
+            text-align: center;
+           }
+           .franchise {
+            text-align: center;
+            font-style: italic;
+            font-weight: lighter;
+            font-family: roboto;
+            font-size: 12px;
+           }
+        }
     }
 }
+

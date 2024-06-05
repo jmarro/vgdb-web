@@ -51,7 +51,8 @@ export class PlatformFormComponent implements OnInit {
       type: [data? data.type : 'desktop', Validators.required],
       specs: [data?.specs],
       alt_names: [data?.alt_names],
-      wikipedia: [data?.wikipedia]
+      wikipedia: [data?.wikipedia],
+      is_main: [data?.is_main]
     });
   }
 }

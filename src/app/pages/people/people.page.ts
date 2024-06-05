@@ -16,6 +16,8 @@ export class PeoplePage implements OnInit {
 
   public dialog: DialogService;
   public people: Person[] = [];
+  public itemsTotal: number;
+  public term = '';
 
   @ViewChild('personForm') personForm: TemplateRef<any>;
 
@@ -26,10 +28,7 @@ export class PeoplePage implements OnInit {
 
   ngOnInit() {
     console.log('people!');
-    this.peopleService.getList().subscribe(result => {
-      console.log('result', result);
-      this.people = result.people;
-    });
+    this.getPeople(0);
   }
 
   public formSubmitted(data: any) {
@@ -48,14 +47,27 @@ export class PeoplePage implements OnInit {
     });
   }
 
-  public search(term: string) {
-    this.peopleService.getFilteredList(term).subscribe(result => {
+  public search(term: string, page: number) {
+    this.peopleService.getFilteredList(term, page).subscribe(result => {
       console.log('result', result);
       this.people = result.people;
+      this.itemsTotal = result.count;
     });
+  }
+
+  public pageChange(page: number) {
+    this.term.length ? this.search(this.term, page) : this.getPeople(page);
   }
 
   private openDialog(dialogData: any): void {
     this.dialog = this.dialogFactoryService.open(dialogData);
+  }
+
+  private getPeople(page: number) {
+    this.peopleService.getList(page).subscribe(result => {
+      console.log('result', result);
+      this.people = result.people;
+      this.itemsTotal = result.count;
+    });
   }
 }

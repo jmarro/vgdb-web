@@ -15,6 +15,8 @@ export class ThemesPage implements OnInit {
 
   public themes: Theme[] = [];
   public dialog: DialogService;
+  public itemsTotal: number;
+  public term = '';
 
   @ViewChild('themeForm') themeForm: TemplateRef<any>;
 
@@ -25,10 +27,7 @@ export class ThemesPage implements OnInit {
 
   ngOnInit() {
     console.log('themes!');
-    this.themesService.getList().subscribe(result => {
-      console.log('result', result);
-      this.themes = result.themes;
-    });
+    this.getThemes(0);
   }
 
   public formSubmitted(data: any) {
@@ -47,26 +46,27 @@ export class ThemesPage implements OnInit {
     });
   }
 
-  public search(term: string) {
-    this.themesService.getFilteredList(term).subscribe(result => {
+  public search(term: string, page: number) {
+    this.themesService.getFilteredList(term, page).subscribe(result => {
       console.log('result', result);
       this.themes = result.themes;
     });
   }
 
+  public pageChange(page: number) {
+    this.term.length ? this.search(this.term, page) : this.getThemes(page);
+  }
+
   private openDialog(dialogData: any): void {
     this.dialog = this.dialogFactoryService.open(dialogData);
   }
-  public create() {
-    console.log('create')
-    const newplatform: Theme = {
-      name: 'Historico',
-      main_img: 'historical/historical.jpg'
-    }
-    this.themesService.createTheme(newplatform).subscribe(result => {
-      console.log('ok??', result)
-    })
-  }
 
+  private getThemes(page: number) {
+    this.themesService.getList(page).subscribe(result => {
+      console.log('result', result);
+      this.themes = result.themes;
+      this.itemsTotal = result.count;
+    });
+  }
 
 }

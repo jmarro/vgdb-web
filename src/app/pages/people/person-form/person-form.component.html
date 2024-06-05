@@ -20,6 +20,7 @@
             <mat-label>Wikipedia</mat-label>
             <input id="wikipedia" type="text" formControlName="wikipedia" matInput>
         </mat-form-field>
+        <mat-checkbox formControlName="is_main">Figura clave</mat-checkbox>
         
         <div class="form-button">
             <button type="submit" [disabled]="!personForm.valid" *ngIf="!data" mat-stroked-button>Crear</button>

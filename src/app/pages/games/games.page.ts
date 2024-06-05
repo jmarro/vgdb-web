@@ -16,6 +16,9 @@ export class GamesPage implements OnInit {
   public dialog: DialogService;
   public games: Game[] = [];
 
+  public itemsTotal: number;
+  public term = '';
+
   @ViewChild('gameForm') gameForm: TemplateRef<any>;
 
   constructor(private dialogFactoryService: DialogFactoryService,
@@ -24,11 +27,7 @@ export class GamesPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log('games!');
-    this.gamesService.getList().subscribe(result => {
-      console.log('result', result);
-      this.games = result.games;
-    });
+    this.getGames(0);
   }
 
   public formSubmitted(data: any) {
@@ -47,17 +46,28 @@ export class GamesPage implements OnInit {
     });
   }
 
-  public search(term: string) {
-    this.gamesService.getFilteredList(term).subscribe(result => {
+  public search(term: string, page: number) {
+    this.gamesService.getFilteredList(term, page).subscribe(result => {
       console.log('result', result);
       this.games = result.games;
+      this.itemsTotal = result.count;
     });
+  }
+
+  public pageChange(page: number) {
+    this.term.length ? this.search(this.term, page) : this.getGames(page);
   }
 
   private openDialog(dialogData: any): void {
     this.dialog = this.dialogFactoryService.open(dialogData);
   }
 
-
+  private getGames(page: number) {
+    this.gamesService.getList(page).subscribe(result => {
+      console.log('result', result);
+      this.games = result.games;
+      this.itemsTotal = result.count;
+    });
+  }
 
 }

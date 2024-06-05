@@ -28,6 +28,11 @@
             <mat-label>Nombres previos</mat-label>
             <textarea id="previous_names" formControlName="previous_names" matInput></textarea>
         </mat-form-field>
+        <mat-checkbox formControlName="is_main">Compañia clave</mat-checkbox>
+        <mat-form-field>
+            <mat-label>Notas</mat-label>
+            <textarea id="notes" formControlName="notes" matInput></textarea>
+        </mat-form-field>
         <mat-checkbox formControlName="active">Activa</mat-checkbox>
 
         <ng-container *ngIf="!companyForm.get('active')?.getRawValue()">

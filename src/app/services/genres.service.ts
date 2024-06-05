@@ -16,8 +16,9 @@ export class GenresService {
     constructor(private httpService: HttpClient) { 
     }
 
-    public getList(): Observable<GenresResponse> {
-        return this.httpService.get('http://localhost:3000/genres').pipe(
+    public getList(page?: number): Observable<GenresResponse> {
+        let pageNumber = page || 0;
+        return this.httpService.get(`http://localhost:3000/genres?page=${pageNumber}`).pipe(
             map((res: any) => {
                 return {
                     count: res.count,
@@ -27,8 +28,9 @@ export class GenresService {
         );
     }
 
-    public getFilteredList(name:string): Observable<GenresResponse> {
-        return this.httpService.get(`http://localhost:3000/genres?name=${name}`).pipe(
+    public getFilteredList(name:string, page?: number): Observable<GenresResponse> {
+        let pageNumber = page || 0;
+        return this.httpService.get(`http://localhost:3000/genres?name=${name}&page=${pageNumber}`).pipe(
             map((res: any) => {
                 return {
                     count: res.count,

@@ -45,6 +45,7 @@ export class GameDetailPage implements OnInit, OnDestroy {
   public mainAwards: AwardCategory[] = [];
   public displayedAwardsColumns: string[] = ['Game_Award.year', 'award.name', 'name', 'Game_Award.result'];
   public backgroundStyle: any;
+  public scoreStyle: any;
   public hideCharacters = true;
   public statusText: string = 'NO JUGADO';
 
@@ -326,6 +327,7 @@ export class GameDetailPage implements OnInit, OnDestroy {
         this.mainAwards = this.game.awards.filter(award => award.award?.is_main && award.is_main);
       }
       this.backgroundStyle = this.getBackgroundStyle(this.game);
+      this.scoreStyle = this.setScoreColor(this.game);
       this.statusText = this.getStatusText(this.game.personal_status);
     });
   }
@@ -352,6 +354,22 @@ export class GameDetailPage implements OnInit, OnDestroy {
   private getBackgroundStyle(game: Game) {
     return {
       'background-color': game.color? game.color : 'rgb(68, 67, 67)'
+    }
+  }
+
+  private setScoreColor(game: Game) {
+    let color = "#f2f2f3";
+    if (game.score) {
+      if (game.score > 75) {
+        color = "#01ce7a";
+      } else if (game.score > 45) {
+        color = "#ffbd3f";
+      } else {
+        color = "#ff6874";
+      }
+    } 
+    return {
+      'background-color': color
     }
   }
 

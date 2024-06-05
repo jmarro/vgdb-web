@@ -21,4 +21,5 @@ export interface Character {
     creators?: Person[];
     Game_Character?: Game_Character;
     games?: Game[];
+    is_main?: boolean;
 };

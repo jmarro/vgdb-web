@@ -20,4 +20,5 @@ export interface Platform {
     alt_names?: string;
     models?: PlatformModel[];
     games?: Game[];
+    is_main?: boolean;
 };

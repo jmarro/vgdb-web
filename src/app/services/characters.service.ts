@@ -17,8 +17,9 @@ export class CharactersService {
     constructor(private httpService: HttpClient) { 
     }
 
-    public getList(): Observable<CharactersResponse> {
-        return this.httpService.get('http://localhost:3000/characters').pipe(
+    public getList(page?: number): Observable<CharactersResponse> {
+        let pageNumber = page || 0;
+        return this.httpService.get(`http://localhost:3000/characters?page=${pageNumber}`).pipe(
             map((res: any) => {
                 return {
                     count: res.count,
@@ -28,8 +29,9 @@ export class CharactersService {
         );
     }
 
-    public getFilteredList(name:string): Observable<CharactersResponse> {
-        return this.httpService.get(`http://localhost:3000/characters?name=${name}`).pipe(
+    public getFilteredList(name:string, page?: number): Observable<CharactersResponse> {
+        let pageNumber = page || 0;
+        return this.httpService.get(`http://localhost:3000/characters?name=${name}&page=${pageNumber}`).pipe(
             map((res: any) => {
                 return {
                     count: res.count,

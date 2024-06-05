@@ -8,6 +8,7 @@
             <mat-label>Imagen</mat-label>
             <input id="main_img" type="text" formControlName="main_img" matInput>
         </mat-form-field>
+        <mat-checkbox formControlName="is_main">Temática clave</mat-checkbox>
         
         <div class="form-button">
             <button type="submit" [disabled]="!themeForm.valid" *ngIf="!data" mat-stroked-button>Crear</button>

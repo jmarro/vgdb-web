@@ -23,6 +23,7 @@
             border-radius: 20px;
             margin-right: 8px;
             margin-bottom: 5px;
+            background-color: black;
 
             &:last-child {
                 margin-right: 0px;
@@ -32,13 +33,10 @@
                 max-height: 25px;
                 margin: auto;
                 display: block;
-            }
 
-
-            &.megadrive {
-                background-color: black;
             }
-            &.nes {
+            
+            &.NES {
                 background-color: white;
             }
         }

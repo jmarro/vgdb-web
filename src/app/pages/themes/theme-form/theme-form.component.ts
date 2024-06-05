@@ -46,7 +46,8 @@ export class ThemeFormComponent implements OnInit {
     return this.formBuilder.group({
       name: [data?.name, Validators.required],
       main_img: [data?.main_img],
-      parentId: [parentId]
+      parentId: [parentId],
+      is_main: [data?.is_main]
     });
   }
 

@@ -48,7 +48,8 @@ export class CharacterFormComponent implements OnInit {
       creation_year: [data?.creation_year],
       main_img: [data?.main_img],
       color: [data?.color],
-      wikipedia: [data?.wikipedia]
+      wikipedia: [data?.wikipedia],
+      is_main: [data?.is_main]
     });
   }
 }

@@ -8,4 +8,5 @@ export interface Theme {
     parent_theme?: Theme;
     sub_theme?: Theme[];
     games?: Game[];
+    is_main?: boolean;
 };

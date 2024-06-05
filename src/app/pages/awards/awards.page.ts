@@ -16,6 +16,8 @@ export class AwardsPage implements OnInit {
 
   public awards: Award[] = [];
   public dialog: DialogService;
+  public itemsTotal: number;
+  public term = '';
 
   @ViewChild('awardForm') awardForm: TemplateRef<any>;
 
@@ -26,10 +28,7 @@ export class AwardsPage implements OnInit {
 
   ngOnInit() {
     console.log('awards!');
-    this.awardsService.getList().subscribe(result => {
-      console.log('result', result);
-      this.awards = result.awards;
-    });
+    this.getAwards(0);
   }
 
 
@@ -49,15 +48,27 @@ export class AwardsPage implements OnInit {
     });
   }
 
-  public search(term: string) {
-    this.awardsService.getFilteredList(term).subscribe(result => {
+  public search(term: string, page: number) {
+    this.awardsService.getFilteredList(term, page).subscribe(result => {
       console.log('result', result);
       this.awards = result.awards;
     });
   }
 
+  public pageChange(page: number) {
+    this.term.length ? this.search(this.term, page) : this.getAwards(page);
+  }
+
   private openDialog(dialogData: any): void {
     this.dialog = this.dialogFactoryService.open(dialogData);
+  }
+
+  private getAwards(page: number) {
+    this.awardsService.getList(page).subscribe(result => {
+      console.log('result', result);
+      this.awards = result.awards;
+      this.itemsTotal = result.count;
+    });
   }
 
 

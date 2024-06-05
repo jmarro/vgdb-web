@@ -17,8 +17,9 @@ export class PlatformsService {
     constructor(private httpService: HttpClient) { 
     }
 
-    public getList(): Observable<PlatformsResponse> {
-        return this.httpService.get('http://localhost:3000/platforms').pipe(
+    public getList(page?: number): Observable<PlatformsResponse> {
+        let pageNumber = page || 0;
+        return this.httpService.get(`http://localhost:3000/platforms?page=${pageNumber}`).pipe(
             map((res: any) => {
                 return {
                     count: res.count,
@@ -28,8 +29,9 @@ export class PlatformsService {
         );
     }
 
-    public getFilteredList(name:string): Observable<PlatformsResponse> {
-        return this.httpService.get(`http://localhost:3000/platforms?name=${name}`).pipe(
+    public getFilteredList(name:string, page?: number): Observable<PlatformsResponse> {
+        let pageNumber = page || 0;
+        return this.httpService.get(`http://localhost:3000/platforms?name=${name}&page=${pageNumber}`).pipe(
             map((res: any) => {
                 return {
                     count: res.count,

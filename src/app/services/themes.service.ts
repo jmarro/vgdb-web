@@ -16,8 +16,9 @@ export class ThemesService {
     constructor(private httpService: HttpClient) { 
     }
 
-    public getList(): Observable<ThemesResponse> {
-        return this.httpService.get('http://localhost:3000/themes').pipe(
+    public getList(page?: number): Observable<ThemesResponse> {
+        let pageNumber = page || 0;
+        return this.httpService.get(`http://localhost:3000/themes?page=${pageNumber}`).pipe(
             map((res: any) => {
                 return {
                     count: res.count,
@@ -27,8 +28,9 @@ export class ThemesService {
         );
     }
 
-    public getFilteredList(name:string): Observable<ThemesResponse> {
-        return this.httpService.get(`http://localhost:3000/themes?name=${name}`).pipe(
+    public getFilteredList(name:string, page?: number): Observable<ThemesResponse> {
+        let pageNumber = page || 0;
+        return this.httpService.get(`http://localhost:3000/themes?name=${name}&page=${pageNumber}`).pipe(
             map((res: any) => {
                 return {
                     count: res.count,

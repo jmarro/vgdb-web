@@ -15,6 +15,8 @@ export class CompaniesPage implements OnInit {
 
   public companies: Company[] = [];
   public dialog: DialogService;
+  public itemsTotal: number;
+  public term = '';
 
   @ViewChild('companyForm') companyForm: TemplateRef<any>;
 
@@ -25,10 +27,7 @@ export class CompaniesPage implements OnInit {
 
   ngOnInit() {
     console.log('companies!');
-    this.companiesService.getList().subscribe(result => {
-      console.log('result', result);
-      this.companies = result.companies;
-    });
+    this.getCompanies(0);
   }
 
   public formSubmitted(data: any) {
@@ -47,15 +46,29 @@ export class CompaniesPage implements OnInit {
     });
   }
 
-  public search(term: string) {
-    this.companiesService.getFilteredList(term).subscribe(result => {
+  public search(term: string, page: number) {
+    this.term = term;
+    this.companiesService.getFilteredList(term, page).subscribe(result => {
       console.log('result', result);
       this.companies = result.companies;
+      this.itemsTotal = result.count;
     });
+  }
+
+  public pageChange(page: number) {
+    this.term.length ? this.search(this.term, page) : this.getCompanies(page);
   }
 
   private openDialog(dialogData: any): void {
     this.dialog = this.dialogFactoryService.open(dialogData);
+  }
+
+  private getCompanies(page: number) {
+    this.companiesService.getList(page).subscribe(result => {
+      console.log('result', result);
+      this.companies = result.companies;
+      this.itemsTotal = result.count;
+    });
   }
 
 }

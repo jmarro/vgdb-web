@@ -47,6 +47,10 @@
                     <div class="label-info">Nombres previos:</div>
                     <div class="value-info" style="white-space: pre-line">{{company.previous_names}}</div>
                 </div>
+                <div class="info-entry" *ngIf="company.notes">
+                    <div class="label-info">Notas:</div>
+                    <div class="value-info" style="white-space: pre-line">{{company.notes}}</div>
+                </div>
                 <div class="info-entry" *ngIf="company.wikipedia">
                     <div class="value-info"><a [href]="company.wikipedia" target="_blank">Wikipedia</a></div>
                 </div>

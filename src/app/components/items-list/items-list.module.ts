@@ -1,6 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { CommonModule } from '@angular/common';;
+import { CommonModule } from '@angular/common';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 import { ItemsListComponent } from './items-list.component';
 
@@ -10,7 +11,8 @@ import { ItemsListComponent } from './items-list.component';
   ],
   imports: [
     CommonModule,
-    MatGridListModule
+    MatGridListModule,
+    MatPaginatorModule
   ],
   exports: [
     ItemsListComponent

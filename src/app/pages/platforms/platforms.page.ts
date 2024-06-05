@@ -14,7 +14,9 @@ import { DialogFactoryService } from '../../components/dialog/utils/dialog-facto
 export class PlatformsPage implements OnInit {
 
   public dialog: DialogService;
-  public platforms: Platform[] = [];
+  public platforms: Platform[] = [];  
+  public itemsTotal: number;
+  public term = '';
 
   @ViewChild('platformForm') platformForm: TemplateRef<any>;
 
@@ -25,11 +27,7 @@ export class PlatformsPage implements OnInit {
 
   ngOnInit() {
     console.log('platforms!');
-    this.platformsService.getList().subscribe(result => {
-      console.log('result', result);
-      this.platforms = result.platforms;
-    });
-    
+    this.getPlatform(0);
   }
 
   public formSubmitted(data: any) {
@@ -48,15 +46,27 @@ export class PlatformsPage implements OnInit {
     });
   }
 
-  public search(term: string) {
-    this.platformsService.getFilteredList(term).subscribe(result => {
+  public search(term: string, page: number) {
+    this.platformsService.getFilteredList(term, page).subscribe(result => {
       console.log('result', result);
       this.platforms = result.platforms;
     });
   }
 
+  public pageChange(page: number) {
+    this.term.length ? this.search(this.term, page) : this.getPlatform(page);
+  }
+
   private openDialog(dialogData: any): void {
     this.dialog = this.dialogFactoryService.open(dialogData);
+  }
+
+  private getPlatform(page: number) {
+    this.platformsService.getList(page).subscribe(result => {
+      console.log('result', result);
+      this.platforms = result.platforms;
+      this.itemsTotal = result.count;
+    });
   }
 
 

@@ -24,8 +24,9 @@ export class GamesService {
     constructor(private httpService: HttpClient) { 
     }
 
-    public getList(): Observable<GamesResponse> {
-        return this.httpService.get('http://localhost:3000/games').pipe(
+    public getList(page?: number): Observable<GamesResponse> {
+        let pageNumber = page || 0;
+        return this.httpService.get(`http://localhost:3000/games?page=${pageNumber}`).pipe(
             map((res: any) => {
                 return {
                     count: res.count,
@@ -35,8 +36,9 @@ export class GamesService {
         );
     }
 
-    public getFilteredList(name:string): Observable<GamesResponse> {
-        return this.httpService.get(`http://localhost:3000/games?name=${name}`).pipe(
+    public getFilteredList(name:string, page?: number): Observable<GamesResponse> {
+        let pageNumber = page || 0;
+        return this.httpService.get(`http://localhost:3000/games?name=${name}&page=${pageNumber}`).pipe(
             map((res: any) => {
                 return {
                     count: res.count,

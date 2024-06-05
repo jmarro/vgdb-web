@@ -1,8 +1,10 @@
 <div class="common-content">
-    <vgdb-common-list-header (dialogNewOpen)="dispatchNewDialog()" (toSearch)="search($event)"></vgdb-common-list-header>
+    <vgdb-common-list-header (dialogNewOpen)="dispatchNewDialog()" (toSearch)="search($event, 0)"></vgdb-common-list-header>
     <div *ngIf="!!games.length">
         <vgdb-items-list [itemsList]="games"
-                          navigateTo="games" imgPath="games">
+                         [itemsTotal]="itemsTotal"
+                         (onPageChange)="pageChange($event)"
+                         navigateTo="games" imgPath="games">
         </vgdb-items-list>
     </div>
     <div *ngIf="!games.length">

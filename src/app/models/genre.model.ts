@@ -8,4 +8,5 @@ export interface Genre {
     parent_genre?: Genre;
     sub_genre?: Genre[];
     games?: Game[];
+    is_main?: boolean;
 };

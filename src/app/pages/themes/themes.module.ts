@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { ThemesPage } from './themes.page';
 import { THEMES_ROUTES } from './themes-routes.page';
@@ -34,6 +35,7 @@ import { ThemeFormComponent } from './theme-form/theme-form.component';
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
+    MatCheckboxModule,
     MatMenuModule,
     CommonListHeaderComponentModule,
     DialogModule,

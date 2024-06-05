@@ -13,6 +13,8 @@ import { Router } from '@angular/router';
 export class FranchisesPage implements OnInit {
   public franchises: Franchise[] = [];
   public dialog: DialogService;
+  public itemsTotal: number;
+  public term = '';
 
   @ViewChild('franchiseForm') franchiseForm: TemplateRef<any>;
 
@@ -23,10 +25,7 @@ export class FranchisesPage implements OnInit {
 
   ngOnInit() {
     console.log('franchises!');
-    this.franchisesService.getList().subscribe(result => {
-      console.log('result', result);
-      this.franchises = result.franchises;
-    });
+    this.getFranchises(0);
   }
 
   public formSubmitted(data: any) {
@@ -45,15 +44,29 @@ export class FranchisesPage implements OnInit {
     });
   }
 
-  public search(term: string) {
-    this.franchisesService.getFilteredList(term).subscribe(result => {
+  public search(term: string, page: number) {
+    this.term = term;
+    this.franchisesService.getFilteredList(term, page).subscribe(result => {
       console.log('result', result);
       this.franchises = result.franchises;
+      this.itemsTotal = result.count;
     });
+  }
+
+  public pageChange(page: number) {
+    this.term.length ? this.search(this.term, page) : this.getFranchises(page);
   }
 
   private openDialog(dialogData: any): void {
     this.dialog = this.dialogFactoryService.open(dialogData);
+  }
+
+  private getFranchises(page: number) {
+    this.franchisesService.getList(page).subscribe(result => {
+      console.log('result', result);
+      this.franchises = result.franchises;
+      this.itemsTotal = result.count;
+    });
   }
 
 }

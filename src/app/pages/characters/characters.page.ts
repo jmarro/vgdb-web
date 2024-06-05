@@ -14,6 +14,8 @@ export class CharactersPage implements OnInit {
 
   public characters: Character[] = [];
   public dialog: DialogService;
+  public itemsTotal: number;
+  public term = '';
 
   @ViewChild('characterForm') characterForm: TemplateRef<any>;
 
@@ -24,10 +26,7 @@ export class CharactersPage implements OnInit {
 
   ngOnInit() {
     console.log('characters!');
-    this.charactersService.getList().subscribe(result => {
-      console.log('result', result);
-      this.characters = result.characters;
-    });
+    this.getCharacters(0);
   }
 
   public formSubmitted(data: any) {
@@ -46,15 +45,29 @@ export class CharactersPage implements OnInit {
     });
   }
 
-  public search(term: string) {
+  public search(term: string, page: number) {
+    this.term = term;
     this.charactersService.getFilteredList(term).subscribe(result => {
       console.log('result', result);
       this.characters = result.characters;
+      this.itemsTotal = result.count;
     });
+  }
+
+  public pageChange(page: number) {
+    this.term.length ? this.search(this.term, page) : this.getCharacters(page);
   }
 
   private openDialog(dialogData: any): void {
     this.dialog = this.dialogFactoryService.open(dialogData);
+  }
+
+  private getCharacters(page: number) {
+    this.charactersService.getList().subscribe(result => {
+      console.log('result', result);
+      this.characters = result.characters;
+      this.itemsTotal = result.count;
+    });
   }
 
 }

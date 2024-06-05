@@ -45,7 +45,8 @@ export class FranchiseFormComponent implements OnInit {
       main_img: [data?.main_img],
       color: [data?.color],
       wikipedia: [data?.wikipedia],
-      first_game_date: [data?.first_game_date]
+      first_game_date: [data?.first_game_date],
+      is_main: [data?.is_main]
     });
   }
 

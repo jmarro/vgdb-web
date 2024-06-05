@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { PlatformsPage } from './platforms.page';
 import { PLATFORMS_ROUTES } from './platforms-routes.page';
@@ -40,6 +41,7 @@ import { ModelFormComponent } from './model-form/model-form.component';
     MatMenuModule,
     MatSelectModule,
     MatAutocompleteModule,
+    MatCheckboxModule,
     CommonListHeaderComponentModule,
     DialogModule,
     ItemsListComponentModule,

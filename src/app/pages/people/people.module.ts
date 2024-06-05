@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { CommonListHeaderComponentModule } from '../../components/common-list-header/common-list-header.module';
 import { DialogModule } from '../../components/dialog/dialog.module';
@@ -36,6 +37,7 @@ import { PersonFormComponent } from './person-form/person-form.component';
     MatInputModule,
     MatFormFieldModule,
     MatMenuModule,
+    MatCheckboxModule,
     CommonListHeaderComponentModule,
     DialogModule,
     ItemsListComponentModule,

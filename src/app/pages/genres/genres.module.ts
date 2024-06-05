@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { GenresPage } from './genres.page';
 import { GENRES_ROUTES } from './genres-routes.page';
@@ -35,6 +36,7 @@ import { GenreFormComponent } from './genre-form/genre-form.component';
     MatInputModule,
     MatFormFieldModule,
     MatMenuModule,
+    MatCheckboxModule,
     CommonListHeaderComponentModule,
     DialogModule,
     ItemsListComponentModule,

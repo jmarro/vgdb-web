@@ -45,7 +45,8 @@ export class PersonFormComponent implements OnInit {
       birthday: [data?.birthday, Validators.required],
       nationality: [data?.nationality],
       main_img: [data?.main_img],
-      wikipedia: [data?.wikipedia]
+      wikipedia: [data?.wikipedia],
+      is_main: [data?.is_main]
     });
   }
 }

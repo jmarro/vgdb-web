@@ -12,4 +12,5 @@ export interface Person {
     franchises?: Franchise[];
     characters?: Character[];
     games?: Game[];
+    is_main?: boolean;
 };

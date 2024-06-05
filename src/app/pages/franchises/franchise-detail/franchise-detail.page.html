@@ -18,12 +18,15 @@
 
     <div class="common-content">
         <div class="info-entry" *ngIf="franchise.first_game_date">
-            <div class="label-info">Fecha del primer juego (España):</div>
+            <div class="label-info">Fecha del primer juego:</div>
             <div class="value-info">{{franchise.first_game_date | date: 'dd/MM/yyyy'}}</div>
         </div>
         <div class="info-entry" *ngIf="franchise.creators && franchise.creators.length">
             <div class="label-info">Creador(es):</div>
             <div class="value-info" *ngFor="let creator of franchise.creators"><img class="img-line" [src]="'http://localhost:3000/images/people/'+creator.main_img"/><a [routerLink]="['/people', creator.id]">{{creator.name}}</a></div>
+        </div>
+        <div class="info-entry" *ngIf="franchise.wikipedia">
+            <div class="value-info"><a [href]="franchise.wikipedia" target="_blank">Wikipedia</a></div>
         </div>
         <mat-expansion-panel *ngIf="seriesMain && seriesMain.length">
             <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
@@ -68,13 +71,13 @@
                 </vgdb-avatars-list>
             </div>
             <div *ngIf="charactersSecondary && charactersSecondary.length" class="expansion-container">
-                <div class="subtitle">Secundario:</div>
+                <div class="subtitle">Secundarios:</div>
                 <vgdb-avatars-list [avatarsList]="charactersSecondary"
                                   navigateTo="characters" imgPath="characters">
                 </vgdb-avatars-list>
             </div>
             <div *ngIf="charactersAntagonist && charactersAntagonist.length" class="expansion-container">
-                <div class="subtitle">Antagonista:</div>
+                <div class="subtitle">Antagonistas:</div>
                 <vgdb-avatars-list [avatarsList]="charactersAntagonist"
                                   navigateTo="characters" imgPath="characters">
                 </vgdb-avatars-list>

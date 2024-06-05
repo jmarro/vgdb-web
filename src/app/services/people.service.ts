@@ -16,8 +16,9 @@ export class PeopleService {
     constructor(private httpService: HttpClient) { 
     }
 
-    public getList(): Observable<PeopleResponse> {
-        return this.httpService.get('http://localhost:3000/people').pipe(
+    public getList(page?: number): Observable<PeopleResponse> {
+        let pageNumber = page || 0;
+        return this.httpService.get(`http://localhost:3000/people?page=${pageNumber}`).pipe(
             map((res: any) => {
                 return {
                     count: res.count,
@@ -27,8 +28,9 @@ export class PeopleService {
         );
     }
 
-    public getFilteredList(name:string): Observable<PeopleResponse> {
-        return this.httpService.get(`http://localhost:3000/people?name=${name}`).pipe(
+    public getFilteredList(name: string, page?: number): Observable<PeopleResponse> {
+        let pageNumber = page || 0;
+        return this.httpService.get(`http://localhost:3000/people?name=${name}&page=${pageNumber}`).pipe(
             map((res: any) => {
                 return {
                     count: res.count,
@@ -57,4 +59,5 @@ export class PeopleService {
     public deletePerson(id: number): Observable<any> {
         return this.httpService.delete(`http://localhost:3000/people/${id}`);
     }
+    
 }

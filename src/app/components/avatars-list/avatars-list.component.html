@@ -1,7 +1,17 @@
 <div *ngIf="avatarsList.length" class="avatar-list">
-    <div class="logo-container" *ngFor="let avatar of avatarsList" (click)="navigateToFn(avatar.id)">
-        <img class="logo" [src]="'http://localhost:3000/images/'+imgPath+'/'+avatar.main_img">
-        <div class="name">{{avatar.name}}</div>
-        <div *ngIf="avatar.franchise" class="franchise">{{avatar.franchise.name}}</div>
+    <mat-paginator *ngIf="totalPages > 1"
+        [length]="itemsTotal"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [hidePageSize]="true"
+        (page)="handlePageEvent($event)"
+        aria-label="Select page">
+    </mat-paginator>
+    <div class="list-container">
+        <div class="logo-container" *ngFor="let avatar of avatarsList" (click)="navigateToFn(avatar.id)">
+            <img class="logo" [src]="'http://localhost:3000/images/'+imgPath+'/'+avatar.main_img">
+            <div class="name">{{avatar.name}}</div>
+            <div *ngIf="avatar.franchise" class="franchise">{{avatar.franchise.name}}</div>
+        </div>
     </div>
 </div>

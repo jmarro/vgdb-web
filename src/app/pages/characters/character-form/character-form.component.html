@@ -17,7 +17,7 @@
             <input id="alt_names" type="text" formControlName="alt_names" matInput>
         </mat-form-field>
         <mat-form-field>
-            <mat-label>Año de creación</mat-label>
+            <mat-label>Año de primera aparición</mat-label>
             <input id="creation_year" type="text" formControlName="creation_year" matInput>
         </mat-form-field>
         <mat-form-field>
@@ -32,6 +32,7 @@
             <mat-label>Wikipedia</mat-label>
             <input id="wikipedia" type="text" formControlName="wikipedia" matInput>
         </mat-form-field>
+        <mat-checkbox formControlName="is_main">Personaje clave</mat-checkbox>
         
         <div class="form-button">
             <button type="submit" [disabled]="!characterForm.valid" *ngIf="!data" mat-stroked-button>Crear</button>

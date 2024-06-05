@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { CharactersPage } from './characters.page';
 import { CHARACTERS_ROUTES } from './characters-routes.page';
@@ -35,6 +36,7 @@ import { MultiAutocompleteFieldComponentModule } from '../../components/multi-au
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
+    MatCheckboxModule,
     MatMenuModule,
     MatAutocompleteModule,
     MatSelectModule,
