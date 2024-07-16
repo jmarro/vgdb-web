@@ -56,7 +56,7 @@
                 </div>
             </div>
         </div>
-        <mat-expansion-panel *ngIf="(company.franchises && company.franchises.length) || (company.franchises_created && company.franchises_created.length)">
+        <mat-expansion-panel [expanded]="true" *ngIf="(company.franchises && company.franchises.length) || (company.franchises_created && company.franchises_created.length)">
             <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
               <mat-panel-title>
                 Franquicias
@@ -65,7 +65,9 @@
             <vgdb-items-list *ngIf="company.franchises && company.franchises.length" [itemsList]="company.franchises"
                         navigateTo="franchises" imgPath="franchises">
             </vgdb-items-list>
+            
             <div *ngIf="company.franchises_created && company.franchises_created.length" class="expansion-container">
+                <br><br>
                 <div class="subtitle">Creadas pero actualmente propiedad de otros:</div>
                 <vgdb-items-list [itemsList]="company.franchises_created"
                             navigateTo="franchises" imgPath="franchises">

@@ -36,7 +36,7 @@
 
             }
             
-            &.NES {
+            &.NES, &.Master {
                 background-color: white;
             }
         }
@@ -117,6 +117,10 @@
                 .award-logo {
                     height: 50px;
                 }
+            }
+            &.runnerup {
+                opacity: .5;
+                background-color: silver;
             }
         }
 

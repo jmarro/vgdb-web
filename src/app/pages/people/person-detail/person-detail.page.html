@@ -22,7 +22,7 @@
         <div class="info-entry" *ngIf="person.wikipedia">
             <div class="value-info"><a [href]="person.wikipedia" target="_blank">Wikipedia</a></div>
         </div>
-        <mat-expansion-panel *ngIf="person.games && person.games.length">
+        <mat-expansion-panel *ngIf="person.games && person.games.length"  [expanded]="true">
             <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
               <mat-panel-title>
                 Juegos dirigidos

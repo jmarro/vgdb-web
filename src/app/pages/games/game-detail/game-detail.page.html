@@ -73,7 +73,7 @@
                 <div class="main-row">
                     <div class="score" [style]="scoreStyle">{{game.score ? game.score : '-'}}</div>
                     <div *ngIf="mainAwards && mainAwards.length">
-                        <div *ngFor="let award of mainAwards" class="award-color" [matTooltip]="award.Game_Award!.year + ' ' +award.award!.name + ' ' + award.name + ' ' + award.Game_Award!.result">
+                        <div *ngFor="let award of mainAwards" class="award-color" [ngClass]="{'runnerup': award.Game_Award!.result === AwardResult.runnerup}" [matTooltip]="award.Game_Award!.year + ' ' +award.award!.name + ' ' + award.name + ' ' + award.Game_Award!.result">
                             <div class="award-background">
                                 <img class="award-logo" [src]="'http://localhost:3000/images/awards/'+award.award!.main_img"/>
                             </div>
@@ -113,7 +113,7 @@
             </div>
         </div>
 
-        <mat-expansion-panel *ngIf="game.franchise">
+        <mat-expansion-panel *ngIf="game.franchise"  [expanded]="true">
             <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
                 <mat-panel-title>
                 Franquicia
@@ -124,7 +124,7 @@
             </vgdb-items-list>
         </mat-expansion-panel>
 
-        <mat-expansion-panel *ngIf="charactersPlayable && charactersPlayable.length">
+        <mat-expansion-panel *ngIf="game.characters && game.characters.length">
             <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
               <mat-panel-title>
                 Personajes
@@ -200,6 +200,17 @@
             <iframe width="420" height="315"
                 [src]="game.media | safe: 'resourceUrl'">
             </iframe>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="!!gamesOfSerie?.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+                <mat-panel-title>
+                Serie
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <vgdb-items-list [itemsList]="gamesOfSerie"
+                        navigateTo="games" imgPath="games">
+            </vgdb-items-list>
         </mat-expansion-panel>
     </div>
     <div class="fav-button-bottom-right">

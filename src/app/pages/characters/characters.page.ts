@@ -47,7 +47,7 @@ export class CharactersPage implements OnInit {
 
   public search(term: string, page: number) {
     this.term = term;
-    this.charactersService.getFilteredList(term).subscribe(result => {
+    this.charactersService.getFilteredList(term, page).subscribe(result => {
       console.log('result', result);
       this.characters = result.characters;
       this.itemsTotal = result.count;
@@ -63,7 +63,7 @@ export class CharactersPage implements OnInit {
   }
 
   private getCharacters(page: number) {
-    this.charactersService.getList().subscribe(result => {
+    this.charactersService.getList(page).subscribe(result => {
       console.log('result', result);
       this.characters = result.characters;
       this.itemsTotal = result.count;

@@ -8,7 +8,6 @@ import { Company } from '../../../models/company.model';
 import { CompanyType } from '../../../enums/company-type.enum';
 import { Character } from '../../../models/character.model';
 import { CharacterRole } from '../../../enums/character-role.enum';
-import { Game_Award } from '../../../models/game_award.model';
 import { AwardResult } from '../../../enums/award-result.enum';
 import { GameStatus } from '../../../enums/game-status.enum';
 import { DialogFactoryService } from '../../../components/dialog/utils/dialog-factory.service';
@@ -31,6 +30,7 @@ export class GameDetailPage implements OnInit, OnDestroy {
 
   public readonly CharacterRole: typeof CharacterRole = CharacterRole;
   public readonly GameStatus: typeof GameStatus = GameStatus;
+  public readonly AwardResult: typeof AwardResult = AwardResult;
 
   public game: Game;
   public routerSubs: Subscription;
@@ -49,6 +49,8 @@ export class GameDetailPage implements OnInit, OnDestroy {
   public hideCharacters = true;
   public statusText: string = 'NO JUGADO';
 
+
+
   public dialog: DialogService;
 
   public itemsFromSelector: Genre[];
@@ -57,6 +59,7 @@ export class GameDetailPage implements OnInit, OnDestroy {
   public addFranchiseForm: FormGroup;
   public filteredFranchises: Observable<Franchise[]>;
   public franchisesInCurrentSearch: Franchise[];
+  public gamesOfSerie: Game[];
   public seriesFromFranchise: Serie[];
 
   public charactersRole: CharacterRole;
@@ -313,18 +316,21 @@ export class GameDetailPage implements OnInit, OnDestroy {
     this.gamesService.getGame(id).subscribe(result => {
       console.log('game', result)
       this.game = result;
-      if (this.game.companies && this.game.companies.length) {
+      if (this.game.companies?.length) {
         this.companiesDev = this.game.companies.filter(company => company.Game_Company?.type === CompanyType.developer);
         this.companiesPub = this.game.companies.filter(company => company.Game_Company?.type === CompanyType.publisher);
       }
-      if (this.game.characters && this.game.characters.length) {
+      if (this.game.characters?.length) {
         this.charactersPlayable = this.game.characters.filter(character => character.Game_Character?.type === CharacterRole.playable);
         this.charactersSecondary = this.game.characters.filter(character => character.Game_Character?.type === CharacterRole.secondary);
         this.charactersAntagonist = this.game.characters.filter(character => character.Game_Character?.type === CharacterRole.antagonist);
         this.charactersVillain = this.game.characters.filter(character => character.Game_Character?.type === CharacterRole.villain);
       }
-      if (this.game.awards && this.game.awards.length) {
+      if (this.game.awards?.length) {
         this.mainAwards = this.game.awards.filter(award => award.award?.is_main && award.is_main);
+      }
+      if (this.game.serie?.games?.length) {
+        this.gamesOfSerie = this.game.serie.games.filter(game => game.id != this.game.id);
       }
       this.backgroundStyle = this.getBackgroundStyle(this.game);
       this.scoreStyle = this.setScoreColor(this.game);

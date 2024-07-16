@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <mat-expansion-panel *ngIf="character.games && character.games.length">
+        <mat-expansion-panel *ngIf="character.games && character.games.length" [expanded]="true">
             <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
               <mat-panel-title>
                 Juegos

@@ -28,7 +28,7 @@
         <div class="info-entry" *ngIf="franchise.wikipedia">
             <div class="value-info"><a [href]="franchise.wikipedia" target="_blank">Wikipedia</a></div>
         </div>
-        <mat-expansion-panel *ngIf="seriesMain && seriesMain.length">
+        <mat-expansion-panel *ngIf="seriesMain && seriesMain.length"  [expanded]="true">
             <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
               <mat-panel-title>
                 Series principales
