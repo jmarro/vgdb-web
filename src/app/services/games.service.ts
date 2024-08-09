@@ -184,4 +184,46 @@ export class GamesService {
     public updatePersonalStatus(id: number, personal_status: GameStatus): Observable<any> {
         return this.httpService.post(`http://localhost:3000/games/${id}/updatePersonalStatus`, {personal_status});
     }
+
+
+    public addGameToCollection(id: number, games: Game[]): Observable<any> {
+        console.log(games)
+        const gamesIds = games.map(game => game.id);
+        return this.httpService.post(`http://localhost:3000/games/${id}/addGameToCollection`, gamesIds);
+    }
+
+    public removeGameFromCollection(id: number, game: Game): Observable<any> {
+        const gameId = game.id;
+        return this.httpService.post(`http://localhost:3000/games/${id}/removeGameFromCollection`, {gameId});
+    }
+
+    public addGameRemake(id: number, games: Game[]): Observable<any> {
+        const gamesIds = games.map(game => game.id);
+        return this.httpService.post(`http://localhost:3000/games/${id}/addGameRemake`, gamesIds);
+    }
+
+    public removeGameRemake(id: number, game: Game): Observable<any> {
+        const gameId = game.id;
+        return this.httpService.post(`http://localhost:3000/games/${id}/removeGameRemake`, {gameId});
+    }
+
+    public addGameRemaster(id: number, games: Game[]): Observable<any> {
+        const gamesIds = games.map(game => game.id);
+        return this.httpService.post(`http://localhost:3000/games/${id}/addGameRemaster`, gamesIds);
+    }
+
+    public removeGameRemaster(id: number, game: Game): Observable<any> {
+        const gameId = game.id;
+        return this.httpService.post(`http://localhost:3000/games/${id}/removeGameRemaster`, {gameId});
+    }
+
+    public addGameSpinoff(id: number, games: Game[]): Observable<any> {
+        const gamesIds = games.map(game => game.id);
+        return this.httpService.post(`http://localhost:3000/games/${id}/addGameSpinoff`, gamesIds);
+    }
+
+    public removeGameSpinoff(id: number, game: Game): Observable<any> {
+        const gameId = game.id;
+        return this.httpService.post(`http://localhost:3000/games/${id}/removeGameSpinoff`, {gameId});
+    }
 }

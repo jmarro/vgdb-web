@@ -98,6 +98,8 @@ export class PlatformDetailPage implements OnInit, OnDestroy {
         return 'Sobremesa';
       case PlatformType.portable:
         return 'Portátil';
+      case PlatformType.peripheral:
+        return 'Periférico';
       default:
         return 'Híbrida';
     }

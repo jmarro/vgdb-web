@@ -6,7 +6,10 @@
                     <div class="title">{{game.name}}</div>
                     <div class="aka-title" *ngIf="game.alt_name">{{game.alt_name}}</div>
                 </div>
-                <div class="related-game" *ngIf="game.parent_game">Remaster de <a [routerLink]="'/games'">Sonic: tu juego favorito</a></div>
+                <div class="related-game" *ngIf="gamesCollection && gamesCollection.length">RECOPILATORIO</div>
+                <div class="related-game" *ngIf="gamesRemaster && gamesRemaster.length">Remaster de <a [routerLink]="'/games/'+gamesRemaster[0]!.id">{{gamesRemaster[0]!.name}}</a></div>
+                <div class="related-game" *ngIf="gamesRemake && gamesRemake.length">Remake de <a [routerLink]="'/games/'+gamesRemake[0]!.id">{{gamesRemake[0]!.name}}</a></div>
+                <div class="related-game" *ngIf="gamesSpinoff && gamesSpinoff.length">Spinoff de <a [routerLink]="'/games/'+gamesSpinoff[0]!.id">{{gamesSpinoff[0]!.name}}</a></div>
                 <mat-chip-listbox aria-label="Games info">
                     <div *ngIf="game.genres && game.genres.length">
                         <mat-chip *ngFor="let genre of game.genres" [routerLink]="'/genres/'+genre!.id">{{genre.name}}</mat-chip>
@@ -212,6 +215,71 @@
                         navigateTo="games" imgPath="games">
             </vgdb-items-list>
         </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="game.parentGames && game.parentGames.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Juegos relacionados
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngIf="gamesCollection && gamesCollection.length" class="expansion-container">
+                <div class="subtitle">En el recopilatorio:</div>
+                <vgdb-items-list [itemsList]="gamesCollection"
+                        navigateTo="games" imgPath="games">
+                </vgdb-items-list>
+            </div>
+            <div *ngIf="gamesRemaster && gamesRemaster.length" class="expansion-container">
+                <div class="subtitle">Remasteriza:</div>
+                <vgdb-items-list [itemsList]="gamesRemaster"
+                        navigateTo="games" imgPath="games">
+                </vgdb-items-list>
+            </div>
+            <div *ngIf="gamesRemake && gamesRemake.length" class="expansion-container">
+                <div class="subtitle">Es Remake de:</div>
+                <vgdb-items-list [itemsList]="gamesRemake"
+                        navigateTo="games" imgPath="games">
+                </vgdb-items-list>
+            </div>
+            <div *ngIf="gamesSpinoff && gamesSpinoff.length" class="expansion-container">
+                <div class="subtitle">Es spinoff de:</div>
+                <vgdb-items-list [itemsList]="gamesSpinoff"
+                        navigateTo="games" imgPath="games">
+                </vgdb-items-list>
+            </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="game.subGames && game.subGames.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Juegos derivados
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngIf="gamesDerivedCollection && gamesDerivedCollection.length" class="expansion-container">
+                <div class="subtitle">Incluido en los recopilatorios:</div>
+                <vgdb-items-list [itemsList]="gamesDerivedCollection"
+                        navigateTo="games" imgPath="games">
+                </vgdb-items-list>
+            </div>
+            <div *ngIf="gamesDerivedRemaster && gamesDerivedRemaster.length" class="expansion-container">
+                <div class="subtitle">Remasterizado en:</div>
+                <vgdb-items-list [itemsList]="gamesDerivedRemaster"
+                        navigateTo="games" imgPath="games">
+                </vgdb-items-list>
+            </div>
+            <div *ngIf="gamesDerivedRemake && gamesDerivedRemake.length" class="expansion-container">
+                <div class="subtitle">Tiene los siguientes remakes:</div>
+                <vgdb-items-list [itemsList]="gamesDerivedRemake"
+                        navigateTo="games" imgPath="games">
+                </vgdb-items-list>
+            </div>
+            <div *ngIf="gamesDerivedSpinoff && gamesDerivedSpinoff.length" class="expansion-container">
+                <div class="subtitle">Tienes estos spinoff:</div>
+                <vgdb-items-list [itemsList]="gamesDerivedSpinoff"
+                        navigateTo="games" imgPath="games">
+                </vgdb-items-list>
+            </div>
+        </mat-expansion-panel>
+
     </div>
     <div class="fav-button-bottom-right">
         <button mat-fab [style]="backgroundStyle" [matMenuTriggerFor]="menu">
@@ -257,6 +325,10 @@
             <button mat-menu-item (click)="presentAddCharactersDialog()">
                 <mat-icon>smart_toy</mat-icon>
                 <span>Añadir personajes</span>
+            </button>
+            <button mat-menu-item (click)="presentAddGameRelationDialog()">
+                <mat-icon>sports_esports</mat-icon>
+                <span>Añadir juegos relacionados</span>
             </button>
             <button mat-menu-item (click)="presentManageAwardsDialog()">
                 <mat-icon>list_alt</mat-icon>
@@ -371,6 +443,26 @@
     <vgdb-multi-autocomplete-field *ngIf="charactersRole === CharacterRole.villain" [dataType]="'character'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="charactersVillain"></vgdb-multi-autocomplete-field>
     <div class="dialog-button">
         <button mat-stroked-button (click)="addCharacter()">Aceptar</button>
+    </div>
+</ng-template>
+
+
+<ng-template #addGameRelationDialog>
+    <mat-form-field style="width: 100%;">
+        <mat-label>Relación</mat-label>
+        <mat-select [(ngModel)]="gameRelation">
+          <mat-option [value]="GameRelation.collection">Recopilatorio</mat-option>
+          <mat-option [value]="GameRelation.remaster">Remaster</mat-option>
+          <mat-option [value]="GameRelation.remake">Remake</mat-option>
+          <mat-option [value]="GameRelation.spinoff">Spin off</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <vgdb-multi-autocomplete-field *ngIf="gameRelation === GameRelation.collection" [dataType]="'game'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="gamesCollection"></vgdb-multi-autocomplete-field>
+    <vgdb-multi-autocomplete-field *ngIf="gameRelation === GameRelation.remaster" [dataType]="'game'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="gamesRemaster"></vgdb-multi-autocomplete-field>
+    <vgdb-multi-autocomplete-field *ngIf="gameRelation === GameRelation.remake" [dataType]="'game'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="gamesRemake"></vgdb-multi-autocomplete-field>
+    <vgdb-multi-autocomplete-field *ngIf="gameRelation === GameRelation.spinoff" [dataType]="'game'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="gamesSpinoff"></vgdb-multi-autocomplete-field>
+    <div class="dialog-button">
+        <button mat-stroked-button (click)="addGameRelation()">Aceptar</button>
     </div>
 </ng-template>
 

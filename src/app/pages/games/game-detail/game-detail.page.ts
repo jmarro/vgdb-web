@@ -17,9 +17,10 @@ import { Franchise } from '../../../models/franchise.model';
 import { FranchisesResponse, FranchisesService } from '../../../services/franchises.service';
 import { Serie } from '../../../models/serie.model';
 import { AwardCategory } from '../../../models/awardCategory.model';
+import { GameRelation } from '../../../enums/game-relation.enum';
 
-type AddMethod =  "addGenres" | "addThemes"| "addDirectors"| "addPlatforms"| "addDevelopers" | "addPublishers" | "addPlayableCharacters" | "addAntagonistCharacters" | "addSecondaryCharacters" | "addVillainCharacters";
-type RemoveMethod =  "removeGenre" | "removeTheme" | "removeDirector" | "removePlatform" | "removeDeveloper" | "removePublisher" | "removePlayableCharacter" | "removeAntagonistCharacter" | "removeSecondaryCharacter" | "removeVillainCharacter";
+type AddMethod =  "addGenres" | "addThemes"| "addDirectors"| "addPlatforms"| "addDevelopers" | "addPublishers" | "addPlayableCharacters" | "addAntagonistCharacters" | "addSecondaryCharacters" | "addVillainCharacters" | "addGameToCollection" | "addGameRemake" | "addGameRemaster" | "addGameSpinoff";
+type RemoveMethod =  "removeGenre" | "removeTheme" | "removeDirector" | "removePlatform" | "removeDeveloper" | "removePublisher" | "removePlayableCharacter" | "removeAntagonistCharacter" | "removeSecondaryCharacter" | "removeVillainCharacter" | "removeGameFromCollection" | "removeGameRemake" | "removeGameRemaster" | "removeGameSpinoff";
 
 @Component({
   selector: 'vgdb-game-detail',
@@ -31,6 +32,7 @@ export class GameDetailPage implements OnInit, OnDestroy {
   public readonly CharacterRole: typeof CharacterRole = CharacterRole;
   public readonly GameStatus: typeof GameStatus = GameStatus;
   public readonly AwardResult: typeof AwardResult = AwardResult;
+  public readonly GameRelation: typeof GameRelation = GameRelation;
 
   public game: Game;
   public routerSubs: Subscription;
@@ -49,6 +51,16 @@ export class GameDetailPage implements OnInit, OnDestroy {
   public hideCharacters = true;
   public statusText: string = 'NO JUGADO';
 
+  public gamesCollection: Game[] = [];
+  public gamesRemaster: Game[] = [];
+  public gamesRemake: Game[] = [];
+  public gamesSpinoff: Game[] = [];
+
+  public gamesDerivedCollection: Game[] = [];
+  public gamesDerivedRemaster: Game[] = [];
+  public gamesDerivedRemake: Game[] = [];
+  public gamesDerivedSpinoff: Game[] = [];
+
 
 
   public dialog: DialogService;
@@ -63,6 +75,8 @@ export class GameDetailPage implements OnInit, OnDestroy {
   public seriesFromFranchise: Serie[];
 
   public charactersRole: CharacterRole;
+
+  public gameRelation: GameRelation;
 
   public manageAwardsShowList: boolean = true;
   
@@ -82,6 +96,8 @@ export class GameDetailPage implements OnInit, OnDestroy {
 
   @ViewChild('addCharactersDialog') addCharactersDialog: TemplateRef<any>;
 
+  @ViewChild('addGameRelationDialog') addGameRelationDialog: TemplateRef<any>;
+
   @ViewChild('manageAwardsDialog') manageAwardsDialog: TemplateRef<any>;
 
   constructor(private dialogFactoryService: DialogFactoryService,
@@ -94,6 +110,7 @@ export class GameDetailPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.cover = true;
     this.loadGame();
+
 
     this.routerSubs = this.router.events
     .pipe(filter(event => event instanceof NavigationEnd))  
@@ -280,6 +297,31 @@ export class GameDetailPage implements OnInit, OnDestroy {
     }
   }
 
+  public presentAddGameRelationDialog() {
+    this.gameRelation = GameRelation.collection;
+    this.openDialog({
+      headerText: 'Añadir juegos',
+      template: this.addGameRelationDialog
+    });
+  }
+
+  public addGameRelation() {
+    switch(this.gameRelation) {
+      case GameRelation.collection: 
+        this.addItemSelector(this.gamesCollection, 'addGameToCollection', 'removeGameFromCollection');
+        break;
+      case GameRelation.remake: 
+        this.addItemSelector(this.gamesRemake, 'addGameRemake', 'removeGameRemake');
+        break;
+      case GameRelation.remaster: 
+        this.addItemSelector(this.gamesRemake, 'addGameRemaster', 'removeGameRemaster');
+        break;
+      case GameRelation.spinoff: 
+        this.addItemSelector(this.gamesSpinoff, 'addGameSpinoff', 'removeGameSpinoff');
+        break;
+    }
+  }
+
   public presentManageAwardsDialog() {
     this.manageAwardsShowList = true;
     this.openDialog({
@@ -311,6 +353,7 @@ export class GameDetailPage implements OnInit, OnDestroy {
 
 
   private loadGame() {
+    this.resetData();
     const split = this.router.url.split('/');
     const id = parseInt(split[split.length - 1]);
     this.gamesService.getGame(id).subscribe(result => {
@@ -326,6 +369,21 @@ export class GameDetailPage implements OnInit, OnDestroy {
         this.charactersAntagonist = this.game.characters.filter(character => character.Game_Character?.type === CharacterRole.antagonist);
         this.charactersVillain = this.game.characters.filter(character => character.Game_Character?.type === CharacterRole.villain);
       }
+
+      if (this.game.parentGames?.length) {
+        this.gamesCollection = this.game.parentGames.filter(game => game.Game_Games?.type === GameRelation.collection);
+        this.gamesRemake = this.game.parentGames.filter(game => game.Game_Games?.type === GameRelation.remake);
+        this.gamesRemaster = this.game.parentGames.filter(game => game.Game_Games?.type === GameRelation.remaster);
+        this.gamesSpinoff = this.game.parentGames.filter(game => game.Game_Games?.type === GameRelation.spinoff);
+      }
+
+      if (this.game.subGames?.length) {
+        this.gamesDerivedCollection = this.game.subGames.filter(game => game.Game_Games?.type === GameRelation.collection);
+        this.gamesDerivedRemake = this.game.subGames.filter(game => game.Game_Games?.type === GameRelation.remake);
+        this.gamesDerivedRemaster = this.game.subGames.filter(game => game.Game_Games?.type === GameRelation.remaster);
+        this.gamesDerivedSpinoff = this.game.subGames.filter(game => game.Game_Games?.type === GameRelation.spinoff);
+      }
+
       if (this.game.awards?.length) {
         this.mainAwards = this.game.awards.filter(award => award.award?.is_main && award.is_main);
       }
@@ -419,6 +477,24 @@ export class GameDetailPage implements OnInit, OnDestroy {
       franchiseId: [null, Validators.required],
       serieId: [null, Validators.required]
     });
+  }
+
+  private resetData() {
+    this.companiesDev = [];
+    this.companiesPub = [];
+    this.charactersPlayable = [];
+    this.charactersSecondary = [];
+    this.charactersAntagonist = [];
+    this.charactersVillain = [];
+    this.mainAwards = [];
+    this.gamesCollection = [];
+    this.gamesRemaster = [];
+    this.gamesRemake = [];
+    this.gamesSpinoff = [];
+    this.gamesDerivedCollection = [];
+    this.gamesDerivedRemaster = [];
+    this.gamesDerivedRemake = [];
+    this.gamesDerivedSpinoff = [];
   }
 
 }

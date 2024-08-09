@@ -1,5 +1,6 @@
 export enum PlatformType {
     desktop = 'desktop',
     portable = 'portable',
-    hybrid = 'hybrid'
+    hybrid = 'hybrid',
+    peripheral = 'peripheral'
 }

@@ -5,6 +5,7 @@ import { Company } from "./company.model";
 import { Franchise } from "./franchise.model";
 import { Game_Character } from "./game_character.model";
 import { Game_Company } from "./game_company.model";
+import { Game_Game } from "./game_game.model";
 import { Genre } from "./genre.model";
 import { Person } from "./person.model";
 import { Platform } from "./platform.model";
@@ -32,7 +33,6 @@ export interface Game {
     serieId?: number;
     franchise?: Franchise;
     serie?: Serie;
-    parent_game?: Game;
     genres?: Genre[];
     themes?: Theme[];
     directors?: Person[];
@@ -41,5 +41,8 @@ export interface Game {
     characters?: Character[];
     Game_Company?: Game_Company;
     Game_Character?: Game_Character;
+    Game_Games?: Game_Game;
     awards?: AwardCategory[];
+    parentGames?: Game[];
+    subGames?: Game[];
 };

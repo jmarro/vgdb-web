@@ -10,6 +10,7 @@ import { ThemesService } from '../../services/themes.service';
 import { PlatformsService } from '../../services/platforms.service';
 import { CompaniesService } from '../../services/companies.service';
 import { CharactersService } from '../../services/characters.service';
+import { GamesService } from '../../services/games.service';
 
 @Component({
   selector: 'vgdb-multi-autocomplete-field',
@@ -41,6 +42,7 @@ export class MultiAutocompleteFieldComponent {
 
   constructor(private charactersService: CharactersService,
     private companiesService: CompaniesService,
+    private gamesService: GamesService,
     private genresService: GenresService,
     private peopleService: PeopleService,
     private platformsService: PlatformsService,
@@ -67,6 +69,13 @@ export class MultiAutocompleteFieldComponent {
         this.propertyResponse = 'companies';
         this.companiesService.getList().subscribe(result => {
           this.allItems = result.companies;
+        });
+      break;
+      case 'game':
+        this.imgPath = 'games';
+        this.propertyResponse = 'games';
+        this.gamesService.getList().subscribe(result => {
+          this.allItems = result.games;
         });
       break;
       case 'genre':
@@ -135,6 +144,8 @@ export class MultiAutocompleteFieldComponent {
         return this.charactersService.getFilteredList(text);
       case 'company':
         return this.companiesService.getFilteredList(text);
+      case 'game':
+        return this.gamesService.getFilteredList(text);
       case 'genre':
         return this.genresService.getFilteredList(text);
       case 'person':
