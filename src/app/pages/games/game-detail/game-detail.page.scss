@@ -36,7 +36,7 @@
 
             }
             
-            &.NES, &.Master, &.Disk {
+            &.NES, &.Master, &.Disk, &.Boy {
                 background-color: white;
             }
         }
@@ -181,6 +181,10 @@
         }
 
     }
+}
+
+.dlc {
+    margin-bottom: 30px;
 }
 
 .awards-list {

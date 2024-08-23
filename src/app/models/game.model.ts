@@ -45,4 +45,5 @@ export interface Game {
     awards?: AwardCategory[];
     parentGames?: Game[];
     subGames?: Game[];
+    dlc?: string;
 };

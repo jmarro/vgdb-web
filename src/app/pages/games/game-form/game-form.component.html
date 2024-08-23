@@ -61,6 +61,10 @@
             <mat-label>Wikipedia</mat-label>
             <input id="wikipedia" type="text" formControlName="wikipedia" matInput>
         </mat-form-field>
+        <mat-form-field>
+            <mat-label>Expansiones/DLCs</mat-label>
+            <textarea id="dlc" formControlName="dlc" matInput></textarea>
+        </mat-form-field>
         
         <div class="form-button">
             <button type="submit" [disabled]="!gameForm.valid" *ngIf="!data" mat-stroked-button>Crear</button>

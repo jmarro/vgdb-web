@@ -58,7 +58,8 @@ export class GameFormComponent implements OnInit {
       owned: [data?.owned],
       alt_name: [data?.alt_name],
       media: [data?.media],
-      wikipedia: [data?.wikipedia]
+      wikipedia: [data?.wikipedia],
+      dlc: [data?.dlc]
     });
   }
 }

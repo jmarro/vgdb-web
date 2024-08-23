@@ -495,6 +495,7 @@ export class GameDetailPage implements OnInit, OnDestroy {
     this.gamesDerivedRemaster = [];
     this.gamesDerivedRemake = [];
     this.gamesDerivedSpinoff = [];
+    this.gamesOfSerie = [];
   }
 
 }
