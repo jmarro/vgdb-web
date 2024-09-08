@@ -47,10 +47,15 @@ export class PlatformsPage implements OnInit {
   }
 
   public search(term: string, page: number) {
+    this.term = term;
     this.platformsService.getFilteredList(term, page).subscribe(result => {
       console.log('result', result);
       this.platforms = result.platforms;
     });
+  }
+
+  public navigateTo(event: any) {
+    this.router.navigate(['platforms', event]);
   }
 
   public pageChange(page: number) {

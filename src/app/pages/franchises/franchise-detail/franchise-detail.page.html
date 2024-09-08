@@ -58,6 +58,26 @@
                 </div>
             </div>
         </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="franchise.subFranchises && franchise.subFranchises.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Franquicias derivadas
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+                <vgdb-items-list [itemsList]="franchise.subFranchises"
+                                    navigateTo="franchises" imgPath="franchises">
+                </vgdb-items-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="franchise.parentFranchises && franchise.parentFranchises.length">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Franquicias relacionadas
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+                <vgdb-items-list [itemsList]="franchise.parentFranchises"
+                                    navigateTo="franchises" imgPath="franchises">
+                </vgdb-items-list>
+        </mat-expansion-panel>
         <mat-expansion-panel *ngIf="charactersMain && charactersMain.length">
             <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
               <mat-panel-title>
@@ -124,6 +144,10 @@
                 <mat-icon>list_alt</mat-icon>
                 <span>Gestionar series</span>
             </button>
+            <button mat-menu-item (click)="presentAddParentFranchisesDialog()">
+                <mat-icon>group_work</mat-icon>
+                <span>Añadir franquicias relacionadas</span>
+            </button>
             <button mat-menu-item (click)="presentDeleteDialog()">
               <mat-icon>delete</mat-icon>
               <span>Eliminar</span>
@@ -170,6 +194,13 @@
     <vgdb-multi-autocomplete-field [dataType]="'person'" (onItemSelected)="onCreatorChange($event)" [itemsPreSelected]="franchise.creators"></vgdb-multi-autocomplete-field>
     <div class="dialog-button">
         <button mat-stroked-button (click)="addCreator()">Aceptar</button>
+    </div>
+</ng-template>
+
+<ng-template #addParentFranchisesDialog>
+    <vgdb-multi-autocomplete-field [dataType]="'franchise'" (onItemSelected)="onParentFranchiseChange($event)" [itemsPreSelected]="franchise.parentFranchises"></vgdb-multi-autocomplete-field>
+    <div class="dialog-button">
+        <button mat-stroked-button (click)="addParentFranchise()">Aceptar</button>
     </div>
 </ng-template>
 

@@ -1,5 +1,5 @@
 <div class="common-content">
-    <vgdb-common-list-header (dialogNewOpen)="dispatchNewDialog()" (toSearch)="search($event, 0)"></vgdb-common-list-header>
+    <vgdb-common-list-header [dataType]="'person'" (dialogNewOpen)="dispatchNewDialog()" (toSearch)="search($event, 0)" (toNavigate)="navigateTo($event)"></vgdb-common-list-header>
     <div *ngIf="!!people.length">
         <vgdb-items-list [itemsList]="people"
                          [itemsTotal]="itemsTotal"

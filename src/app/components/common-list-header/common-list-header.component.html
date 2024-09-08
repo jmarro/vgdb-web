@@ -3,9 +3,24 @@
       <mat-icon>add</mat-icon>
    </button>
    <div class="search-container">
-      <mat-form-field><input id="name" type="search" placeholder="Buscar" [(ngModel)]="searchTerm" matInput (keyup)="keyup($event)"></mat-form-field>
+      <mat-form-field>
+         <mat-label>Buscar</mat-label>
+         <input matInput
+               #itemInput
+               (keyup)="keyup($event)"
+               [(ngModel)]="searchTerm"
+               [formControl]="formCtrl"
+               [matAutocomplete]="auto">
+                 <mat-autocomplete #auto="matAutocomplete" (optionSelected)='navigateTo($event.option.value)'>
+                  <mat-option *ngFor="let item of filteredItems | async" [value]="item">
+                    <div class="info-entry"><div class="value-info"><img class="img-line" [src]="'http://localhost:3000/images/'+imgPath+'/'+item.main_img"/>{{item.name}}</div></div>
+                  </mat-option>
+                </mat-autocomplete>
+      </mat-form-field>
       <button mat-icon-button aria-label="Nueva" (click)="search()">
          <mat-icon>search</mat-icon>
       </button>
    </div>
 </div>
+
+

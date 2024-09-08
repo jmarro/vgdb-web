@@ -40,6 +40,8 @@ export class FranchiseDetailPage implements OnInit, OnDestroy {
 
   public creatorsFromSelector: Person[];
 
+  public parentFranchisesFromSelector: Franchise[];
+
   public addingOwnerCompany: boolean = true;
 
   public manageSerieShowList: boolean = true;
@@ -52,6 +54,7 @@ export class FranchiseDetailPage implements OnInit, OnDestroy {
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
   @ViewChild('removeCompanyDialog') removeCompanyDialog: TemplateRef<any>;
   @ViewChild('addCreatorsDialog') addCreatorsDialog: TemplateRef<any>;
+  @ViewChild('addParentFranchisesDialog') addParentFranchisesDialog: TemplateRef<any>;
 
   @ViewChild('companyForm') companyForm: TemplateRef<any>;
 
@@ -195,6 +198,42 @@ export class FranchiseDetailPage implements OnInit, OnDestroy {
     }
   }
 
+
+  public presentAddParentFranchisesDialog() {
+    this.openDialog({
+      headerText: 'Añadir franquicia',
+      template: this.addParentFranchisesDialog
+    });
+  }
+
+  public onParentFranchiseChange(value: Franchise[]) {
+    this.parentFranchisesFromSelector = value;
+  }
+
+  public addParentFranchise() {
+    this.parentFranchisesFromSelector = this.parentFranchisesFromSelector ? this.parentFranchisesFromSelector : [];
+    const franchisesToAdd = this.parentFranchisesFromSelector.filter(o => !this.franchise.parentFranchises!.some((i: any) => i.id === o.id));
+    const franchisesToRemove = this.franchise.parentFranchises!.filter(o => !this.parentFranchisesFromSelector.some((i: any) => i.id === o.id));
+    const observables = [];
+    if (franchisesToAdd.length) {
+      observables.push(this.franchisesService.addParentFranchises(this.franchise.id!, franchisesToAdd));
+    }
+    if (franchisesToRemove.length) {
+      franchisesToRemove.forEach(franchise => {
+        observables.push(this.franchisesService.removeParentFranchise(this.franchise.id!, franchise));
+      });
+    }
+
+    if(observables.length) {
+      forkJoin(observables).subscribe(result => {
+        console.log('ok??', result)
+        this.formSubmitted();
+      });
+    } else {
+      this.closeDialog();
+    }
+  }
+
   public presentManageSerieDialog() {
     this.manageSerieShowList = true;
     this.selectedSerie = undefined;
@@ -222,6 +261,7 @@ export class FranchiseDetailPage implements OnInit, OnDestroy {
   }
 
   private loadFranchise() {
+    this.resetData();
     const split = this.router.url.split('/');
     const id = parseInt(split[split.length - 1]);
     this.franchisesService.getFranchise(id).subscribe(result => {
@@ -251,6 +291,15 @@ export class FranchiseDetailPage implements OnInit, OnDestroy {
     return this.formBuilder.group({
       ownerId: [null, Validators.required]
     });
+  }
+
+  private resetData() {
+    this.charactersMain = [];
+    this.charactersSecondary = [];
+    this.charactersAntagonist = [];
+    this.charactersVillain = [];
+    this.seriesMain = [];
+    this.seriesNotMain = [];
   }
 
 }

@@ -49,6 +49,7 @@ export class AwardsPage implements OnInit {
   }
 
   public search(term: string, page: number) {
+    this.term = term;
     this.awardsService.getFilteredList(term, page).subscribe(result => {
       console.log('result', result);
       this.awards = result.awards;
@@ -57,6 +58,10 @@ export class AwardsPage implements OnInit {
 
   public pageChange(page: number) {
     this.term.length ? this.search(this.term, page) : this.getAwards(page);
+  }
+
+  public navigateTo(event: any) {
+    this.router.navigate(['awards', event]);
   }
 
   private openDialog(dialogData: any): void {

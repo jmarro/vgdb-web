@@ -50,6 +50,7 @@
     margin-bottom: 30px;
     .game-data {
         display: flex;
+        align-items: flex-start;
     }
     .cover-container {
         background-color: variables.$light-grey;
@@ -59,14 +60,16 @@
         margin-right: 30px;
         max-height: 500px;
         .cover-img {
-            width: 215px;
-            max-height: 450px;
+            max-width: 350px;
+            max-height: 350px;
             margin: auto;
             display: block;
             object-fit: cover;
         }
         .cover-selector {
             margin: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
     }
     .game-info {

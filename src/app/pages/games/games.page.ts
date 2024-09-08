@@ -47,11 +47,16 @@ export class GamesPage implements OnInit {
   }
 
   public search(term: string, page: number) {
+    this.term = term;
     this.gamesService.getFilteredList(term, page).subscribe(result => {
       console.log('result', result);
       this.games = result.games;
       this.itemsTotal = result.count;
     });
+  }
+
+  public navigateTo(event: any) {
+    this.router.navigate(['games', event]);
   }
 
   public pageChange(page: number) {

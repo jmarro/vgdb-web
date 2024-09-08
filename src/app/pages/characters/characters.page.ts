@@ -58,6 +58,10 @@ export class CharactersPage implements OnInit {
     this.term.length ? this.search(this.term, page) : this.getCharacters(page);
   }
 
+  public navigateTo(event: any) {
+    this.router.navigate(['characters', event]);
+  }
+
   private openDialog(dialogData: any): void {
     this.dialog = this.dialogFactoryService.open(dialogData);
   }

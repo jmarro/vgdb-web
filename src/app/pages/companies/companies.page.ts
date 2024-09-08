@@ -59,6 +59,10 @@ export class CompaniesPage implements OnInit {
     this.term.length ? this.search(this.term, page) : this.getCompanies(page);
   }
 
+  public navigateTo(event: any) {
+    this.router.navigate(['companies', event]);
+  }
+
   private openDialog(dialogData: any): void {
     this.dialog = this.dialogFactoryService.open(dialogData);
   }

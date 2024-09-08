@@ -70,4 +70,14 @@ export class FranchisesService {
         const creatorId = creator.id;
         return this.httpService.post(`http://localhost:3000/franchises/${id}/removeCreator`, {creatorId});
     }
+
+    public addParentFranchises(id: number, franchises: Franchise[]): Observable<any> {
+        const franchisesIds = franchises.map(franchise => franchise.id);
+        return this.httpService.post(`http://localhost:3000/franchises/${id}/addParentFranchises`, franchisesIds);
+    }
+
+    public removeParentFranchise(id: number, franchise: Franchise): Observable<any> {
+        const franchiseId = franchise.id;
+        return this.httpService.post(`http://localhost:3000/franchises/${id}/removeParentFranchise`, {franchiseId});
+    }
 }

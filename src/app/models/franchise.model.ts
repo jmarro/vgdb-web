@@ -14,11 +14,12 @@ export interface Franchise {
     company_creator_id?: number;
     company?: Company;
     company_creator?: Company;
-    franchises_parents?: Franchise[];
-    subfranchises?: Franchise[];
+    parentFranchises?: Franchise[];
+    subFranchises?: Franchise[];
     parent_id?: number;
     creators?: Person[];
     characters?: Character[];
     series?: Serie[];
     is_main?: boolean;
+
 };

@@ -53,6 +53,10 @@ export class FranchisesPage implements OnInit {
     });
   }
 
+  public navigateTo(event: any) {
+    this.router.navigate(['franchises', event]);
+  }
+
   public pageChange(page: number) {
     this.term.length ? this.search(this.term, page) : this.getFranchises(page);
   }

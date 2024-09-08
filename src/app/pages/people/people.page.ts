@@ -48,6 +48,7 @@ export class PeoplePage implements OnInit {
   }
 
   public search(term: string, page: number) {
+    this.term = term;
     this.peopleService.getFilteredList(term, page).subscribe(result => {
       console.log('result', result);
       this.people = result.people;
@@ -57,6 +58,10 @@ export class PeoplePage implements OnInit {
 
   public pageChange(page: number) {
     this.term.length ? this.search(this.term, page) : this.getPeople(page);
+  }
+
+  public navigateTo(event: any) {
+    this.router.navigate(['people', event]);
   }
 
   private openDialog(dialogData: any): void {
