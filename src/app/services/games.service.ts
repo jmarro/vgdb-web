@@ -24,9 +24,10 @@ export class GamesService {
     constructor(private httpService: HttpClient) { 
     }
 
-    public getList(page?: number): Observable<GamesResponse> {
+    public getList(page?: number, order?: string): Observable<GamesResponse> {
         let pageNumber = page || 0;
-        return this.httpService.get(`http://localhost:3000/games?page=${pageNumber}`).pipe(
+        let orderBy = order || 'score';
+        return this.httpService.get(`http://localhost:3000/games?page=${pageNumber}&orderBy=${orderBy}`).pipe(
             map((res: any) => {
                 return {
                     count: res.count,

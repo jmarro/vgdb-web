@@ -1,0 +1,16 @@
+<div *ngIf="gamesFilters">
+    <form [formGroup]="gamesFilters" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>Ordenar por</mat-label>
+            <mat-select id="order_by" formControlName="order_by">
+              <mat-option [value]="'score'">Notas</mat-option>
+              <mat-option [value]="'name'">Nombre</mat-option>
+              <mat-option [value]="'release_date'">Año</mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <div class="form-button">
+            <button type="submit" [disabled]="!gamesFilters.valid" *ngIf="!data" mat-stroked-button>Filtrar</button>
+        </div>
+    </form>
+</div>

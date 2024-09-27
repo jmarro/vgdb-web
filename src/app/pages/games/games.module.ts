@@ -30,12 +30,14 @@ import { DialogModule } from '../../components/dialog/dialog.module';
 import { SafePipe } from 'safe-pipe';
 import { GameFormComponent } from './game-form/game-form.component';
 import { GameAwardFormComponent } from './game-award-form/game-award-form.component';
+import { GamesFiltersComponent } from './games-filters/games-filters.component';
 
 @NgModule({
   declarations: [
     GamesPage,
     GameDetailPage,
     GameFormComponent,
+    GamesFiltersComponent,
     GameAwardFormComponent
   ],
   imports: [

@@ -18,8 +18,10 @@ export class GamesPage implements OnInit {
 
   public itemsTotal: number;
   public term = '';
+  public order = 'score';
 
   @ViewChild('gameForm') gameForm: TemplateRef<any>;
+  @ViewChild('gamesFilters') gamesFilters: TemplateRef<any>;
 
   constructor(private dialogFactoryService: DialogFactoryService,
     private gamesService: GamesService,
@@ -46,6 +48,13 @@ export class GamesPage implements OnInit {
     });
   }
 
+  public dispatchFilterDialog() {
+    this.openDialog({
+      headerText: 'Filtros',
+      template: this.gamesFilters
+    });
+  }
+
   public search(term: string, page: number) {
     this.term = term;
     this.gamesService.getFilteredList(term, page).subscribe(result => {
@@ -55,20 +64,28 @@ export class GamesPage implements OnInit {
     });
   }
 
+  public filter(event: any) {
+    console.log('filter', event)
+    this.order = event.order_by;
+    this.getGames(0, event.order_by);
+    this.closeDialog();
+  }
+
   public navigateTo(event: any) {
     this.router.navigate(['games', event]);
   }
 
   public pageChange(page: number) {
-    this.term.length ? this.search(this.term, page) : this.getGames(page);
+    this.term.length ? this.search(this.term, page) : this.getGames(page, this.order);
   }
 
   private openDialog(dialogData: any): void {
     this.dialog = this.dialogFactoryService.open(dialogData);
   }
 
-  private getGames(page: number) {
-    this.gamesService.getList(page).subscribe(result => {
+  private getGames(page: number, order?: string) {
+    const orderBy = order || 'score';
+    this.gamesService.getList(page, orderBy).subscribe(result => {
       console.log('result', result);
       this.games = result.games;
       this.itemsTotal = result.count;

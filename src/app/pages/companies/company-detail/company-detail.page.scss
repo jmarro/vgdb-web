@@ -3,9 +3,8 @@
 .flag {
     border: 1px solid black;
     background-size: cover;
-    height: 30px;
-    width: 50px;
-    line-height: 0.7;
+    max-height: 50px;
+    max-width: 150px;
     margin-left: 4px;
 }
 

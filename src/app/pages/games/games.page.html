@@ -1,5 +1,5 @@
 <div class="common-content">
-    <vgdb-common-list-header [dataType]="'game'" (dialogNewOpen)="dispatchNewDialog()" (toSearch)="search($event, 0)" (toNavigate)="navigateTo($event)"></vgdb-common-list-header>
+    <vgdb-common-list-header [dataType]="'game'" (dialogNewOpen)="dispatchNewDialog()" (toSearch)="search($event, 0)" (toNavigate)="navigateTo($event)" (dialogFilterOpen)="dispatchFilterDialog()"></vgdb-common-list-header>
     <div *ngIf="!!games.length">
         <vgdb-items-list [itemsList]="games"
                          [itemsTotal]="itemsTotal"
@@ -13,3 +13,4 @@
 </div>
 
 <ng-template #gameForm><vgdb-game-form (submitted)="formSubmitted($event)"></vgdb-game-form></ng-template>
+<ng-template #gamesFilters><vgdb-games-filters (submitted)="filter($event)"></vgdb-games-filters></ng-template>

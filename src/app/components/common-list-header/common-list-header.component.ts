@@ -22,6 +22,7 @@ export class CommonListHeaderComponent implements OnInit {
   @Input('dataType') dataType: any;
 
   @Output() dialogNewOpen: EventEmitter<boolean> = new EventEmitter();
+  @Output() dialogFilterOpen: EventEmitter<boolean> = new EventEmitter();
   @Output() toSearch: EventEmitter<string> = new EventEmitter();
   @Output() toNavigate: EventEmitter<string> = new EventEmitter();
 
@@ -120,6 +121,10 @@ export class CommonListHeaderComponent implements OnInit {
 
   public dispatchDialog() {
     this.dialogNewOpen.emit(true);
+  }
+
+  public dispatchFilters() {
+    this.dialogFilterOpen.emit(true);
   }
 
   public search() {
