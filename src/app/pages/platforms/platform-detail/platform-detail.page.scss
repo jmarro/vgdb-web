@@ -9,7 +9,11 @@
    .platform-img {
        margin-right: 50px;
        img {
-           width: 200px;
+        max-width: 350px;
+        max-height: 350px;
+        margin: auto;
+        display: block;
+        object-fit: cover;
        }
    }
 }
