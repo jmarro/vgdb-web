@@ -74,21 +74,30 @@
                 </vgdb-items-list>
             </div>
         </mat-expansion-panel>
-        <mat-expansion-panel *ngIf="company.games && company.games.length">
+        <mat-expansion-panel *ngIf="company.total_games_developed">
             <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
               <mat-panel-title>
-                Juegos
+                Juegos Desarrollados
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <div *ngIf="gamesDev && gamesDev.length" class="expansion-container">
-                <div class="subtitle">Desarrollados:</div>
-                <vgdb-items-list [itemsList]="gamesDev"
+            <div class="expansion-container">
+                <vgdb-items-list [itemsList]="company.games_developed!"
+                                [itemsTotal]="company.total_games_developed"
+                                (onPageChange)="gamesPageDevelopedChange($event)"
                             navigateTo="games" imgPath="games">
                 </vgdb-items-list>
             </div>
-            <div *ngIf="gamesPub && gamesPub.length" class="expansion-container">
-                <div class="subtitle">Publicados:</div>
-                <vgdb-items-list [itemsList]="gamesPub"
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="company.total_games_published">
+            <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+              <mat-panel-title>
+                Juegos Publicados
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="expansion-container">
+                <vgdb-items-list [itemsList]="company.games_published!"
+                                [itemsTotal]="company.total_games_published"
+                                (onPageChange)="gamesPagePublishedChange($event)"
                             navigateTo="games" imgPath="games">
                 </vgdb-items-list>
             </div>

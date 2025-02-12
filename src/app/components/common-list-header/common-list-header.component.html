@@ -13,7 +13,7 @@
                [matAutocomplete]="auto">
                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)='navigateTo($event.option.value)'>
                   <mat-option *ngFor="let item of filteredItems | async" [value]="item">
-                    <div class="info-entry"><div class="value-info"><img class="img-line" [src]="'http://localhost:3000/images/'+imgPath+'/'+item.main_img"/>{{item.name}}</div></div>
+                    <div class="info-entry"><div class="value-info"><img class="img-line" [src]="'http://localhost:3000/images/'+imgPath+'/'+item.main_img"/>{{item.name}}<span *ngIf="item.release_date">&nbsp;({{getYear(item.release_date)}})</span></div></div>
                   </mat-option>
                 </mat-autocomplete>
       </mat-form-field>

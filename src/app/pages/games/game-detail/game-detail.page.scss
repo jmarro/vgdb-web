@@ -36,8 +36,11 @@
 
             }
             
-            &.NES, &.Master, &.Disk, &.Boy {
+            &.NES, &.Master, &.Disk, &.Boy, &.Satellaview {
                 background-color: white;
+                &.Virtual {
+                    background-color: black;
+                }
             }
         }
     }

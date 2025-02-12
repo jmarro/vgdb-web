@@ -30,7 +30,8 @@ export class CompaniesService {
 
     public getFilteredList(name:string, page?: number): Observable<CompaniesResponse> {
         let pageNumber = page || 0;
-        return this.httpService.get(`http://localhost:3000/companies?name=${name}&page=${pageNumber}`).pipe(
+        let nameEncoded = encodeURIComponent(name);
+        return this.httpService.get(`http://localhost:3000/companies?name=${nameEncoded}&page=${pageNumber}`).pipe(
             map((res: any) => {
                 return {
                     count: res.count,
@@ -40,10 +41,21 @@ export class CompaniesService {
         );
     }
 
-    public getCompany(id: number): Observable<Company> {
-        return this.httpService.get(`http://localhost:3000/companies/${id}`).pipe(
+    public getCompany(id: number, pageDeveloped?: number, pagePublished?: number): Observable<Company> {
+        let pageDevelopedNumber = pageDeveloped || 0;
+        let pagePublishedNumber = pagePublished || 0;
+        return this.httpService.get(`http://localhost:3000/companies/${id}?pageDeveloped=${pageDevelopedNumber}&pagePublished=${pagePublishedNumber}`).pipe(
             map((res: any) => {
-                return res[0] as Company;
+                let company = res.companies[0];
+                if (!!res.games_developed.count) {
+                    company.games_developed = res.games_developed.rows;
+                    company.total_games_developed = res.games_developed.count;
+                }
+                if (!!res.games_published.count) {
+                    company.games_published = res.games_published.rows;
+                    company.total_games_published = res.games_published.count;
+                }
+                return company as Company;
             })
         );
     }

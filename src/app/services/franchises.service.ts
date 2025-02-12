@@ -31,7 +31,8 @@ export class FranchisesService {
 
     public getFilteredList(name:string, page?: number): Observable<FranchisesResponse> {
         let pageNumber = page || 0;
-        return this.httpService.get(`http://localhost:3000/franchises?name=${name}&page=${pageNumber}`).pipe(
+        let nameEncoded = encodeURIComponent(name);
+        return this.httpService.get(`http://localhost:3000/franchises?name=${nameEncoded}&page=${pageNumber}`).pipe(
             map((res: any) => {
                 return {
                     count: res.count,

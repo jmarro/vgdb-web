@@ -24,7 +24,10 @@ export interface Company {
     notes?: string;
     franchises?: Franchise[];
     franchises_created?: Franchise[];
-    games?: Game[];
+    games_developed?: Game[];
+    games_published?: Game[];
     Game_Company?: Game_Company;
     is_main?: boolean;
+    total_games_developed?: number;
+    total_games_published?: number;
 };

@@ -39,7 +39,8 @@ export class GamesService {
 
     public getFilteredList(name:string, page?: number): Observable<GamesResponse> {
         let pageNumber = page || 0;
-        return this.httpService.get(`http://localhost:3000/games?name=${name}&page=${pageNumber}`).pipe(
+        let nameEncoded = encodeURIComponent(name);
+        return this.httpService.get(`http://localhost:3000/games?name=${nameEncoded}&page=${pageNumber}`).pipe(
             map((res: any) => {
                 return {
                     count: res.count,

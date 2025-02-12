@@ -127,6 +127,10 @@ export class CommonListHeaderComponent implements OnInit {
     this.dialogFilterOpen.emit(true);
   }
 
+  public getYear(date: string) {
+    return new Date(date).getFullYear();
+  }
+
   public search() {
     this.toSearch.emit(this.searchTerm);
   }

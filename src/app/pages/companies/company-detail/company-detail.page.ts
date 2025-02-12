@@ -24,14 +24,14 @@ export class CompanyDetailPage implements OnInit, OnDestroy {
   public companiesToBeParent: Company[];
   public companiesInCurrentSearch: Company[];
   public routerSubs: Subscription;
-  public gamesDev: Game[] = [];
-  public gamesPub: Game[] = [];
   public subcompaniesDivision: Company[] = [];
   public subcompaniesMerge: Company[] = [];
   public subcompaniesAdquision: Company[] = [];
   public backgroundStyle: any;
   public filteredCompanies: Observable<Company[]>;
   public companyParentForm: FormGroup;
+  public pageDeveloped = 0;
+  public pagePublished = 0;
 
   public dialog: DialogService;
   
@@ -137,21 +137,27 @@ export class CompanyDetailPage implements OnInit, OnDestroy {
     });
   }
 
+  public gamesPageDevelopedChange(page: number) {
+    this.pageDeveloped = page;
+    this.loadCompany(page, this.pagePublished);
+  }
+
+  public gamesPagePublishedChange(page: number) {
+    this.pagePublished = page;
+    this.loadCompany(this.pageDeveloped, page);
+  }
+
   private openDialog(dialogData: any): void {
     this.dialog = this.dialogFactoryService.open(dialogData);
   }
 
-  private loadCompany() {
+  private loadCompany(pageDeveloped?: number, pagePublished?: number) {
     const split = this.router.url.split('/');
     const id = parseInt(split[split.length - 1]);
     this.resetValues();
-    this.companiesService.getCompany(id).subscribe(result => {
+    this.companiesService.getCompany(id, pageDeveloped, pagePublished).subscribe(result => {
       console.log('company', result)
       this.company = result;
-      if (this.company.games && this.company.games.length) {
-        this.gamesDev = this.company.games.filter(company => company.Game_Company?.type === CompanyType.developer);
-        this.gamesPub = this.company.games.filter(company => company.Game_Company?.type === CompanyType.publisher);
-      }
       if (this.company.sub_companies && this.company.sub_companies.length){
         this.subcompaniesAdquision = this.company.sub_companies.filter(company => company.owner_relation === CompanyOwnerRelation.adquisition);
         this.subcompaniesDivision = this.company.sub_companies.filter(company => company.owner_relation === CompanyOwnerRelation.division);
@@ -162,8 +168,6 @@ export class CompanyDetailPage implements OnInit, OnDestroy {
   }
 
   private resetValues() {
-    this.gamesDev = [];
-    this.gamesPub = [];
     this.subcompaniesAdquision = [];
     this.subcompaniesDivision = [];
     this.subcompaniesMerge = [];
