@@ -2,13 +2,14 @@ import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/c
 import { NavigationEnd, Router } from '@angular/router';
 import { CompaniesResponse, CompaniesService } from '../../../services/companies.service';
 import { Company } from '../../../models/company.model';
-import { Observable, Subscription, filter, map, mergeMap, of, startWith, tap } from 'rxjs';
+import { Observable, Subscription, filter, forkJoin, map, mergeMap, of, startWith, tap } from 'rxjs';
 import { Game } from '../../../models/game.model';
 import { CompanyType } from '../../../enums/company-type.enum';
 import { DialogService } from '../../../components/dialog/utils/dialog.service';
 import { DialogFactoryService } from '../../../components/dialog/utils/dialog-factory.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CompanyOwnerRelation } from '../../../enums/company-owner-relation.enum';
+import { Person } from '../../../models/person.model';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class CompanyDetailPage implements OnInit, OnDestroy {
   public companyParentForm: FormGroup;
   public pageDeveloped = 0;
   public pagePublished = 0;
+  public peopleFromSelector: Person[];
 
   public dialog: DialogService;
   
@@ -39,6 +41,7 @@ export class CompanyDetailPage implements OnInit, OnDestroy {
   @ViewChild('companyForm') companyForm: TemplateRef<any>;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
   @ViewChild('removeParentCompanyDialog') removeParentCompanyDialog: TemplateRef<any>;
+  @ViewChild('addPeopleDialog') addPeopleDialog: TemplateRef<any>;
 
   constructor(private companiesService: CompaniesService,
               private dialogFactoryService: DialogFactoryService,
@@ -145,6 +148,41 @@ export class CompanyDetailPage implements OnInit, OnDestroy {
   public gamesPagePublishedChange(page: number) {
     this.pagePublished = page;
     this.loadCompany(this.pageDeveloped, page);
+  }
+
+  public presentAddPeopleDialog() {
+    this.openDialog({
+      headerText: 'Añadir personas clave',
+      template: this.addPeopleDialog
+    });
+  }
+
+  public onPersonChange(value: any) {
+    this.peopleFromSelector = value;
+  }
+
+  public addPerson() {
+    this.peopleFromSelector = this.peopleFromSelector ? this.peopleFromSelector : [];
+    const peopleToAdd = this.peopleFromSelector.filter(o => !this.company.people!.some((i: any) => i.id === o.id));
+    const peopleToRemove = this.company.people!.filter(o => !this.peopleFromSelector.some((i: any) => i.id === o.id));
+    const observables = [];
+    if (peopleToAdd.length) {
+      observables.push(this.companiesService.addPeople(this.company.id!, peopleToAdd));
+    }
+    if (peopleToRemove.length) {
+      peopleToRemove.forEach(person => {
+        observables.push(this.companiesService.removePerson(this.company.id!, person));
+      });
+    }
+
+    if(observables.length) {
+      forkJoin(observables).subscribe(result => {
+        console.log('ok??', result)
+        this.formSubmitted();
+      });
+    } else {
+      this.closeDialog();
+    }
   }
 
   private openDialog(dialogData: any): void {

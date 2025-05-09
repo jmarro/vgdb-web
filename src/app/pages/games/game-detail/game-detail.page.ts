@@ -19,8 +19,8 @@ import { Serie } from '../../../models/serie.model';
 import { AwardCategory } from '../../../models/awardCategory.model';
 import { GameRelation } from '../../../enums/game-relation.enum';
 
-type AddMethod =  "addGenres" | "addThemes"| "addDirectors"| "addPlatforms"| "addDevelopers" | "addPublishers" | "addPlayableCharacters" | "addAntagonistCharacters" | "addSecondaryCharacters" | "addVillainCharacters" | "addGameToCollection" | "addGameRemake" | "addGameRemaster" | "addGameSpinoff";
-type RemoveMethod =  "removeGenre" | "removeTheme" | "removeDirector" | "removePlatform" | "removeDeveloper" | "removePublisher" | "removePlayableCharacter" | "removeAntagonistCharacter" | "removeSecondaryCharacter" | "removeVillainCharacter" | "removeGameFromCollection" | "removeGameRemake" | "removeGameRemaster" | "removeGameSpinoff";
+type AddMethod =  "addGenres" | "addThemes"| "addDirectors"| "addPlatforms"| "addDevelopers" | "addPublishers" | "addPlayableCharacters" | "addAntagonistCharacters" | "addSecondaryCharacters" | "addVillainCharacters" | "addCrossoverCharacters" | "addGameToCollection" | "addGameRemake" | "addGameRemaster" | "addGameSpinoff";
+type RemoveMethod =  "removeGenre" | "removeTheme" | "removeDirector" | "removePlatform" | "removeDeveloper" | "removePublisher" | "removePlayableCharacter" | "removeAntagonistCharacter" | "removeSecondaryCharacter" | "removeVillainCharacter" | "removeCrossoverCharacter" |"removeGameFromCollection" | "removeGameRemake" | "removeGameRemaster" | "removeGameSpinoff";
 
 @Component({
   selector: 'vgdb-game-detail',
@@ -44,6 +44,8 @@ export class GameDetailPage implements OnInit, OnDestroy {
   public charactersSecondary: Character[] = [];
   public charactersAntagonist: Character[] = [];
   public charactersVillain: Character[] = [];
+  public charactersCrossover: Character[] = [];
+  
   public mainAwards: AwardCategory[] = [];
   public displayedAwardsColumns: string[] = ['Game_Award.year', 'award.name', 'name', 'Game_Award.result'];
   public backgroundStyle: any;
@@ -294,6 +296,9 @@ export class GameDetailPage implements OnInit, OnDestroy {
       case CharacterRole.villain: 
         this.addItemSelector(this.charactersVillain, 'addVillainCharacters', 'removeVillainCharacter');
         break;
+      case CharacterRole.crossover: 
+        this.addItemSelector(this.charactersCrossover, 'addCrossoverCharacters', 'removeCrossoverCharacter');
+        break;
     }
   }
 
@@ -368,6 +373,7 @@ export class GameDetailPage implements OnInit, OnDestroy {
         this.charactersSecondary = this.game.characters.filter(character => character.Game_Character?.type === CharacterRole.secondary);
         this.charactersAntagonist = this.game.characters.filter(character => character.Game_Character?.type === CharacterRole.antagonist);
         this.charactersVillain = this.game.characters.filter(character => character.Game_Character?.type === CharacterRole.villain);
+        this.charactersCrossover = this.game.characters.filter(character => character.Game_Character?.type === CharacterRole.crossover);
       }
 
       if (this.game.parentGames?.length) {
@@ -486,6 +492,7 @@ export class GameDetailPage implements OnInit, OnDestroy {
     this.charactersSecondary = [];
     this.charactersAntagonist = [];
     this.charactersVillain = [];
+    this.charactersCrossover = [];
     this.mainAwards = [];
     this.gamesCollection = [];
     this.gamesRemaster = [];

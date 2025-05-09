@@ -35,6 +35,10 @@
                         ACTIVA
                     </div>
                 </div>
+                <div class="info-entry" *ngIf="company.people && company.people.length">
+                    <div class="label-info">Personas clave:</div>
+                    <div class="value-info" *ngFor="let person of company.people"><img class="img-line" [src]="'http://localhost:3000/images/people/'+person.main_img"/><a [routerLink]="['/people', person.id]">{{person.name}}</a></div>
+                </div>
                 <div class="info-entry" *ngIf="company.defunct_year">
                     <div class="label-info">Fecha disolución:</div>
                     <div class="value-info">{{company.defunct_year}}</div>
@@ -159,6 +163,10 @@
                     <mat-icon>apartment</mat-icon>
                     <span>Eliminar empresa matriz</span>
                   </button>
+                <button mat-menu-item (click)="presentAddPeopleDialog()">
+                    <mat-icon>person</mat-icon>
+                    <span>Añadir persona clave</span>
+                </button>
                 <button mat-menu-item (click)="presentDeleteDialog()">
                   <mat-icon>delete</mat-icon>
                   <span>Eliminar</span>
@@ -208,6 +216,13 @@
     <div class="alert-buttons">
         <button mat-stroked-button (click)="closeDialog()">No</button>
         <button mat-flat-button color="warn" (click)="removeParentCompany()">Sí</button>
+    </div>
+</ng-template>
+
+<ng-template #addPeopleDialog>
+    <vgdb-multi-autocomplete-field [dataType]="'person'" (onItemSelected)="onPersonChange($event)" [itemsPreSelected]="company.people"></vgdb-multi-autocomplete-field>
+    <div class="dialog-button">
+        <button mat-stroked-button (click)="addPerson()">Aceptar</button>
     </div>
 </ng-template>
 

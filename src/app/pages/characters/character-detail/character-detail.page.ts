@@ -28,6 +28,7 @@ export class CharacterDetailPage implements OnInit, OnDestroy {
   public gamesSecondary: Game[] = [];
   public gamesAntagonist: Game[] = [];
   public gamesVillain: Game[] = [];
+  public gamesCrossover: Game[] = [];
   public backgroundStyle: any;
 
   public filteredFranchises: Observable<Franchise[]>;
@@ -203,6 +204,7 @@ export class CharacterDetailPage implements OnInit, OnDestroy {
         this.gamesSecondary = this.character.games.filter(game => game.Game_Character?.type === CharacterRole.secondary);
         this.gamesAntagonist = this.character.games.filter(game => game.Game_Character?.type === CharacterRole.antagonist);
         this.gamesVillain = this.character.games.filter(game => game.Game_Character?.type === CharacterRole.villain);
+        this.gamesCrossover = this.character.games.filter(game => game.Game_Character?.type === CharacterRole.crossover);
       }
 
       this.backgroundStyle = this.getBackgroundStyle(this.character);

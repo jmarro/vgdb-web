@@ -3,5 +3,6 @@ export enum CharacterRole {
     playable = 'PLAYABLE',
     secondary = 'SECONDARY',
     antagonist = 'ANTAGONIST',
-    villain= 'VILLAIN'
+    villain= 'VILLAIN',
+    crossover= 'CROSSOVER'
 }

@@ -73,6 +73,12 @@
                                     navigateTo="games" imgPath="games">
                 </vgdb-items-list>
             </div>
+            <div *ngIf="gamesCrossover && gamesCrossover.length" class="expansion-container">
+                <div class="subtitle">Tiene crossover en:</div>
+                <vgdb-items-list [itemsList]="gamesCrossover"
+                                    navigateTo="games" imgPath="games">
+                </vgdb-items-list>
+            </div>
         </mat-expansion-panel>
         <div class="fav-button-bottom-right">
             <button mat-fab [style]="backgroundStyle" [matMenuTriggerFor]="menu">

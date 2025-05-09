@@ -170,6 +170,16 @@ export class GamesService {
         return this.httpService.post(`http://localhost:3000/games/${id}/removeVillainCharacter`, {characterId});
     }
 
+    public addCrossoverCharacters(id: number, characters: Character[]): Observable<any> {
+        const charactersIds = characters.map(character => character.id);
+        return this.httpService.post(`http://localhost:3000/games/${id}/addCrossoverCharacters`, charactersIds);
+    }
+
+    public removeCrossoverCharacter(id: number, character: Character): Observable<any> {
+        const characterId = character.id;
+        return this.httpService.post(`http://localhost:3000/games/${id}/removeCrossoverCharacter`, {characterId});
+    }
+
     public addAwards(id: number, awards: Game_Award[]): Observable<any> {
         return this.httpService.post(`http://localhost:3000/games/${id}/addAwards`, awards);
     }

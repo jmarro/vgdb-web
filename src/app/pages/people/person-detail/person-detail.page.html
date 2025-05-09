@@ -42,6 +42,16 @@
                               navigateTo="franchises" imgPath="franchises">
             </vgdb-items-list>
         </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="person.companies && person.companies.length">
+          <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
+            <mat-panel-title>
+              Compañias relacionadas
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <vgdb-items-list [itemsList]="person.companies"
+                            navigateTo="companies" imgPath="companies">
+          </vgdb-items-list>
+      </mat-expansion-panel>
         <mat-expansion-panel *ngIf="person.characters && person.characters.length">
             <mat-expansion-panel-header class="divider"[style]="backgroundStyle">
               <mat-panel-title>

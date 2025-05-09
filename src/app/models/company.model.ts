@@ -3,6 +3,7 @@ import { Franchise } from "./franchise.model";
 import { Game } from "./game.model";
 import { Game_Company } from "./game_company.model";
 import { Platform } from "./platform.model";
+import { Person } from "./person.model";
 
 export interface Company {
     id?: number;
@@ -19,6 +20,7 @@ export interface Company {
     ownerId?: number;
     parent_company?: Company;
     sub_companies?: Company[];
+    people?: Person[];
     platforms?: Platform[];
     previous_names?: string;
     notes?: string;

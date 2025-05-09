@@ -21,6 +21,7 @@ import { COMPANIES_ROUTES } from './companies-routes.page';
 import { CompanyDetailPage } from './company-detail/company-detail.page';
 import { CompaniesService } from '../../services/companies.service';
 import { CompanyFormComponent } from './company-form/company-form.component';
+import { MultiAutocompleteFieldComponentModule } from '../../components/multi-autocomplete-field/multi-autocomplete-field.module';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { CompanyFormComponent } from './company-form/company-form.component';
     MatMenuModule,
     MatInputModule,
     MatSelectModule,
+    MultiAutocompleteFieldComponentModule,
     ReactiveFormsModule,
     RouterModule.forChild(COMPANIES_ROUTES)
   ],

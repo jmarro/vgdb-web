@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Company } from '../models/company.model';
+import { Person } from '../models/person.model';
 
 export interface CompaniesResponse {
     count: number;
@@ -70,5 +71,15 @@ export class CompaniesService {
 
     public deleteCompany(id: number): Observable<any> {
         return this.httpService.delete(`http://localhost:3000/companies/${id}`);
+    }
+
+    public addPeople(id: number, people: Person[]): Observable<any> {
+        const peopleIds = people.map(person => person.id);
+        return this.httpService.post(`http://localhost:3000/companies/${id}/addPeople`, peopleIds);
+    }
+
+    public removePerson(id: number, person: Person): Observable<any> {
+        const personId = person.id;
+        return this.httpService.post(`http://localhost:3000/companies/${id}/removePerson`, {personId});
     }
 }

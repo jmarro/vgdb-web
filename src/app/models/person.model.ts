@@ -1,4 +1,5 @@
 import { Character } from "./character.model";
+import { Company } from "./company.model";
 import { Franchise } from "./franchise.model";
 import { Game } from "./game.model";
 
@@ -10,6 +11,7 @@ export interface Person {
     wikipedia?: string;
     nationality?: string;
     franchises?: Franchise[];
+    companies?: Company[];
     characters?: Character[];
     games?: Game[];
     is_main?: boolean;

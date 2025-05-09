@@ -162,6 +162,12 @@
                                   navigateTo="characters" imgPath="characters">
                 </vgdb-avatars-list>
             </div>
+            <div *ngIf="charactersCrossover && charactersCrossover.length" class="expansion-container">
+                <div class="subtitle">Crossovers:</div>
+                <vgdb-avatars-list [avatarsList]="charactersCrossover"
+                                  navigateTo="characters" imgPath="characters">
+                </vgdb-avatars-list>
+            </div>
         </mat-expansion-panel>
 
         <mat-expansion-panel *ngIf="game.awards && game.awards.length">
@@ -440,12 +446,14 @@
           <mat-option [value]="CharacterRole.antagonist">Antagonista</mat-option>
           <mat-option [value]="CharacterRole.secondary">Secundario</mat-option>
           <mat-option [value]="CharacterRole.villain">Villano secundario</mat-option>
+          <mat-option [value]="CharacterRole.crossover">Crossover</mat-option>
         </mat-select>
     </mat-form-field>
     <vgdb-multi-autocomplete-field *ngIf="charactersRole === CharacterRole.playable" [dataType]="'character'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="charactersPlayable"></vgdb-multi-autocomplete-field>
     <vgdb-multi-autocomplete-field *ngIf="charactersRole === CharacterRole.antagonist" [dataType]="'character'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="charactersAntagonist"></vgdb-multi-autocomplete-field>
     <vgdb-multi-autocomplete-field *ngIf="charactersRole === CharacterRole.secondary" [dataType]="'character'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="charactersSecondary"></vgdb-multi-autocomplete-field>
     <vgdb-multi-autocomplete-field *ngIf="charactersRole === CharacterRole.villain" [dataType]="'character'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="charactersVillain"></vgdb-multi-autocomplete-field>
+    <vgdb-multi-autocomplete-field *ngIf="charactersRole === CharacterRole.crossover" [dataType]="'character'" (onItemSelected)="onSelectorChange($event)" [itemsPreSelected]="charactersCrossover"></vgdb-multi-autocomplete-field>
     <div class="dialog-button">
         <button mat-stroked-button (click)="addCharacter()">Aceptar</button>
     </div>
