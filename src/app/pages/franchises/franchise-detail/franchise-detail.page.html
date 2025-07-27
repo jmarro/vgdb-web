@@ -25,6 +25,10 @@
             <div class="label-info">Creador(es):</div>
             <div class="value-info" *ngFor="let creator of franchise.creators"><img class="img-line" [src]="'http://localhost:3000/images/people/'+creator.main_img"/><a [routerLink]="['/people', creator.id]">{{creator.name}}</a></div>
         </div>
+        <div class="info-entry" *ngIf="franchise.notes">
+            <div class="label-info">Notas:</div>
+            <div class="value-info" style="white-space: pre-line">{{franchise.notes}}</div>
+        </div>
         <div class="info-entry" *ngIf="franchise.wikipedia">
             <div class="value-info"><a [href]="franchise.wikipedia" target="_blank">Wikipedia</a></div>
         </div>

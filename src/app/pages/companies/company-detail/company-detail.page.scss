@@ -19,6 +19,14 @@
                 font-weight: bold;
             }
         }
+        .people-wrapper {
+            display: flex;
+            max-height: 150px;
+            flex-direction: column;
+            flex-wrap: wrap;
+            width: 100%;
+            gap: 0px 50px;
+        }
     }
     .company-status {
         display: flex;

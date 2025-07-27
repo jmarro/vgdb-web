@@ -21,5 +21,5 @@ export interface Franchise {
     characters?: Character[];
     series?: Serie[];
     is_main?: boolean;
-
+    notes?: string;
 };

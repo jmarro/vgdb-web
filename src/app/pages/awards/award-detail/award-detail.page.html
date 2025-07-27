@@ -19,6 +19,9 @@
             <div class="label-info">Categorias:</div>
             <div class="value-info" *ngFor="let category of award.categories">{{category.name}}</div>
         </div>
+        <div class="info-entry" *ngIf="award.wikipedia">
+            <div class="value-info"><a [href]="award.wikipedia" target="_blank">Wikipedia</a></div>
+        </div>
     </div>
 
     <div class="fav-button-bottom-right">
